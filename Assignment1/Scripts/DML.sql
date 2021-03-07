@@ -1,7 +1,7 @@
 --city
 INSERT INTO vet.city
 (city_zipcode, cityname)
-VALUES(2200, 'Nørrebro');
+VALUES(2200, 'Nï¿½rrebro');
 
 INSERT INTO vet.city
 (city_zipcode, cityname)
@@ -11,7 +11,7 @@ VALUES(2900, 'Hellerup');
 -- two veterinarians
 INSERT INTO vet.vet
 (cvr, vet_name, phone, street, city_zipcode)
-VALUES(12345678, 'Blågaards Dyreklinik', 25202520, 'Blågaards Plads 12', 2200);
+VALUES(12345678, 'Blï¿½gaards Dyreklinik', 25202520, 'Blï¿½gaards Plads 12', 2200);
 INSERT INTO vet.vet
 (cvr, vet_name, phone, street, city_zipcode)
 VALUES(55555500, 'Strandvejens rehabiliteringscenter', 00343434, 'Strandvejen 88', 2900);
@@ -53,7 +53,7 @@ VALUES('Muh', 1, 2);
 --ten caretakers with common pets
 --INSERT INTO vet.caretaker
 --(caretaker_name, phone, street, city_zipcode)
---VALUES('Jørgen Hansen', 12883522, 'Jordhulsvej 22', 2900);
+--VALUES('Jï¿½rgen Hansen', 12883522, 'Jordhulsvej 22', 2900);
 
 
 INSERT INTO vet.caretaker
@@ -63,12 +63,12 @@ VALUES('Beathe Knudsen', 33883422, 'Jordhulsvej 24', 2900);
 --compound table pet_caretaker
 --INSERT INTO vet.pet_caretaker
 --(pet_id, caretaker_id)
---VALUES((select pet_id from vet.pet where pet_name = 'Mathilde'), (select caretaker_id from vet.caretaker where caretaker_name = 'Jørgen Hansen'));
+--VALUES((select pet_id from vet.pet where pet_name = 'Mathilde'), (select caretaker_id from vet.caretaker where caretaker_name = 'Jï¿½rgen Hansen'));
 
 WITH rows1 AS (
    INSERT INTO vet.caretaker
 	(caretaker_name, phone, street, city_zipcode)
-	VALUES('Jørgen Hansen', 12883522, 'Jordhulsvej 22', 2900)
+	VALUES('Jï¿½rgen Hansen', 12883522, 'Jordhulsvej 22', 2900)
     RETURNING caretaker_id
 ),
 rows2 AS (
