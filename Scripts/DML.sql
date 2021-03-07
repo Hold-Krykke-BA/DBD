@@ -82,3 +82,6 @@ INSERT INTO vet.pet_caretaker (pet_id, caretaker_id)
     SELECT pet_id, caretaker_id
     FROM rows2, rows1;
 
+CALL update_pet(5, 'Jerry 2', 22, 1); 
+call update_pet(1, 'Misser 2', 75, 1, null, 2);
+call update_pet(3, 'Fido 2', 175, 2, 2); 
