@@ -18,6 +18,9 @@ pros and cons for each strategy.
 ```
 ### Create an ER diagram covering the domain
 We implemented the joint-table strategy.
+
+Our ER-diagram can be seen here:  
+![img](/image.png)
 ```diff
 - add details
 ```
