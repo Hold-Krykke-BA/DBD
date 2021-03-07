@@ -19,8 +19,12 @@ pros and cons for each strategy.
 ### Create an ER diagram covering the domain
 We implemented the joint-table strategy.
 
-Our ER-diagram can be seen here:  
-![img](/image.png)
+Our initial ER-diagram can be seen here:  
+![img](/images/initial_ER.png)  
+This was designed before implementing any scripts.
+
+Following the database implementation, we generated an ER diagram using DBeaver:  
+![img](/images/DBeaver_ER.png)
 ```diff
 - add details
 ```
