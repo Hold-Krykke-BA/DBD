@@ -20,7 +20,7 @@ pros and cons for each strategy.
 We implemented the joint-table strategy.
 
 Our initial ER-diagram can be seen here:  
-![image](https://user-images.githubusercontent.com/35559774/110286515-5c6fc800-7fe5-11eb-97c2-6e9bf0a81d67.png)  
+![image](https://user-images.githubusercontent.com/35559774/110286590-7b6e5a00-7fe5-11eb-8d53-00160460dfe4.png)  
 This was designed before implementing any scripts.
 
 Following the database implementation, we generated an ER diagram using DBeaver:  
