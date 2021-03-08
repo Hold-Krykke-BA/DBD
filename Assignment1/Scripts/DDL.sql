@@ -78,20 +78,42 @@ CREATE or replace view Pets AS
     SELECT *
     from ONLY vet.pet;
     
--- stored procedure for 
+-- stored procedure for updating pets
 CREATE or replace PROCEDURE update_pet(id integer, p_name varchar, p_age integer, v_id integer, bark_pitch integer default null, life_count integer default null)
 LANGUAGE plpgsql
+security definer 
 AS $$
 begin
-	if bark_pitch <> null THEN
+	if (bark_pitch is not null) THEN
 		UPDATE vet.dog
 			SET pet_name=p_name, pet_age=p_age, vet_id=v_id, barkPitch=bark_pitch where pet_id = id;
-	elseif life_count <> null then
+	elseif (life_count is not null) then
 		UPDATE vet.cat
 			SET pet_name=p_name, pet_age=p_age, vet_id=v_id, lifeCount=life_count where pet_id = id;
 	else 
 		UPDATE vet.pet
 			SET pet_name=p_name, pet_age=p_age, vet_id=v_id where pet_id = id;
+	end if;
+end
+$$;
+
+
+-- stored procedure for inserting pets
+CREATE or replace PROCEDURE insert_pet(p_name varchar, p_age integer, v_id integer, bark_pitch integer default null, life_count integer default null)
+LANGUAGE plpgsql
+security definer
+
+AS $$
+begin
+	if (bark_pitch is not null) THEN
+		insert into vet.dog (pet_name, pet_age, vet_id, barkpitch) VALUES
+			 (p_name, p_age, v_id, bark_pitch);
+	elseif (life_count is not null) then
+		INSERT INTO vet.cat (pet_name, pet_age, vet_id, lifecount)	values
+			(p_name, p_age, v_id, life_count);
+	else 
+		INSERT INTO vet.pet (pet_name, pet_age, vet_id)	values
+			(p_name, p_age, v_id);
 	end if;
 end
 $$;

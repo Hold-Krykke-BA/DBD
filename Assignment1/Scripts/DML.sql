@@ -1,7 +1,7 @@
 --city
 INSERT INTO vet.city
 (city_zipcode, cityname)
-VALUES(2200, 'N�rrebro');
+VALUES(2200, 'Noerrebro');
 
 INSERT INTO vet.city
 (city_zipcode, cityname)
@@ -11,7 +11,7 @@ VALUES(2900, 'Hellerup');
 -- two veterinarians
 INSERT INTO vet.vet
 (cvr, vet_name, phone, street, city_zipcode)
-VALUES(12345678, 'Bl�gaards Dyreklinik', 25202520, 'Bl�gaards Plads 12', 2200);
+VALUES(12345678, 'Blagaards Dyreklinik', 25202520, 'Blaagaards Plads 12', 2200);
 INSERT INTO vet.vet
 (cvr, vet_name, phone, street, city_zipcode)
 VALUES(55555500, 'Strandvejens rehabiliteringscenter', 00343434, 'Strandvejen 88', 2900);
@@ -68,7 +68,7 @@ VALUES('Beathe Knudsen', 33883422, 'Jordhulsvej 24', 2900);
 WITH rows1 AS (
    INSERT INTO vet.caretaker
 	(caretaker_name, phone, street, city_zipcode)
-	VALUES('J�rgen Hansen', 12883522, 'Jordhulsvej 22', 2900)
+	VALUES('Joergen Hansen', 12883522, 'Jordhulsvej 22', 2900)
     RETURNING caretaker_id
 ),
 rows2 AS (
