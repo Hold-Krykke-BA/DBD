@@ -5,7 +5,8 @@ CREATE ROLE designated
 	WITH LOGIN PASSWORD 'designated';
 
 GRANT CONNECT
-ON DATABASE assignment1
+--ON DATABASE assignment1
+ON DATABASE soft2021
 TO designated;
 
 GRANT USAGE

@@ -26,6 +26,22 @@ INSERT INTO vet.cat
 (pet_name, pet_age, vet_id, lifecount)
 VALUES('Tom', 2, 2, 9);
 
+INSERT INTO vet.cat
+(pet_name, pet_age, vet_id, lifecount)
+VALUES('Silke', 1, 2, 7);
+
+INSERT INTO vet.cat
+(pet_name, pet_age, vet_id, lifecount)
+VALUES('Blackie', 7, 2, 9);
+
+INSERT INTO vet.cat
+(pet_name, pet_age, vet_id, lifecount)
+VALUES('Ursula', 13, 1, 1);
+
+INSERT INTO vet.cat
+(pet_name, pet_age, vet_id, lifecount)
+VALUES('Princess', 3, 1, 9);
+
 ---- some dogs
 INSERT INTO vet.dog
 (pet_name, pet_age, vet_id, barkpitch)
@@ -35,30 +51,96 @@ INSERT INTO vet.dog
 (pet_name, pet_age, vet_id, barkpitch)
 VALUES('Pluto', 3, 2, 4);
 
+INSERT INTO vet.dog
+(pet_name, pet_age, vet_id, barkpitch)
+VALUES('Sofus', 5, 2, 5);
+
+INSERT INTO vet.dog
+(pet_name, pet_age, vet_id, barkpitch)
+VALUES('Lady', 2, 2, 3);
+
+INSERT INTO vet.dog
+(pet_name, pet_age, vet_id, barkpitch)
+VALUES('Summer', 10, 1, 2);
+
+INSERT INTO vet.dog
+(pet_name, pet_age, vet_id, barkpitch)
+VALUES('Ghost', 7, 1, 1);
 
 ---- some randoms
 INSERT INTO vet.pet
 (pet_name, pet_age, vet_id)
 VALUES('Jerry', 2, 1);
 
---INSERT INTO vet.pet
---(pet_name, pet_age, vet_id)
---VALUES('Mathilde', 12, 2);
+INSERT INTO vet.pet
+(pet_name, pet_age, vet_id)
+VALUES('Mathilde', 12, 2);
 
 INSERT INTO vet.pet
 (pet_name, pet_age, vet_id)
-VALUES('Muh', 1, 2);
+VALUES('Atramedes', 3, 2);
+
+INSERT INTO vet.pet
+(pet_name, pet_age, vet_id)
+VALUES('Ultraxion', 5, 2);
+
+INSERT INTO vet.pet
+(pet_name, pet_age, vet_id)
+VALUES('Ysera', 4, 1);
+
+INSERT INTO vet.pet
+(pet_name, pet_age, vet_id)
+VALUES('Alexstrasa', 10, 1);
+
+INSERT INTO vet.pet
+(pet_name, pet_age, vet_id)
+VALUES('Neltharion', 17, 1);
+
+INSERT INTO vet.pet
+(pet_name, pet_age, vet_id)
+VALUES('Onyxia', 11, 1);
 
 
---ten caretakers with common pets
---INSERT INTO vet.caretaker
---(caretaker_name, phone, street, city_zipcode)
---VALUES('J�rgen Hansen', 12883522, 'Jordhulsvej 22', 2900);
-
-
+--ten caretakers 
 INSERT INTO vet.caretaker
 (caretaker_name, phone, street, city_zipcode)
 VALUES('Beathe Knudsen', 33883422, 'Jordhulsvej 24', 2900);
+
+INSERT INTO vet.caretaker
+(caretaker_name, phone, street, city_zipcode)
+VALUES('Orla Hansen', 33123422, 'Jordhulsvej 21', 2900);
+
+INSERT INTO vet.caretaker
+(caretaker_name, phone, street, city_zipcode)
+VALUES('Ole Olsen', 33233422, 'Jordhulsvej 29', 2900);
+
+INSERT INTO vet.caretaker
+(caretaker_name, phone, street, city_zipcode)
+VALUES('Erling Smith', 333483422, 'Jordhulsvej 3', 2900);
+
+INSERT INTO vet.caretaker
+(caretaker_name, phone, street, city_zipcode)
+VALUES('Connie Laursen', 33453422, 'Jordhulsvej 56', 2900);
+
+INSERT INTO vet.caretaker
+(caretaker_name, phone, street, city_zipcode)
+VALUES('Susan Holst', 33563422, 'Jordhulsvej 15', 2900);
+
+INSERT INTO vet.caretaker
+(caretaker_name, phone, street, city_zipcode)
+VALUES('Lene Bonde', 33673422, 'Stengade 60', 2200);
+
+INSERT INTO vet.caretaker
+(caretaker_name, phone, street, city_zipcode)
+VALUES('Karla Madsen', 33781322, 'Stengade 62', 2200);
+
+INSERT INTO vet.caretaker
+(caretaker_name, phone, street, city_zipcode)
+VALUES('Ulla Steffensen', 33892322, 'Stengade 64', 2200);
+
+INSERT INTO vet.caretaker
+(caretaker_name, phone, street, city_zipcode)
+VALUES('Viggo Borg', 33885622, 'Stengade 24', 2200);
 
 --compound table pet_caretaker
 --INSERT INTO vet.pet_caretaker
