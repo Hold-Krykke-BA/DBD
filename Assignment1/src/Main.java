@@ -79,6 +79,7 @@ public class Main {
         props.setProperty("user", "designated");
         props.setProperty("password", "designated");
         try (Connection conn = DriverManager.getConnection(url, props)) {
+            //CallableStatement stmt = conn.prepareCall("CALL vet.insert_pet(?,?, ?, ?, ?)"); //Workaround for using CallableStatement: https://github.com/pgjdbc/pgjdbc/issues/1413
             PreparedStatement stmt = conn.prepareStatement("call vet.insert_pet(?,?, ?, ?, ?)");
             stmt.setString(1, pet.getPet_name()); //pet name
             stmt.setInt(2, pet.getPet_age()); //pet age
