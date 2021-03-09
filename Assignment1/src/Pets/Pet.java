@@ -68,11 +68,10 @@ public class Pet {
 
     @Override
     public String toString() {
-        return "Pet{" +
-                "pet_id=" + pet_id +
-                ", pet_name='" + pet_name + '\'' +
-                ", pet_age=" + pet_age +
-                ", vet_id=" + vet_id +
-                '}';
+        return "Other Pet Type\n" +
+                "Pet ID = " + pet_id +
+                ", Pet Name ='" + pet_name + '\'' +
+                ", Pet Age = " + pet_age +
+                ", Vet ID = " + vet_id + "\n";
     }
 }
