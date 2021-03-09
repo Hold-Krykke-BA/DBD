@@ -7,8 +7,12 @@ Assignment: [01-relational-db](01-relational-db.pdf)
 ### Chosing an inheritance strategy  
 pros and cons for each strategy.  
 - Joint-table strategy
+  - each class has its table and querying a subclass entity requires joining the tables  
 - Table-per-class strategy
+  - all the properties of a class, are in its table, so no join is required  
 - Single-table strategy
+  - the entities from different classes with a common ancestor are placed in a single table  
+
 ```diff
 - add details
 ```
