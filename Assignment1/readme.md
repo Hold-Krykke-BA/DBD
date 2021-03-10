@@ -82,3 +82,6 @@ This is solved by the [insertPet](https://github.com/Hold-Krykke-BA/DBD/blob/mai
 
 
 ## References
+[Baeldung](https://www.baeldung.com/hibernate-inheritance)  
+[Stackoverflow](https://stackoverflow.com/questions/8162233/table-per-subclass-vs-table-per-concrete-class-in-hibernate)  
+[Thorben-Janssen](https://thorben-janssen.com/complete-guide-inheritance-strategies-jpa-hibernate/)   
