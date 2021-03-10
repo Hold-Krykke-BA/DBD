@@ -37,10 +37,8 @@ Our initial ER-diagram can be seen here:
 This was designed before implementing any scripts.
 
 Following the database implementation, we generated an ER diagram using DBeaver:  
-![img](images/DBeaver_ER.png)
-```diff
-- add details
-```
+![image](https://user-images.githubusercontent.com/35559774/110612049-1c007d80-8190-11eb-8951-304330db1efd.png)
+
 
 ### Conceptual level implementation
 The SQL script can be found in the [Scripts](https://github.com/Hold-Krykke-BA/DBD/tree/main/Assignment1/Scripts) folder.   
