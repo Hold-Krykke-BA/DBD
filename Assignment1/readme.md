@@ -53,7 +53,7 @@ The SQL script can be found in the [Scripts](https://github.com/Hold-Krykke-BA/D
 
 #### Create views or stored procedures to deal with the inheritance strategy
 - See cats and dogs as separate views, and ll pets as in the single table strategy
-  - [The vies are created here in the DDL](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment1/Scripts/DDL.sql#L66)
+  - [The views are created here in the DDL](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment1/Scripts/DDL.sql#L66)
 - Update cats and dogs with a single SQL call, stored procedure or update on a view with a trigger.
   - The stored procedure are defined [here in the DDL](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment1/Scripts/DDL.sql#L81)
 
