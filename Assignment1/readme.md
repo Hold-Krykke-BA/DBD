@@ -26,18 +26,12 @@ pros and cons for each strategy.
 **Sources**  
 [Explanation](https://www.baeldung.com/hibernate-inheritance)  
 [Several decent answers on this Stackoverflow post](https://stackoverflow.com/questions/8162233/table-per-subclass-vs-table-per-concrete-class-in-hibernate)  
-[Thorough explanation](https://thorben-janssen.com/complete-guide-inheritance-strategies-jpa-hibernate/)  
+[Thorough explanation](https://thorben-janssen.com/complete-guide-inheritance-strategies-jpa-hibernate/)   
 
-```diff
-- add details
-```
 ## Description of solution
-```diff
-- add details (if any)
-```
-### Create an ER diagram covering the domain
-We implemented the joint-table strategy.
+We chose the **Joint-table strategy** for this implementation. 
 
+### Create an ER diagram covering the domain
 Our initial ER-diagram can be seen here:  
 ![image](https://user-images.githubusercontent.com/35559774/110286590-7b6e5a00-7fe5-11eb-8d53-00160460dfe4.png)  
 This was designed before implementing any scripts.
@@ -49,49 +43,42 @@ Following the database implementation, we generated an ER diagram using DBeaver:
 ```
 
 ### Conceptual level implementation
-
+The SQL script can be found in the [Scripts](https://github.com/Hold-Krykke-BA/DBD/tree/main/Assignment1/Scripts) folder.   
 #### SQL-Script for PostgreSQL that creates the tables
-The SQL script can be found in [Scripts\DDL.sql](Scripts\DDL.sql)
-
-```diff
-- add details
-```
+* [DDL](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment1/Scripts/DDL.sql)
 
 #### SQL-script for PostgreSQL that adds sample data
-The SQL script can be found in [Scripts\DML.sql](Scripts\DML.sql)
+* [DML](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment1/Scripts/DML.sql)
 
-```diff
-- add details + (screenshot / markdown table / .csv of sample data)
-```
 
 ### External level implementation
 
 #### Create views or stored procedures to deal with the inheritance strategy
-- See cats and dogs as separate views
-- See all pets as in the single table strategy
+- See cats and dogs as separate views, and ll pets as in the single table strategy
+  - [The vies are created here in the DDL](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment1/Scripts/DDL.sql#L66)
 - Update cats and dogs with a single SQL call, stored procedure or update on a view with a trigger.
-```diff
-- add details / link references
-```
+  - The stored procedure are defined [here in the DDL](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment1/Scripts/DDL.sql#L81)
+
 
 #### Create a script that creates a designated user for accesing the database
-The SQL script can be found in [Scripts\?.sql](Scripts\?.sql)
-```diff
-- add details / link references
-```
+* [Role designated user](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment1/Scripts/User.sql)
+* [Stored procedure](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment1/Scripts/DDL.sql#L101) for the user designated user to insert new data without accessing the tables directly.
 
 ### Interface implementation
-The program can be found in [?.java](?.java)
-#### Create a java program that can, using the designated user:
+The Java program can be found in [src](https://github.com/Hold-Krykke-BA/DBD/tree/main/Assignment1/src).  
+We've implemented the three pet-classes in the following manner:
+* Pet is a superclass and have the fields shared between all pets.
+* Cat and Dog both extends Pet and each have a unique field relating to their pet type. 
 
+#### Create a java program that can, using the designated user:
 - retrieve a list of pets from the database. The types of instances of Pets
 in the list should reflect the actual type:
   - Pet
   - Cat
-  - Dog
-- insert a new Dog, Cat, and/or Pet in the database.
-```diff
-- add details / link references
-```
+  - Dog  
+This is solved by the [getPets](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment1/src/Main.java#L46) and [printPets](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment1/src/Main.java#L26). printPets takes a pettype in a String ad calls getPets with the correct type. getPets sets the properties for the designated user, and creates a preparedStatement with the given sql. 
+- insert a new Dog, Cat, and/or Pet in the database.  
+This is solved by the [insertPet](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment1/src/Main.java#L76) method. insertPet sets the properties for the designated user and creates a preparedStatement or a modified CallableStatement ([see comment](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment1/src/Main.java#L82)). 
+
 
 ## References
