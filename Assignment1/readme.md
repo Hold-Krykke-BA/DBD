@@ -6,12 +6,27 @@ Assignment: [01-relational-db](01-relational-db.pdf)
 
 ### Chosing an inheritance strategy  
 pros and cons for each strategy.  
-- Joint-table strategy
+- **Joint-table strategy**
   - each class has its table and querying a subclass entity requires joining the tables  
-- Table-per-class strategy
+  - **PRO** Changes in a super class does not demand complex changes in database.
+  - **CON** The disadvantage of this inheritance mapping method is that retrieving entities requires joins between tables, which can result in lower performance for large numbers of records. The number of joins is higher when querying the parent class as it will join with every single related child – so performance is more likely to be affected the higher up the hierarchy we want to retrieve records.
+- **Table-per-class strategy**
   - all the properties of a class, are in its table, so no join is required  
-- Single-table strategy
+  - **PRO** Simple style to implement inheritance mapping. 
+  - **CON** It provides poor support for polymorphic relationships and typically requires that SQL UNION queries (or a separate SQL query per subclass) be issued for queries that are intended to range over the class hierarchy.
+- **Single-table strategy**
   - the entities from different classes with a common ancestor are placed in a single table  
+  - **PRO** This strategy has the advantage of polymorphic query performance since only one table needs to be accessed when querying parent entities. 
+  - **CON** This also means that we can no longer use NOT NULL constraints on sub-class entity properties.
+
+* If you require the best performance and need to use polymorphic queries and relationships, you should choose the single table strategy. But be aware, that you can’t use not null constraints on subclass attributes which increase the risk of data inconsistencies.
+* If data consistency is more important than performance and you need polymorphic queries and relationships, the joined strategy is probably your best option.
+* If you don’t need polymorphic queries or relationships, the table per class strategy is most likely the best fit. It allows you to use constraints to ensure data consistency and provides an option of polymorphic queries. But keep in mind, that polymorphic queries are very complex for this table structure and that you should avoid them.
+
+**Sources**  
+[Explanation](https://www.baeldung.com/hibernate-inheritance)  
+[Several decent answers on this Stackoverflow post](https://stackoverflow.com/questions/8162233/table-per-subclass-vs-table-per-concrete-class-in-hibernate)  
+[Thorough explanation](https://thorben-janssen.com/complete-guide-inheritance-strategies-jpa-hibernate/)  
 
 ```diff
 - add details
