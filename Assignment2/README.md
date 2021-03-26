@@ -13,7 +13,7 @@
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 ## Assignment description
-- [Local](Assignment2\resources\1fd325b2-assignment_column_db.pdf)  
+- [Local](resources/1fd325b2-assignment_column_db.pdf)  
 - [Online](https://datsoftlyngby.github.io/soft2021spring/DBD/week-10/#6-column-based-database-hbase)
 
 ## Discussion
@@ -99,4 +99,4 @@ Out of the box it comes with a default setup, but itcan be modified to your liki
 
 Example usages: http://hbase.apache.org/book.html#mapreduce.example
 
-Results can be found in [task4\MapReduce.js](Assignment2\task4\MapReduce.js)
+Results can be found in [task4\MapReduce.js](task4/MapReduce.js)
