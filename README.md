@@ -1,2 +1,5 @@
-# Databases for developers
-[Assignment 1 - Relational DB](https://github.com/Hold-Krykke-BA/DBD/tree/main/Assignment1)
+# Databases for Developers
+
+## Assignments
+- [Assignment 1 - Relational Databases](/Assignment1)
+- [Assignment 2 - Untitled](/Assignment2) (Column-based databases)
