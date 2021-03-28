@@ -95,7 +95,7 @@ HBase internally uses a compression that is a combination of LZ77 and Huffman Co
 
 ### Task 4 - Map and Reduce
 Map and reduce is relevant because the HBase database uses MapReduce internally.
-Out of the box it comes with a default setup, but itcan be modified to your liking.
+Out of the box it comes with a default setup, but it can be modified to your liking.
 
 Example usages: http://hbase.apache.org/book.html#mapreduce.example
 
@@ -105,9 +105,9 @@ Results can be found in [task4\MapReduce.js](task4/MapReduce.js) and program out
 <p>
 
 ```js
-$ node MapReduce.js
-4.1  [ 1, 3, 4, 10 ]
-4.2  [
+$ node MapReduce.js 
+Task 4.1  [ 1, 3, 4, 10 ]
+Task 4.2  [
   '<h1>Intro</h1>',
   '<h1>Requirements</h1>',
   '<h1>Analysis</h1>',
@@ -116,9 +116,9 @@ $ node MapReduce.js
   '<h1>Discussion</h1>',
   '<h1>References</h1>'
 ]
-4.3  [ "I'M", 'YELLING', 'TODAY' ]
-4.4  [ 1, 4, 10, 5 ]
-4.5  [
+Task 4.3  [ "I'M", 'YELLING', 'TODAY' ]
+Task 4.4  [ 1, 4, 10, 5 ]
+Task 4.5  [
   '<img src="https://imgs.xkcd.com/comics/red_spiders_2.jpg">',
   '<img src="https://imgs.xkcd.com/comics/love.jpg">',
   '<img src="https://imgs.xkcd.com/comics/schrodinger.jpg">',
@@ -128,11 +128,11 @@ $ node MapReduce.js
   '<img src="https://imgs.xkcd.com/comics/want.jpg">',
   '<img src="https://imgs.xkcd.com/comics/penny_arcade.jpg">'
 ]
-4.6  15
-4.7  6
-4.8  [ 1, 2, 3, 4, 5, 6 ]
-4.9  [ 2, 4, 5 ]
-4.10  {
+Task 4.6  15
+Task 4.7  6
+Task 4.8  [ 1, 2, 3, 4, 5, 6 ]
+Task 4.9  [ 2, 4, 5 ]
+Task 4.10  {
   '46': [ { name: 'Rikke', age: 46 }, { name: 'Mathias', age: 46 } ],
   '47': [ { name: 'Michael', age: 47 } ]
 }
