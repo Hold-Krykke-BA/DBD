@@ -25,9 +25,6 @@
 
 ### Task 1 - Investigation
 
-```diff
-- answer here in README
-```
 
 #### 1. What is point of NoSQL databases?  
 *[Source](https://stackoverflow.com/questions/4154635/what-is-nosql-what-is-purpose-of-nosql-where-can-i-get-sufficient-material-on)*  
