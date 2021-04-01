@@ -75,7 +75,10 @@ Bloom filters are used in hbase as an incredible optimization.
   
 #### 1. What is a bloom filter?
 *[Source](https://en.wikipedia.org/wiki/Bloom_filter)*  
-A Bloom filter is a space-efficient probabilistic data structure, that is used to test whether an element is a member of a set. False positive matches are possible, but false negatives are not – in other words, a query returns either "possibly in set" or "definitely not in set".
+A Bloom filter is a space-efficient probabilistic data structure, that is used to test whether an element is a member of a set. False positive matches are possible, but false negatives are not – in other words, a query returns either "possibly in set" or "definitely not in set".  
+  
+![image](https://user-images.githubusercontent.com/35559774/113340984-e4b76380-932c-11eb-9a76-fb7657417316.png)
+
 
 #### 2. What is an advantage of bloom filters over hash tables?
 *[Source](https://www.geeksforgeeks.org/difference-between-bloom-filters-and-hashtable/)*  
