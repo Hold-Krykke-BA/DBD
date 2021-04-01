@@ -22,5 +22,15 @@ public class Main {
         System.out.println("\n\nChecking the entire filter\n");
         bloomfilter.lookAt();
 
+
+        System.out.println("\n\n\n");
+
+        // bits per element
+        // log2 N = log10 N / log10 2
+        double result1 = (1.44 * Math.log(1.0/0.01)/Math.log(2));
+        double result5 = (1.44 * Math.log(1.0/0.05)/Math.log(2));
+        System.out.println("bits per element required for 1% FPR: " + result1);
+        System.out.println("bits per element required for 5% FPR: " + result5);
+
     }
 }
