@@ -31,7 +31,7 @@
 
 #### 1. What is point of NoSQL databases?  
 *[Source](https://stackoverflow.com/questions/4154635/what-is-nosql-what-is-purpose-of-nosql-where-can-i-get-sufficient-material-on)*  
-The point of the borader category of database engines that fit under the NoSQL umbrella is generally speaking is that they have some advantages over traditional relational SQL databases because they give up certain features to gain other performance, scalability and developer usability features.  
+The point of the borader category of database engines that fit under the NoSQL umbrella is generally speaking that they have some advantages over traditional relational SQL databases because they give up certain features to gain other performance, scalability and developer usability features.  
   
   
 **What NoSQL generally give up:**  
