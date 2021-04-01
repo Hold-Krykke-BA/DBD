@@ -125,8 +125,8 @@ frøglas is probably there -- false
 fiskeben is probably there -- false
 ```
 
-#### 5. If you are to store one million ASCII strings with an average size of 10 characters in a hash set, what would be the approximate space consumption?
-
+#### 5. If you are to store one million ASCII strings with an average size of 10 characters in a hash set, what would be the approximate space consumption?  
+Each ASCII char takes up 7 bits (or 1 byte rounded up). 10 chars per string approximately 10 bytes. 1 million strings times 10 bytes per string is 10 million bytes or 10 megabyte. 
 
 #### 6. The following equation gives the required number of bits of space per inserted key, where epsilon is the false positive rate.  
 
