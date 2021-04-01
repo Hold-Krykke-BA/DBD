@@ -126,17 +126,29 @@ fiskeben is probably there -- false
 ```
 
 #### 5. If you are to store one million ASCII strings with an average size of 10 characters in a hash set, what would be the approximate space consumption?  
-Each ASCII char takes up 7 bits (or 1 byte rounded up). 10 chars per string approximately 10 bytes. 1 million strings times 10 bytes per string is 10 million bytes or 10 megabyte. 
+Each ASCII char takes up 7 bits (or 1 byte rounded up). 10 chars per string is approximately 10 bytes. 1 million strings times 10 bytes per string is 10 million bytes or 10 megabyte. 
 
 #### 6. The following equation gives the required number of bits of space per inserted key, where epsilon is the false positive rate.  
 
 <center><img src="resources/equation.gif"></center>
 
 #### 7. How many bits per element are required for a 1% false positive rate?
+```Java
+double result1 = (1.44 * Math.log(1.0/0.01)/Math.log(2));
+System.out.println("bits per element required for 1% FPR: " + result1);
 
+------------------------------------------------------------------
+bits per element required for 1% FPR: 9.567152913275605
+```
 
 #### 8. How many bits per element are required for a 5% false positive rate?
+```Java
+double result5 = (1.44 * Math.log(1.0/0.05)/Math.log(2));
+System.out.println("bits per element required for 5% FPR: " + result5);
 
+------------------------------------------------------------------
+bits per element required for 5% FPR: 6.223576456637802
+```
 
 #### 9. If you are to store one million ASCII strings with an average size of 10 characters in a bloom filter, what would be the approximate space consumption, given an allowed false positive rate of 5%?.
 
