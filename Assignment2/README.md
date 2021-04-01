@@ -29,7 +29,18 @@
 - answer here in README
 ```
 
-##### 1. What is point of NoSQL databases?
+##### 1. What is point of NoSQL databases? *[Source](https://stackoverflow.com/questions/4154635/what-is-nosql-what-is-purpose-of-nosql-where-can-i-get-sufficient-material-on)*
+The point of the borader category of database engines that fit under the NoSQL umbrella is generally speaking is that they have some advantages over traditional relational SQL databases because they give up certain features to gain other performance, scalability and developer usability features.
+**What NoSQL generally give up:**  
+* Relationships between entities (and by extension the joining of tables or models together in a query).
+* Limited [ACID](https://en.wikipedia.org/wiki/ACID) transactions. The level of read consistency and atomic write/commit capabilities across one or more tables/entities varies by NoSQL engine.
+* No standard domain language. 
+* Less structured and rigid data model. NoSQL typically forces/gives more responsibility at the application layer and to the developer to define the schema.
+  
+**What NoSQL generally gains:**  
+* Easier to shard and distribute the data across a cluster and by extension higher read/write scalability.
+* NoSQL have a looser data model so you can have sparser data sets and variable data sets organized in documents or name/value column sets. Data models are not as hard wired.
+* Schema migrations can be easier but puts burden on application layer to adjust to changes in data model.
 
 
 ##### 2. What is the CAP theorem?
