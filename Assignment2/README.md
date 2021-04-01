@@ -64,7 +64,14 @@ The CAP theorem, states that it is impossible for a distributed data store to si
 Database systems designed with traditional ACID guarantees in mind such as RDBMS choose consistency over availability, whereas systems designed around the BASE philosophy, common in the NoSQL movement for example, choose availability over consistency.*
 
 #### 3. What are ideal use cases of HBase?
-
+*[Source](https://blog.cloudera.com/apache-hbase-dos-and-donts/#usecases)*  
+Hbase is an ideal choice if there is a need for random, realtime read/write access to the data.
+HBase should be considered when: 
+* Loading data by key
+* Searching data by key or range
+* Serving data by key
+* Querying data by key
+* Storing data by row that doesn’t conform well to a schema.
 
 ### Task 2 - Bloom Filters
 Bloom filters are used in hbase as an incredible optimization. 
@@ -74,7 +81,8 @@ Bloom filters are used in hbase as an incredible optimization.
 ```
 
 #### 1. What is a bloom filter?
-
+*[Source](https://en.wikipedia.org/wiki/Bloom_filter)*  
+A Bloom filter is a space-efficient probabilistic data structure, that is used to test whether an element is a member of a set. False positive matches are possible, but false negatives are not – in other words, a query returns either "possibly in set" or "definitely not in set".
 
 #### 2. What is an advantage of bloom filters over hash tables?
 
