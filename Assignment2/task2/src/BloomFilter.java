@@ -11,6 +11,9 @@ public class BloomFilter {
         this.bitarray = new BitSet(65);
     }
 
+    /**
+     * Pretend hashing
+     */
     private int[] hash(String str){
         int[] hashes = new int[3];
         hashes[0] = Math.abs(str.hashCode() % 64);
