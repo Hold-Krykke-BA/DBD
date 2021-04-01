@@ -29,7 +29,7 @@
 - answer here in README
 ```
 
-##### 1. What is point of NoSQL databases? *[Source](https://stackoverflow.com/questions/4154635/what-is-nosql-what-is-purpose-of-nosql-where-can-i-get-sufficient-material-on)*  
+#### 1. What is point of NoSQL databases? *[Source](https://stackoverflow.com/questions/4154635/what-is-nosql-what-is-purpose-of-nosql-where-can-i-get-sufficient-material-on)*  
 The point of the borader category of database engines that fit under the NoSQL umbrella is generally speaking is that they have some advantages over traditional relational SQL databases because they give up certain features to gain other performance, scalability and developer usability features.  
   
   
@@ -46,10 +46,10 @@ The point of the borader category of database engines that fit under the NoSQL u
 * Schema migrations can be easier but puts burden on application layer to adjust to changes in data model.
 
 
-##### 2. What is the CAP theorem?
+#### 2. What is the CAP theorem?
 
 
-##### 3. What are ideal use cases of HBase?
+#### 3. What are ideal use cases of HBase?
 
 
 ### Task 2 - Bloom Filters
@@ -59,32 +59,32 @@ Bloom filters are used in hbase as an incredible optimization.
 - answer here in README
 ```
 
-##### 1. What is a bloom filter?
+#### 1. What is a bloom filter?
 
 
-##### 2. What is an advantage of bloom filters over hash tables?
+#### 2. What is an advantage of bloom filters over hash tables?
 
 
-##### 3. What is a disadvantage of bloom filters?
+#### 3. What is a disadvantage of bloom filters?
 
 
-##### 4. Using your language of choice, implement a bloom filter with add and check functions. The backing bit-array can simply be a long (64 bit integer).
+#### 4. Using your language of choice, implement a bloom filter with add and check functions. The backing bit-array can simply be a long (64 bit integer).
 
 
-##### 5. If you are to store one million ASCII strings with an average size of 10 characters in a hash set, what would be the approximate space consumption?
+#### 5. If you are to store one million ASCII strings with an average size of 10 characters in a hash set, what would be the approximate space consumption?
 
 
-##### 6. The following equation gives the required number of bits of space per inserted key, where epsilon is the false positive rate.  
+#### 6. The following equation gives the required number of bits of space per inserted key, where epsilon is the false positive rate.  
 
 <center><img src="resources/equation.gif"></center>
 
-##### 7. How many bits per element are required for a 1% false positive rate?
+#### 7. How many bits per element are required for a 1% false positive rate?
 
 
-##### 8. How many bits per element are required for a 5% false positive rate?
+#### 8. How many bits per element are required for a 5% false positive rate?
 
 
-##### 9. If you are to store one million ASCII strings with an average size of 10 characters in a bloom filter, what would be the approximate space consumption, given an allowed false positive rate of 5%?.
+#### 9. If you are to store one million ASCII strings with an average size of 10 characters in a bloom filter, what would be the approximate space consumption, given an allowed false positive rate of 5%?.
 
 
 ### Task 3 - Huffman coding
@@ -92,16 +92,16 @@ HBase internally uses a compression that is a combination of LZ77 and Huffman Co
 ```diff
 - answer here in README + links to a task3 folder
 ```
-##### 1. Generate Huffmann Code (and draw the Huffmann Tree) based on the following string: “beebs beepps!!!!! their eerie ears hear pears”
+#### 1. Generate Huffmann Code (and draw the Huffmann Tree) based on the following string: “beebs beepps!!!!! their eerie ears hear pears”
 
 
-##### 2. How many bits is the compressed string? How many bits is the raw ASCII string?
+#### 2. How many bits is the compressed string? How many bits is the raw ASCII string?
 
 
-##### 3. Compress “pete is here” with the Huffmann tree from before.
+#### 3. Compress “pete is here” with the Huffmann tree from before.
 
 
-##### 4. Write your own 10 word sentence. Generate the Huffmann Code (a new Huffmann Tree), and write a new compressed message (ie. in binary). Swap with one of your fellow students, and decompress each other’s message.
+#### 4. Write your own 10 word sentence. Generate the Huffmann Code (a new Huffmann Tree), and write a new compressed message (ie. in binary). Swap with one of your fellow students, and decompress each other’s message.
 ```diff
 ! Maybe insert a table with results :)
 ```
