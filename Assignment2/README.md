@@ -75,23 +75,55 @@ HBase should be considered when:
 
 ### Task 2 - Bloom Filters
 Bloom filters are used in hbase as an incredible optimization. 
-
-```diff
-- answer here in README
-```
-
+  
 #### 1. What is a bloom filter?
 *[Source](https://en.wikipedia.org/wiki/Bloom_filter)*  
 A Bloom filter is a space-efficient probabilistic data structure, that is used to test whether an element is a member of a set. False positive matches are possible, but false negatives are not – in other words, a query returns either "possibly in set" or "definitely not in set".
 
 #### 2. What is an advantage of bloom filters over hash tables?
+*[Source](https://www.geeksforgeeks.org/difference-between-bloom-filters-and-hashtable/)*  
+*[Source](https://stackoverflow.com/a/30247022) <-- excelent comparrison between bloom filter and hash table*  
 
+* A bloom filter doesn't store the elements themselves
+* Guarantees no false negatives
+* There is no need to handle collisions in bloom filters
+* Uses significantly less space than a hash table
 
 #### 3. What is a disadvantage of bloom filters?
-
+* The false-positive rate
+* It is not possible to delete elements from bloom filters
 
 #### 4. Using your language of choice, implement a bloom filter with add and check functions. The backing bit-array can simply be a long (64 bit integer).
+See [here](https://github.com/Hold-Krykke-BA/DBD/tree/main/Assignment2/task2/src) for an ultra simple implementation.
 
+```java
+Adding words to Bloomfilter...
+Checking if the added words are caught in the filter...
+
+hallohest is probably there -- true
+invest is probably there -- true
+mongodb is probably there -- true
+grimes is probably there -- true
+hat is probably there -- true
+velour is probably there -- true
+giraf is probably there -- true
+discord is probably there -- true
+glasfrø is probably there -- true
+sildeben is probably there -- true
+
+Checking if some other NOT added words are caught in the filter...
+
+hejhest is probably there -- false
+isbjerg is probably there -- false
+mange is probably there -- false
+grimer is probably there -- false
+hatte is probably there -- true
+velskabt is probably there -- false
+elefant is probably there -- false
+accord is probably there -- false
+frøglas is probably there -- false
+fiskeben is probably there -- false
+```
 
 #### 5. If you are to store one million ASCII strings with an average size of 10 characters in a hash set, what would be the approximate space consumption?
 
