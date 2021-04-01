@@ -151,7 +151,7 @@ bits per element required for 5% FPR: 6.223576456637802
 ```
 
 #### 9. If you are to store one million ASCII strings with an average size of 10 characters in a bloom filter, what would be the approximate space consumption, given an allowed false positive rate of 5%?.
-From the above question we found that each string should take up 6.22 bits of space. That gives approximately 6.220.000 bits or less than 0.6 megabyte. 
+From the above question we found that each string should take up 6.22 bits of space. That gives approximately 6.220.000 bits or 0.6 megabyte. 
 
 
 ### Task 3 - Huffman coding
