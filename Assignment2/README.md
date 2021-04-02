@@ -167,16 +167,16 @@ The code can be found [here](https://github.com/Hold-Krykke-BA/DBD/tree/main/Ass
 
 ```Java
 Original string is:
-beebs beepps!!!!! their eerie ears hear pears
+"beebs beepps!!!!! their eerie ears hear pears"
 -------------------------------------------------------------------------------------
 The codes are:
 { =110, p=1110, !=000, a=0111, r=010, b=0110, s=1111, t=00110, e=10, h=00111, i=0010}
 -------------------------------------------------------------------------------------
 The encoded string is:
-0110101001101111110011010101110111011110000000000000001100011000111100010010110101001000101011010011101011111100011110011101011011101001110101111
+"0110101001101111110011010101110111011110000000000000001100011000111100010010110101001000101011010011101011111100011110011101011011101001110101111"
 -------------------------------------------------------------------------------------
 The decoded string is:
-beebs beepps!!!!! their eerie ears hear pears
+"beebs beepps!!!!! their eerie ears hear pears"
 ```
 
 #### 2. How many bits is the compressed string? How many bits is the raw ASCII string?
