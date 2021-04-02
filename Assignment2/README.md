@@ -201,7 +201,9 @@ System.out.println("\nThe decoded string is:");
 
 Huffman huffman3 = new Huffman();
 System.out.println(huffman3.decode(camillaCode, camillaCodes));
-        
+
+-------------------------------------------------------------------------------------        
+
 Decoding Camillas encoded string
 
 Provided info:
