@@ -155,7 +155,8 @@ From the above question we found that each string should take up 6.22 bits of sp
 
 
 ### Task 3 - Huffman coding
-HBase internally uses a compression that is a combination of LZ77 and Huffman Coding.
+HBase internally uses a compression that is a combination of LZ77 and Huffman Coding.  
+___
 *[Source](https://www.geeksforgeeks.org/huffman-coding-greedy-algo-3/)*  
 Huffman coding is a lossless data compression algorithm. The idea is to assign variable-length codes to input characters, lengths of the assigned codes are based on the frequencies of corresponding characters. The most frequent character gets the smallest code and the least frequent character gets the largest code.  
   
