@@ -94,7 +94,7 @@ A Bloom filter is a space-efficient probabilistic data structure, that is used t
 * It is not possible to delete elements from bloom filters
 
 #### 4. Using your language of choice, implement a bloom filter with add and check functions. The backing bit-array can simply be a long (64 bit integer).
-See [here](https://github.com/Hold-Krykke-BA/DBD/tree/main/Assignment2/task2/src) for an *ultra simple* implementation, using the [Java BitSet](https://docs.oracle.com/javase/7/docs/api/java/util/BitSet.html) (with 64 bits) instead of a long to avoid bit shifting.
+See [here](https://github.com/Hold-Krykke-BA/DBD/tree/main/Assignment2/task2/src) for an *ultra simple* implementation, using the [Java BitSet](https://docs.oracle.com/javase/7/docs/api/java/util/BitSet.html) (with 64 bits) for storage instead of a long to avoid bit shifting.
 
 ```java
 Adding words to Bloomfilter...
@@ -110,7 +110,7 @@ giraf is probably there -- true
 discord is probably there -- true
 glasfrø is probably there -- true
 sildeben is probably there -- true
-
+----------------------------------------------------------------
 Checking if some other NOT added words are caught in the filter...
 
 hejhest is probably there -- false
