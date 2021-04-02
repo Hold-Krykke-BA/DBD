@@ -183,7 +183,16 @@ beebs beepps!!!!! their eerie ears hear pears
 
 
 #### 3. Compress “pete is here” with the Huffmann tree from before.
-
+```Java
+Original string is:
+pete is here
+-------------------------------------------------------------------------------------
+The codes are:
+{p=1000,  =110, r=1011, s=1001, t=1010, e=0, h=1110, i=1111}
+-------------------------------------------------------------------------------------
+The encoded string is:
+1000010100110111110011101110010110
+```
 
 #### 4. Write your own 10 word sentence. Generate the Huffmann Code (a new Huffmann Tree), and write a new compressed message (ie. in binary). Swap with one of your fellow students, and decompress each other’s message.
 ```diff
