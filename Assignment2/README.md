@@ -3,7 +3,6 @@
 ### Table of contents
 
 - [Assignment description](#assignment-description)
-- [Discussion](#discussion)
 - [Solution](#solution)
   * [Task 1 - Investigation](#task-1---investigation)
   * [Task 2 - Bloom Filters](#task-2---bloom-filters)
@@ -16,10 +15,6 @@
 - [Local](resources/1fd325b2-assignment_column_db.pdf)  
 - [Online](https://datsoftlyngby.github.io/soft2021spring/DBD/week-10/#6-column-based-database-hbase)
 
-## Discussion
-```diff
-- add, if any. If deleted, update table of contents
-```
 
 ## Solution
 
