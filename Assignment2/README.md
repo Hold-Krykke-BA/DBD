@@ -146,7 +146,7 @@ bits per element required for 5% FPR: 6.223576456637802
 ```
 
 #### 9. If you are to store one million ASCII strings with an average size of 10 characters in a bloom filter, what would be the approximate space consumption, given an allowed false positive rate of 5%?.
-From the above question we found that each string should take up 6.22 bits of space. That gives approximately 6.220.000 bits or 0.6 megabyte. 
+From the above question we found that each string should take up 6,22 bits of space. That gives approximately 6.220.000 bits or 0,6 megabyte. 
 
 
 ### Task 3 - Huffman coding
@@ -176,7 +176,7 @@ beebs beepps!!!!! their eerie ears hear pears
 
 #### 2. How many bits is the compressed string? How many bits is the raw ASCII string?
 Each ASCII char takes up 8 bits or 1 byte. The string consists of 45 chars, so the raw ASCII string takes up 45 bytes or 360 bits.   
-The encoded string consitsts of 145 bits or 18.125 bytes (when represented as a binary sequence).  
+The encoded string consitsts of 145 bits or 18,125 bytes (when represented as a binary sequence).  
 
 #### 3. Compress “pete is here” with the Huffmann tree from before.
 ```Java
