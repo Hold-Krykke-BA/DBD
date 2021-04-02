@@ -191,8 +191,27 @@ The encoded string is:
 ```
 
 #### 4. Write your own 10 word sentence. Generate the Huffmann Code (a new Huffmann Tree), and write a new compressed message (ie. in binary). Swap with one of your fellow students, and decompress each other’s message.
-```diff
-! Maybe insert a table with results :)
+We need the codes and the encoded string in order to decode a message. 
+```Java
+System.out.println("Decoding Camillas encoded string");
+System.out.println("Provided info:");
+System.out.println("String:\n" + camillaCode);
+System.out.println("Codes:\n" + camillaCodes);
+System.out.println("\nThe decoded string is:");
+
+Huffman huffman3 = new Huffman();
+System.out.println(huffman3.decode(camillaCode, camillaCodes));
+        
+Decoding Camillas encoded string
+
+Provided info:
+String:
+101100011100000011100000110100010010111011101100110001001010001101111101100011111100011010100111000011010100101011110100101011110010110111100100111101100001111110110101110001010111101001100101111001010011
+Codes:
+{ =00, a=0100, c=110100, d=110101, e=011, æ=11110, g=101111, h=101100, i=1110, l=1100, m=101110, n=0101, o=11111, 0=110110, 1=110111, r=1000, s=1010, t=1001, v=101101}
+
+The decoded string is:
+her er camillas 10 ord i en sætning til oversættelse
 ```
 
 
