@@ -175,7 +175,7 @@ beebs beepps!!!!! their eerie ears hear pears
 ```
 
 #### 2. How many bits is the compressed string? How many bits is the raw ASCII string?
-Each ASCII char takes up 8 bits or 1 byte. The string consists of 45 chars, so the raw AXCII string takes up 45 bytes or 360 bits. 
+Each ASCII char takes up 8 bits or 1 byte. The string consists of 45 chars, so the raw ASCII string takes up 45 bytes or 360 bits.   
 The encoded string consitsts of 145 bits or 18.125 bytes (when represented as a binary sequence).  
 
 #### 3. Compress “pete is here” with the Huffmann tree from before.
