@@ -16,6 +16,7 @@ public class Huffman {
         for (char letter: text.toCharArray()) {
             frequencies.put(letter, frequencies.getOrDefault(letter, 0) + 1);
         }
+        System.out.println("Map\n" + frequencies);
 
         PriorityQueue<Node> queue;
         queue = new PriorityQueue<>(Comparator.comparingInt(node -> node.frequency));
@@ -68,43 +69,27 @@ public class Huffman {
         _encode(root.right, str + '1', huffmanCode);
     }
 
-    public void decode(String text, Map huffmanCodes){
-        _encode(root, "", huffmanCodes);
-        strB = new StringBuilder();
-        strB.append(text);
+    public String decode(String text, Map<Character, String> huffmanCodes){
+        char[] bits = text.toCharArray();
 
-        System.out.println("The decoded string is:");
+        HashMap<String, String> reverseMap = new HashMap<>();
 
-        if (isLeafNode(root)) {
-            // Special case: For input like a, aa, aaa, etc.
-            while (root.frequency-- > 0) {
-                System.out.print(root.letter);
+        for (Map.Entry<Character, String> entry : huffmanCodes.entrySet()) {
+            reverseMap.put(entry.getValue(), String.valueOf(entry.getKey()));
+        }
+
+        StringBuffer result = new StringBuffer();
+        StringBuffer temp = new StringBuffer();
+        for (int i = 0; i < bits.length; i++) {
+            temp.append(bits[i]);
+            String val = (String) reverseMap.get(temp.toString());
+            if (val == null) {
+                continue;
             }
+            result.append(val);
+            temp.setLength(0);
         }
-        else {
-            // Traverse tree again and decode the encoded string
-            int index = -1;
-            while (index < text.length() - 1) {
-                index = _decode(root, index, strB);
-            }
-        }
-    }
-
-    private int _decode(Node root, int index, StringBuilder sb) {
-        if (root == null){
-            return index;
-        }
-
-        if (isLeafNode(root)){
-            System.out.print(root.letter);
-            return index;
-        }
-
-        index++;
-
-        root = (sb.charAt(index) == '0') ? root.left : root.right;
-        index = _decode(root, index, sb);
-        return index;
+        return result.toString();
     }
 
     public boolean isLeafNode(Node node){
