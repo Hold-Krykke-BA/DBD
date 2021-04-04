@@ -226,8 +226,6 @@ Example usages: http://hbase.apache.org/book.html#mapreduce.example
 
 Results can be found in [task4\MapReduce.js](task4/MapReduce.js) and program output can be found below:
 
-<details><summary>Program output (Click to reveal)</summary>
-<p>
 
 ```js
 $ node MapReduce.js 
@@ -263,5 +261,3 @@ Task 4.10  {
 }
 ```
 
-</p>
-</details>
