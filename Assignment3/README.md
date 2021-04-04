@@ -10,7 +10,7 @@
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 ## Assignment description
-- [Local](/Assignment3.pdf)  
+- [Local](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment3/Assignment3.pdf)  
 
 
 ## Solution
