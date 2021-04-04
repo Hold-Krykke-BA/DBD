@@ -42,6 +42,8 @@ Example JSON to use in the assignment.
 
 ### Task 1 - Valuedomains
 > Model the JSON* abstract syntax tree** using ValueDomains (hint: can be done using around 8 ValueDomains).
+
+Our edmasource valuedomains can be found [here](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment3/edmasrc/assignment.edma).  
   
 ### Task 2 - ToString
 > Create a toString method for printing an instance*** of your JSON abstract syntax tree as valid Json.
