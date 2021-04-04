@@ -37,7 +37,7 @@ Example JSON to use in the assignment.
 ```
 
 ## Solution
-**Our chosen value domains are shown in this figure**
+**Our chosen value domains are shown in this figure**  
 ![image](https://user-images.githubusercontent.com/35559774/113520166-8b03a300-9591-11eb-85c2-7c7ba46d496a.png)
 
 ### Task 1 - 
