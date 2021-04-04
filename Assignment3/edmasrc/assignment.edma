@@ -1,0 +1,23 @@
+
+ValueDomain Name : String[1..MAX]
+ValueDomain Age : Integer[0..120]
+ValueDomain Id : Integer[0..20]
+ValueDomain Ects : Integer[0..60]
+ValueDomain Active : Boolean
+
+ValueDomain Student : Struct{
+    name:Name,
+    age:Age
+}
+ValueDomain Course : Struct{
+    id : Id,
+    name : Name,
+    ects : Ects
+}
+ValueDomain Courses : List<Course>
+
+ValueDomain Ass3 : Struct{
+    student : Student,
+    courses : Courses,
+    active : Active
+}
