@@ -1,6 +1,22 @@
-# Databases for Developers
+# Assignment 2 - Column-based databases
 
-## Assignments
-- [Assignment 1 - Relational Databases](/Assignment1)
-- [Assignment 2 - Column-based databases](/Assignment2)
-- [Assignment 3 - EDMA](/Assignment3)
+### Table of contents
+
+- [Assignment description](#assignment-description)
+- [Solution](#solution)
+  * [Task 1 - Investigation](#task-1---investigation)
+  * [Task 2 - Bloom Filters](#task-2---bloom-filters)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+## Assignment description
+- [Local](resources/1fd325b2-assignment_column_db.pdf)  
+
+
+## Solution
+
+### Task 1 - 
+ 
+
+#### 2 -
+
