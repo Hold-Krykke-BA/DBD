@@ -16,7 +16,7 @@ ValueDomain Course : Struct{
 }
 ValueDomain Courses : List<Course>
 
-ValueDomain Ass3 : Struct{
+ValueDomain As3 : Struct{
     student : Student,
     courses : Courses,
     active : Active

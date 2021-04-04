@@ -6,7 +6,7 @@ import org.abstractica.edma.valuedomains.IMetaValueDomain;
 import org.abstractica.edma.valuedomains.IValueInstance;
 import org.abstractica.edma.valuedomains.exceptions.InvalidValueException;
 import proj.generated.valuedomains.Active;
-import proj.generated.valuedomains.Ass3;
+import proj.generated.valuedomains.As3;
 import proj.generated.valuedomains.Courses;
 import proj.generated.valuedomains.Student;
 import proj.generated.valuedomains.external.EDMA_ExternalConstraints;
@@ -15,9 +15,9 @@ import proj.generated.valuedomains.impl.CoursesImpl;
 import proj.generated.valuedomains.impl.StudentImpl;
 
 /**
- * The implementation of Ass3
+ * The implementation of As3
  */
-public class Ass3Impl extends Ass3 implements IValueInstance
+public class As3Impl extends As3 implements IValueInstance
 {
     private int edma_hash;
     private Object[] value;
@@ -47,7 +47,7 @@ public class Ass3Impl extends Ass3 implements IValueInstance
      * Constructor
      * @param o  The Object that represents this struct value
      */
-    public Ass3Impl(Object o)
+    public As3Impl(Object o)
     {
         edma_hash = 0;
         value = (Object[]) o;
@@ -104,15 +104,14 @@ public class Ass3Impl extends Ass3 implements IValueInstance
     }
 
     /**
-     * Compare this Ass3 to another Ass3
-     * @param ass3  The Ass3 to compare with
-     * @return      A negative integer, zero, or a positive integer as this
-     *              Ass3 is less than, equal to, or greater than the specified
-     *              Ass3
+     * Compare this As3 to another As3
+     * @param as3  The As3 to compare with
+     * @return     A negative integer, zero, or a positive integer as this As3
+     *             is less than, equal to, or greater than the specified As3
      */
-    public int compareTo(Ass3 ass3)
+    public int compareTo(As3 as3)
     {
-        return edma_domain.valueCompare(value, ((Ass3Impl) ass3).value);
+        return edma_domain.valueCompare(value, ((As3Impl) as3).value);
     }
 
     /**

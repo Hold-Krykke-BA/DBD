@@ -82,14 +82,14 @@ public class LearnEDMA
             vdb.newListDomain("Courses", null, "Course", null, null, edma_constraints, false);
         }
         
-        //Struct value domain: Ass3
+        //Struct value domain: As3
         {
             ArrayList<Constraint> edma_constraints = null;
             Collection<Field> fields = new ArrayList<Field>();
             fields.add(vdb.newStructField("student", "Student", false));
             fields.add(vdb.newStructField("courses", "Courses", false));
             fields.add(vdb.newStructField("active", "Active", false));
-            vdb.newStructDomain("Ass3", null, fields, edma_constraints, false);
+            vdb.newStructDomain("As3", null, fields, edma_constraints, false);
         }
         MetaEnvironment edma_environment = new MetaEnvironment("LearnEDMA");
         vdb.buildWithEnvironment(edma_environment);
