@@ -23,7 +23,7 @@
 
 #### 1. What is point of NoSQL databases?  
 *[Source](https://stackoverflow.com/questions/4154635/what-is-nosql-what-is-purpose-of-nosql-where-can-i-get-sufficient-material-on)*  
-The point of the borader category of database engines that fit under the NoSQL umbrella is generally speaking that they have some advantages over traditional relational SQL databases because they give up certain features to gain other performance, scalability and developer usability features.  
+The point of the broader category of database engines that fit under the NoSQL umbrella is generally speaking that they have some advantages over traditional relational SQL databases because they give up certain features to gain other performance, scalability and developer usability features.  
   
   
 **What NoSQL generally give up:**  
@@ -35,7 +35,7 @@ The point of the borader category of database engines that fit under the NoSQL u
   
 **What NoSQL generally gains:**  
 * Easier to shard and distribute the data across a cluster and by extension higher read/write scalability.
-* NoSQL have a looser data model so you can have sparser data sets and variable data sets organized in documents or name/value column sets. Data models are not as hard wired.
+* NoSQL have a looser data model so you can have sparser data sets, variable data sets and unstructured data sets organized in documents or name/value column sets. Data models are not as hard wired.
 * Schema migrations can be easier but puts burden on application layer to adjust to changes in data model.
 
 
@@ -57,7 +57,7 @@ Database systems designed with traditional ACID guarantees in mind such as RDBMS
 
 #### 3. What are ideal use cases of HBase?
 *[Source](https://blog.cloudera.com/apache-hbase-dos-and-donts/#usecases)*  
-Hbase is an ideal choice if there is a need for random, realtime read/write access to the data.
+Hbase is an ideal choice if there is a need for random, realtime read/write access to the data, even when the data amount is wast.
 HBase should be considered when: 
 * Loading data by key
 * Searching data by key or range
@@ -70,7 +70,7 @@ Bloom filters are used in hbase as an incredible optimization.
   
 #### 1. What is a bloom filter?
 *[Source](https://en.wikipedia.org/wiki/Bloom_filter)*  
-A Bloom filter is a space-efficient probabilistic data structure, that is used to test whether an element is a member of a set. False positive matches are possible, but false negatives are not – in other words, a query returns either "possibly in set" or "definitely not in set".  
+A Bloom filter is a space-efficient probabilistic data structure, that is used to rapidly and memory-efficiently test whether an element is a member of a set. False positive matches are possible, but false negatives are not – in other words, a query returns either "possibly in set" or "definitely not in set".  
   
 ![image](https://user-images.githubusercontent.com/35559774/113340984-e4b76380-932c-11eb-9a76-fb7657417316.png)
 
@@ -83,9 +83,10 @@ A Bloom filter is a space-efficient probabilistic data structure, that is used t
 * Guarantees no false negatives
 * There is no need to handle collisions in bloom filters
 * Uses significantly less space than a hash table
+* Is very fast
 
 #### 3. What is a disadvantage of bloom filters?
-* The false-positive rate
+* Because of the probabilistic nature of the datastructure there's always a false-positive rate
 * It is not possible to delete elements from bloom filters
 
 #### 4. Using your language of choice, implement a bloom filter with add and check functions. The backing bit-array can simply be a long (64 bit integer).
