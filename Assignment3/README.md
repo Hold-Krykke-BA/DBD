@@ -11,6 +11,8 @@
 
 ## Assignment description
 - [Local](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment3/Assignment3.pdf)  
+  
+Example JSON to use in the assignment. 
 ```JSON
 {
    "student": {
@@ -35,6 +37,7 @@
 ```
 
 ## Solution
+**Our chosen value domains are shown in this figure**
 ![image](https://user-images.githubusercontent.com/35559774/113520166-8b03a300-9591-11eb-85c2-7c7ba46d496a.png)
 
 ### Task 1 - 
