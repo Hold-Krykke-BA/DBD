@@ -4,8 +4,8 @@
 
 - [Assignment description](#assignment-description)
 - [Solution](#solution)
-  * [Task 1](#task-1)
-  * [Task 2](#task-2)
+  * [Task 1](#task-1---valuedomains)
+  * [Task 2](#task-2---tostring)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
@@ -40,8 +40,8 @@ Example JSON to use in the assignment.
 **Our chosen value domains are shown in this figure**  
 ![image](https://user-images.githubusercontent.com/35559774/113520166-8b03a300-9591-11eb-85c2-7c7ba46d496a.png)
 
-### Task 1 - 
+### Task 1 - Valuedomains
 > Model the JSON* abstract syntax tree** using ValueDomains (hint: can be done using around 8 ValueDomains).
   
-### Task 2 - 
+### Task 2 - ToString
 > Create a toString method for printing an instance*** of your JSON abstract syntax tree as valid Json.
