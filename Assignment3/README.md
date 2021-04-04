@@ -38,7 +38,8 @@ Example JSON to use in the assignment.
 
 ## Solution
 **Our chosen value domains are shown in this figure**  
-![image](https://user-images.githubusercontent.com/35559774/113520166-8b03a300-9591-11eb-85c2-7c7ba46d496a.png)
+![image](https://user-images.githubusercontent.com/35559774/113520541-10885280-9594-11eb-8428-acfe7f7a935d.png)
+
 
 ### Task 1 - Valuedomains
 > Model the JSON* abstract syntax tree** using ValueDomains (hint: can be done using around 8 ValueDomains).
