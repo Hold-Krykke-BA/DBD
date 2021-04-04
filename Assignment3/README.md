@@ -38,7 +38,8 @@ Example JSON to use in the assignment.
 
 ## Solution
 **Our chosen value domains are shown in this figure**  
-![image](https://user-images.githubusercontent.com/35559774/113520541-10885280-9594-11eb-8428-acfe7f7a935d.png)
+![image](https://user-images.githubusercontent.com/35559774/113520834-1bdc7d80-9596-11eb-98ee-1cc3a4912ad2.png)
+
 
 
 ### Task 1 - Valuedomains
