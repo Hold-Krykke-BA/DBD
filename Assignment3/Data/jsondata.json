@@ -1,0 +1,19 @@
+{
+  "student": {
+    "name": "John",
+    "age": 34
+  },
+  "courses" : [
+    {
+      "id": 1234,
+      "name": "Seahorse riding",
+      "ects": 15
+    },
+    {
+      "id": 4321,
+      "name": "Squid painting",
+      "ects": 5
+    }
+  ],
+  "active": true
+}
