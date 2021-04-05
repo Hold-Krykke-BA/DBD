@@ -3,6 +3,7 @@ import org.abstractica.edma.metamodel.impl.ValueDomainBuilder;
 import org.abstractica.edma.valuedomains.impl.Constraint;
 import org.json.*;
 import proj.generated.valuedomains.*;
+import proj.generated.valuedomains.impl.CourseBuilderImpl;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -26,7 +27,7 @@ public class Assignment {
             JSONArray arr = jsonData.getJSONArray("courses");
 
             ValueDomainBuilder vdb = new ValueDomainBuilder();
-            Courses courses;
+//            Courses courses;
             for (int i = 0; i < arr.length(); i++){
 
                 vdb.newIntegerDomain("Id", null, 0, 20, null, false);
@@ -36,9 +37,12 @@ public class Assignment {
                 Ects ects = Ects.create(jsonData.getJSONObject("courses").getInt("ects"));
 
 //              why can't i do this?
-                Course course = Course.create(id, courseName, ects);
+                CourseBuilderImpl cimpl = new CourseBuilderImpl();
+//                cimpl.id(id).name(courseName).ects(ects);
+                Course course = cimpl.id(id).name(courseName).ects(ects);
 //              and this?
-                courses = Courses.begin().add(course);
+
+                Courses courses = Courses.begin().add(course).end();
             }
 
             Active active = Active.create(jsonData.getBoolean("active"));
