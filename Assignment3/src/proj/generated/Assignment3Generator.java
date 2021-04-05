@@ -13,7 +13,7 @@ import org.abstractica.edma.valuedomains.impl.Constraint;
 /**
  * 
  */
-public class LearnEDMA
+public class Assignment3Generator
 {
     public static final IMetaEnvironment environment = generateEnvironment();
 
@@ -91,7 +91,7 @@ public class LearnEDMA
             fields.add(vdb.newStructField("active", "Active", false));
             vdb.newStructDomain("As3", null, fields, edma_constraints, false);
         }
-        MetaEnvironment edma_environment = new MetaEnvironment("LearnEDMA");
+        MetaEnvironment edma_environment = new MetaEnvironment("Assignment3Generator");
         vdb.buildWithEnvironment(edma_environment);
         //Hack to make serializeable work...
         IndexUtil.setValueDomainDefinitions(edma_environment.getValueDomainDefinitions());
@@ -102,7 +102,7 @@ public class LearnEDMA
      * Constructor
      * @param factory  The runtime factory
      */
-    public LearnEDMA(IRuntimeFactory factory)
+    public Assignment3Generator(IRuntimeFactory factory)
     {
         
     }
