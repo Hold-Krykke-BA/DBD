@@ -124,6 +124,19 @@ fiskeben is probably there -- false
 #### 5. If you are to store one million ASCII strings with an average size of 10 characters in a hash set, what would be the approximate space consumption?  
 Each ASCII char takes up 8 bits or 1 byte. 10 chars per string then takes up 10 bytes of space per string. 1 million strings times 10 bytes per string is 10 million bytes (10 megabyte) or 80 million bits.
 
+It is worth noting that [the hash set it self has a significant overhead](https://stackoverflow.com/questions/29518372/how-much-memory-java-hashsetlong-should-take). Do remember that this is dependant on the Type being used, the one in the referenced example being `Long`.
+```
+32 * SIZE + 4 * CAPACITY + ( X * SIZE )
+```
+Where X is specific to our type - in our example it would be 10 bytes as explained above.
+```
+32 * 1.000.000 + 4 * 1.000.000 + ( 10 * 1.000.000 )
+=>
+32.000.000 + 4.000.000 + 10.000.000
+=>
+46.000.000 bytes or 44921,875 kilobytes or 43,86902 megabytes.
+```
+
 #### 6. The following equation gives the required number of bits of space per inserted key, where epsilon is the false positive rate.  
 
 <center><img src="resources/equation.gif"></center>
@@ -261,3 +274,6 @@ Task 4.10  {
 }
 ```
 
+## External resources
+Slides day 1 - https://datsoftlyngby.github.io/soft2021spring/DBD/week-10/#6-column-based-database-hbase  
+Slides day 2 - https://datsoftlyngby.github.io/soft2021spring/DBD/week-11/#7-column-based-database-hbase  
