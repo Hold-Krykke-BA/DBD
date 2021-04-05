@@ -164,12 +164,11 @@ From the above question we found that each string should take up 6,22 bits of sp
 
 
 ### Task 3 - Huffman coding
-HBase internally uses a compression that is a combination of LZ77 and Huffman Coding.  
-___
+(HBase internally uses a compression that is a combination of LZ77 and Huffman Coding.)  
   
 Huffman coding is a lossless data compression algorithm. The idea is to assign variable-length codes to input characters, lengths of the assigned codes are based on the frequencies of corresponding characters. The most frequent character gets the smallest code and the least frequent character gets the largest code.  
 *[Source](https://www.geeksforgeeks.org/huffman-coding-greedy-algo-3/)*  
-*[Source](https://brilliant.org/wiki/huffman-encoding/)*  <-- very thorough explanation.
+*[Source](https://brilliant.org/wiki/huffman-encoding/)*  <-- very thorough explanation.  
   
 #### 1. Generate Huffmann Code (and draw the Huffmann Tree) based on the following string: “beebs beepps!!!!! their eerie ears hear pears”
 The code can be found [here](https://github.com/Hold-Krykke-BA/DBD/tree/main/Assignment2/task3/src) and is a modified version of this [guide](https://www.techiedelight.com/huffman-coding/).  
