@@ -47,7 +47,8 @@ public class Assignment3Generator
         
         //Integer value domain: Ects
         {
-            ArrayList<Constraint> edma_constraints = null;
+            ArrayList<Constraint> edma_constraints = new ArrayList<Constraint>(1);
+            edma_constraints.add(new Constraint("divisibleByFive", "No description given"));
             vdb.newIntegerDomain("Ects", null, 0, 60, edma_constraints, false);
         }
         

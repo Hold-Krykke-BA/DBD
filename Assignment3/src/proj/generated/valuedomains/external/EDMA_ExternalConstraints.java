@@ -2,6 +2,9 @@ package proj.generated.valuedomains.external;
 
 import org.abstractica.edma.util.Pair;
 import org.abstractica.edma.valuedomains.IExternalConstraints;
+import proj.generated.valuedomains.Ects;
+import proj.generated.valuedomains.impl.EctsImpl;
+import proj.usercode.valueconstraints.ects.DivisibleByFive;
 
 /**
  * 
@@ -32,6 +35,14 @@ public class EDMA_ExternalConstraints implements IExternalConstraints
     {
         switch(edma_index)
         {
+            case 3:
+            {
+                Ects ects = new EctsImpl(edma_obj);
+                String edma_reason;
+                edma_reason = DivisibleByFive.checkDivisibleByFive(ects);
+                if(edma_reason != null) return new Pair<Integer, String>(0, edma_reason);
+                return null;
+            }
             default :
                 throw new RuntimeException("Internal Error!");
         }

@@ -2,7 +2,7 @@
 ValueDomain Name : String[1..MAX]
 ValueDomain Age : Integer[0..120]
 ValueDomain Id : Integer[0..20]
-ValueDomain Ects : Integer[0..60]
+ValueDomain Ects : Integer[0..60]Constraints[divisibleByFive]
 ValueDomain Active : Boolean
 
 ValueDomain Student : Struct{
