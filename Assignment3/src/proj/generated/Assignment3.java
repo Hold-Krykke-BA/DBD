@@ -13,7 +13,7 @@ import org.abstractica.edma.valuedomains.impl.Constraint;
 /**
  * 
  */
-public class Assignment3Generator
+public class Assignment3
 {
     public static final IMetaEnvironment environment = generateEnvironment();
 
@@ -42,7 +42,7 @@ public class Assignment3Generator
         //Integer value domain: Id
         {
             ArrayList<Constraint> edma_constraints = null;
-            vdb.newIntegerDomain("Id", null, 0, 20, edma_constraints, false);
+            vdb.newIntegerDomain("Id", null, 0, 9999, edma_constraints, false);
         }
         
         //Integer value domain: Ects
@@ -92,7 +92,7 @@ public class Assignment3Generator
             fields.add(vdb.newStructField("active", "Active", false));
             vdb.newStructDomain("As3", null, fields, edma_constraints, false);
         }
-        MetaEnvironment edma_environment = new MetaEnvironment("Assignment3Generator");
+        MetaEnvironment edma_environment = new MetaEnvironment("Assignment3");
         vdb.buildWithEnvironment(edma_environment);
         //Hack to make serializeable work...
         IndexUtil.setValueDomainDefinitions(edma_environment.getValueDomainDefinitions());
@@ -103,7 +103,7 @@ public class Assignment3Generator
      * Constructor
      * @param factory  The runtime factory
      */
-    public Assignment3Generator(IRuntimeFactory factory)
+    public Assignment3(IRuntimeFactory factory)
     {
         
     }

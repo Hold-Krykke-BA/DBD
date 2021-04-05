@@ -7,7 +7,7 @@ import org.abstractica.edma.valuedomains.IMetaValueDomain;
 import org.abstractica.edma.valuedomains.exceptions.InvalidValueException;
 import org.abstractica.edma.valuedomains.userinput.ITerminal;
 import org.abstractica.edma.valuedomains.userinput.ValueDomainInput;
-import proj.generated.Assignment3Generator;
+import proj.generated.Assignment3;
 import proj.generated.valuedomains.Age;
 import proj.generated.valuedomains.Name;
 import proj.generated.valuedomains.external.EDMA_ExternalConstraints;
@@ -19,7 +19,7 @@ import proj.generated.valuedomains.impl.StudentImpl;
  */
 public abstract class Student implements Comparable<Student>
 {
-    protected static final IMetaValueDomain edma_domain = Assignment3Generator.environment.getValueDomainDefinitions().getValueDomain(5);
+    protected static final IMetaValueDomain edma_domain = Assignment3.environment.getValueDomainDefinitions().getValueDomain(5);
 
 
 

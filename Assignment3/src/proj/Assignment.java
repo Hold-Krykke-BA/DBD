@@ -1,9 +1,13 @@
 package proj;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.abstractica.edma.metamodel.impl.ValueDomainBuilder;
 import org.abstractica.edma.valuedomains.impl.Constraint;
 import org.json.*;
 import proj.generated.valuedomains.*;
 import proj.generated.valuedomains.impl.CourseBuilderImpl;
+import proj.generated.valuedomains.impl.CoursesBuilderImpl;
+import proj.generated.valuedomains.impl.CoursesImpl;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -11,14 +15,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-
 public class Assignment {
     public static void main(String[] args) {
         try {
-            String content = Files.readString(Paths.get("F:\\Developer\\Softwareudvikling\\1semester\\OrganisationsRepo\\DBD\\Assignment3\\Data\\jsondata.json"), StandardCharsets.US_ASCII);
+            String content = Files.readString(Paths.get("C:\\Users\\regsa\\OneDrive\\Desktop\\Softwareudvikling\\assignments\\DBD\\DBD\\Assignment3\\Data\\jsondata.json"), StandardCharsets.US_ASCII);
             JSONObject jsonData = new JSONObject(content);
             System.out.println(jsonData);
 
+            //Task 1 start
             jsonData.getJSONObject("student").getString("name");
 
             Name studentName = Name.create(jsonData.getJSONObject("student").getString("name"));
@@ -26,34 +30,41 @@ public class Assignment {
 
             JSONArray arr = jsonData.getJSONArray("courses");
 
-            ValueDomainBuilder vdb = new ValueDomainBuilder();
-//            Courses courses;
+            CoursesBuilderImpl coursesBuilder = new CoursesBuilderImpl();
+            Courses courses = new CoursesImpl(null);
             for (int i = 0; i < arr.length(); i++){
+                JSONObject jobj = arr.getJSONObject(i);
+                Ects ects = Ects.create(jobj.getInt("ects"));
+                Id id = Id.create(jobj.getInt("id"));
+                Name courseName = Name.create(jobj.getString("name"));
 
-                vdb.newIntegerDomain("Id", null, 0, 20, null, false);
-
-                Id id = Id.create(arr.getJSONObject(i).getInt("id"));
-                Name courseName = Name.create(jsonData.getJSONObject("student").getString("name"));
-                Ects ects = Ects.create(jsonData.getJSONObject("courses").getInt("ects"));
-
-//              why can't i do this?
-                CourseBuilderImpl cimpl = new CourseBuilderImpl();
-//                cimpl.id(id).name(courseName).ects(ects);
-                Course course = cimpl.id(id).name(courseName).ects(ects);
-//              and this?
-
-                Courses courses = Courses.begin().add(course).end();
+                Course course = Course.create().id(id).name(courseName).ects(ects);
+                courses = coursesBuilder.add(course).end();
             }
-
             Active active = Active.create(jsonData.getBoolean("active"));
 
+            Student student = Student.create().name(studentName).age(age);
 
-            Student student = Student.create();
+            As3 as3 = As3.create().student(student).courses(courses).active(active);
+            System.out.println(as3);
+            //Task 1 End
 
-            As3 as3 = As3.create(student, courses, active);
+            //Task 2 Start
+            System.out.println(as3.toString());
+
+
+            //Task 2 End
+            System.out.println(as3ToString(as3));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String as3ToString(As3 as3) {
+        return "{\"student\": { \"name\": " + as3.student().name() + ", \"age\":" + as3.student().age() + "}," +
+                "\"courses\": [{\"id\":" + as3.courses().get(0).id() + ", \"name\":" + as3.courses().get(0).name() + ", \"ects\":" + as3.courses().get(0).ects() + "}," +
+                "{\"id\":" + as3.courses().get(1).id() + ", \"name\":" + as3.courses().get(1).name() + ", \"ects\":" + as3.courses().get(1).ects() + "}]," +
+                "\"active\":" + as3.active().value() + "}";
     }
 }

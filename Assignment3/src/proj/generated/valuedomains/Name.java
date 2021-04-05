@@ -7,7 +7,7 @@ import org.abstractica.edma.valuedomains.IMetaValueDomain;
 import org.abstractica.edma.valuedomains.exceptions.InvalidValueException;
 import org.abstractica.edma.valuedomains.userinput.ITerminal;
 import org.abstractica.edma.valuedomains.userinput.ValueDomainInput;
-import proj.generated.Assignment3Generator;
+import proj.generated.Assignment3;
 import proj.generated.valuedomains.external.EDMA_ExternalConstraints;
 import proj.generated.valuedomains.impl.NameImpl;
 
@@ -16,7 +16,7 @@ import proj.generated.valuedomains.impl.NameImpl;
  */
 public abstract class Name implements Comparable<Name>
 {
-    protected static final IMetaValueDomain edma_domain = Assignment3Generator.environment.getValueDomainDefinitions().getValueDomain(0);
+    protected static final IMetaValueDomain edma_domain = Assignment3.environment.getValueDomainDefinitions().getValueDomain(0);
 
 
 

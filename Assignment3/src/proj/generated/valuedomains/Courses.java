@@ -7,7 +7,7 @@ import org.abstractica.edma.valuedomains.IMetaValueDomain;
 import org.abstractica.edma.valuedomains.exceptions.InvalidValueException;
 import org.abstractica.edma.valuedomains.userinput.ITerminal;
 import org.abstractica.edma.valuedomains.userinput.ValueDomainInput;
-import proj.generated.Assignment3Generator;
+import proj.generated.Assignment3;
 import proj.generated.valuedomains.external.EDMA_ExternalConstraints;
 import proj.generated.valuedomains.impl.CoursesBuilderImpl;
 import proj.generated.valuedomains.impl.CoursesImpl;
@@ -17,7 +17,7 @@ import proj.generated.valuedomains.impl.CoursesImpl;
  */
 public abstract class Courses implements Comparable<Courses>, Iterable<Course>
 {
-    protected static final IMetaValueDomain edma_domain = Assignment3Generator.environment.getValueDomainDefinitions().getValueDomain(7);
+    protected static final IMetaValueDomain edma_domain = Assignment3.environment.getValueDomainDefinitions().getValueDomain(7);
 
 
 
