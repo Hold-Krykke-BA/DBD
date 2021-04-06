@@ -49,3 +49,33 @@ Our edmasource valuedomains can be found [here](https://github.com/Hold-Krykke-B
   
 ### Task 2 - ToString
 > Create a toString method for printing an instance of your JSON abstract syntax tree as valid Json.
+
+Here's the output of the program:
+
+```json
+{"student": { "name": "John", "age":34},"courses": [{"id":1234, "name":"Seahorse riding", "ects":15},{"id":4321, "name":"Squid painting", "ects":5}],"active":true}
+```
+It is validated by several online tools as well as the JSON package we used.
+
+Here it is prettyfied:
+```json
+{
+   "student":{
+      "name":"John",
+      "age":34
+   },
+   "courses":[
+      {
+         "id":1234,
+         "name":"Seahorse riding",
+         "ects":15
+      },
+      {
+         "id":4321,
+         "name":"Squid painting",
+         "ects":5
+      }
+   ],
+   "active":true
+}
+```
