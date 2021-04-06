@@ -46,5 +46,13 @@ public class Main {
         Huffman huffman3 = new Huffman();
         System.out.println(huffman3.decode(camillaCode, camillaCodes));
 
+        Huffman huffman4 = new Huffman(); //rúni
+        System.out.println("(Rúni)");
+        String text4 = "My sentence is about camels, dogs, penguins and ice cream.";
+        Map codes4 = huffman4.encode(text4);
+        String code4 = "11011101101111111000010001100010100011011010111011000011101111001101001010101100011111011011111001010100111000110001111000010010110100001100011110100001000111010101010110001000111011100110000111011010110101111011101001010011111001110110";
+        System.out.println("The decoded string is:");
+        System.out.println(huffman4.decode(code4, codes4));
+
     }
 }
