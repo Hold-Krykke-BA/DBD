@@ -205,6 +205,7 @@ The encoded string is:
 
 #### 4. Write your own 10 word sentence. Generate the Huffmann Code (a new Huffmann Tree), and write a new compressed message (ie. in binary). Swap with one of your fellow students, and decompress each other’s message.
 We need the codes and the encoded string in order to decode a message. 
+##### Camilla
 ```Java
 System.out.println("Decoding Camillas encoded string");
 System.out.println("Provided info:");
@@ -228,6 +229,32 @@ Codes:
 The decoded string is:
 her er camillas 10 ord i en sætning til oversættelse
 ```
+##### Rúni
+```java
+Huffman huffman4 = new Huffman();
+System.out.println("(Rúni)");
+String text4 = "My sentence is about camels, dogs, penguins and ice cream.";
+Map codes4 = huffman4.encode(text4);
+String code4 = "11011101101111111000010001100010100011011010111011000011101111001101001010101100011111011011111001010100111000110001111000010010110100001100011110100001000111010101010110001000111011100110000111011010110101111011101001010011111001110110";
+System.out.println("The decoded string is:");
+System.out.println(huffman4.decode(code4, codes4));
+```
+Output:
+```java
+Original string is:
+My sentence is about camels, dogs, penguins and ice cream.
+
+The codes are:
+{ =111, a=0111, b=100110, c=1011, d=10000, e=010, g=11010, i=0110, l=100111, ,=11000, m=11001, M=1101110, n=001, .=110110, o=10010, p=101000, r=101001, s=000, t=10001, u=10101, y=1101111}
+
+The encoded string is:
+11011101101111111000010001100010100011011010111011000011101111001101001010101100011111011011111001010100111000110001111000010010110100001100011110100001000111010101010110001000111011100110000111011010110101111011101001010011111001110110
+
+The decoded string is:
+My sentence is about camels, dogs, penguins and ice cream.
+```
+(Original sentence is 58 characters, same as 58 bytes. The encoded string consists of 236 bits or 29,5 bytes.)
+
 
 
 ### Task 4 - Map and Reduce
