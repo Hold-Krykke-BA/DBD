@@ -17,6 +17,10 @@ CREATE (forrestGump:Movie {
 **2. Add the following properties to the movie Forrest Gump:
   a. released: 1995
   b. tagline: Life is like a box of chocolates…you never know what you’re gonna get.**
+  
+  ```
+    See above
+  ```
 
 **3. Update the released property of movie Forrest Gump, as it has actually been
 released in 1994.**
