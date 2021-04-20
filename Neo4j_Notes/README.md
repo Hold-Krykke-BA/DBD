@@ -83,7 +83,7 @@ the relation.**
 
 ```diff
 -- There is no relationship called HELPED. 
--- I assumed that the relationship FOLLOWS is similar, so I used that for the next two questions.
+-- I assumed that the relationship FOLLOWS is similar, so I used that for question 11 and 12.
 ```
 ```
 MATCH (n {name: "Paul Blythe"})-[r:FOLLOWS]->(a:Person {name:"Angela Scope"}) 
