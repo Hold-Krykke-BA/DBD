@@ -7,13 +7,11 @@ _____
 
 **1. Create a Movie node for the movie with a title Forrest Gump.**
 ```
-CREATE (forrestGump:Movie 
-  {
+CREATE (forrestGump:Movie {
   title:'Forrest Gump', 
   released:1995, 
   tagline:'Life is like a box of chocolates…you never know what you’re gonna get'
-  }
-)
+  })
 ```
 
 **2. Add the following properties to the movie Forrest Gump:
