@@ -82,8 +82,8 @@ MATCH (p:Person)-[:FOLLOWS]->(x:Person)-[:FOLLOWS]->(JessicaThompson) RETURN p
 the relation.**
 
 ```diff
--- There is no relationship called HELPED. 
--- I assumed that the relationship FOLLOWS is similar, so I used that for the next two questions.
+There is no relationship called HELPED. 
+I assumed that the relationship FOLLOWS is similar, so I used that for the next two questions.
 ```
 ```
 MATCH (n {name: "Paul Blythe"})-[r:FOLLOWS]->(a:Person {name:"Angela Scope"}) 
