@@ -53,7 +53,8 @@ RETURN people.name, Type(relatedTo), relatedTo
 
 **7. Find all people born in the previous century.**
 ```
-MATCH (person:Person) WHERE person.born < 2000 RETURN person.name, person.bornMATCH (person:Person) WHERE person.born < 2000 RETURN person.name, person.born
+MATCH (person:Person) WHERE person.born < 2000 
+RETURN person.name, person.born
 ```
 
 **8. Find all people who gave the movie The Da Vinci Code a rating of 65, returning their
