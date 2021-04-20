@@ -81,9 +81,10 @@ MATCH (p:Person)-[:FOLLOWS]->(x:Person)-[:FOLLOWS]->(JessicaThompson) RETURN p
 **11. Tom Hanks hasn’t HELPED Gary Sinise in a research. Remove this property from
 the relation.**
 
-
+```diff
+-- There is no relationship called HELPED. I assumed that the relationship FOLLOWS is similar, so I used that for the next two questions.
 ```
---diff
+```
 MATCH (n {name: "Paul Blythe"})-[r:FOLLOWS]->(a:Person {name:"Angela Scope"}) 
 DELETE r
 ```
