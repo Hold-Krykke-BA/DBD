@@ -5,7 +5,7 @@ _____
 
 ### Assignement A1-Cypher
 
-<details><summary>Assignement A1-Cypher<b>(click to reveal)</b></summary>
+<details><summary>A1<b>(click to reveal)</b></summary>
 <p>
   
 **1. Create a Movie node for the movie with a title Forrest Gump.**
@@ -114,7 +114,7 @@ DELETE r
 
 ### Assignment A2-Street Crimes Project
 
-<details><summary>Assignment A2-Street Crimes Project<b>(click to reveal)</b></summary>
+<details><summary>A2<b>(click to reveal)</b></summary>
 <p>
   
 **1. At this web address: [data.police.uk/data](https://data.police.uk/data/) you will find crime data collected by the
