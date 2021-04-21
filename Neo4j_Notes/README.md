@@ -111,3 +111,35 @@ DELETE r
 ```
 </p>
 </details>
+
+### Assignment A2-Street Crimes Project
+
+<details><summary>Assignment A2-Street Crimes Project<b>(click to reveal)</b></summary>
+<p>
+  
+**1. At this web address: [data.police.uk/data](https://data.police.uk/data/) you will find crime data collected by the
+UK police. Download a data set in a csv format and use (some of) the data in it to create a graph
+database.**
+```sql
+LOAD CSV WITH HEADERS FROM 'file:///2021-01-city-of-london-street.csv' AS row
+WITH row WHERE NOT row.CrimeID IS null
+MERGE (c:Crime {crimeid: row.CrimeID,crimetype: coalesce(row.Crimetype, "unknown crimetype")} )
+MERGE (l:Location {location: coalesce(row.Location, "unknown")})
+MERGE (c)-[:HAPPENED_IN]->(l)
+```
+**2. Which is the location with highest number of crimes?**  
+```sql
+MATCH (l)-[:HAPPENED_IN]->(c)
+RETURN c, COLLECT(l) as crimelocations
+ORDER BY SIZE(crimelocations) DESC LIMIT 1
+```
+
+**3. Which is the most common crime?**  
+```sql
+MATCH (c:Crime)
+RETURN c.crimetype, COUNT(*) 
+ORDER BY COUNT(*) DESC LIMIT 1
+```
+</p>
+</details>
+
