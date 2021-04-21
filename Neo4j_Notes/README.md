@@ -113,7 +113,7 @@ DELETE r
 </details>
 
 ### Assignment A2-Street Crimes Project
-
+NB.: the .csv can only be read from this specific folder`YOUR_NEO4J_PATH\relate-data\dbmss\dbms-22595e4f-7fea-4d6c-adf9-f94985ef3913\import`.
 <details><summary>A2 <b>(click to reveal)</b></summary>
 <p>
   
