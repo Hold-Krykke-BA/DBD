@@ -134,9 +134,13 @@ RETURN c, COLLECT(l) as crimelocations
 ORDER BY SIZE(crimelocations) DESC LIMIT 1
 ```
 ![image](https://user-images.githubusercontent.com/35559774/115575335-c0fb9380-a2c2-11eb-9abf-ce962c7e343a.png)  
+![image](https://user-images.githubusercontent.com/35559774/115576365-b8578d00-a2c3-11eb-8312-d585930ea27c.png)  
+
 
 The location with the next highest crimes, that is an actual location is:  
-![image](https://user-images.githubusercontent.com/35559774/115575505-e6889d00-a2c2-11eb-96ed-88806bdc2e5d.png)
+![image](https://user-images.githubusercontent.com/35559774/115575505-e6889d00-a2c2-11eb-96ed-88806bdc2e5d.png)  
+![image](https://user-images.githubusercontent.com/35559774/115576406-c0afc800-a2c3-11eb-825d-e9a0ecd6c5d5.png)
+
 
 
 **3. Which is the most common crime?**  
