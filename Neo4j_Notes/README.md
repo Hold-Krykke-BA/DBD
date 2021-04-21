@@ -114,6 +114,7 @@ DELETE r
 
 ### Assignment A2-Street Crimes Project
 NB.: the .csv can only be read from this specific folder`YOUR_NEO4J_PATH\relate-data\dbmss\dbms-22595e4f-7fea-4d6c-adf9-f94985ef3913\import`.
+Also, all headers need to be without space i.e.: `CrimeID,Month,Reportedby,Fallswithin,Longitude,Latitude,Location,LSOAcode,LSOAname,Crimetype,Lastoutcomecategory,Context`
 <details><summary>A2 <b>(click to reveal)</b></summary>
 <p>
   
