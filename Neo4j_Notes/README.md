@@ -5,6 +5,8 @@ _____
 
 ### Assignement A1-Cypher
 
+<details><summary>Assignement A1-Cypher<b>(click to reveal)</b></summary>
+<p>
 **1. Create a Movie node for the movie with a title Forrest Gump.**
 ```sql
 CREATE (forrestGump:Movie {
@@ -106,3 +108,5 @@ DELETE r
 MATCH ()-[r:FOLLOWS]-() 
 DELETE r
 ```
+</p>
+</details>
