@@ -123,7 +123,7 @@ database.**
 ```sql
 LOAD CSV WITH HEADERS FROM 'file:///2021-01-city-of-london-street.csv' AS row
 WITH row WHERE NOT row.CrimeID IS null
-MERGE (c:Crime {crimeid: row.CrimeID,crimetype: coalesce(row.Crimetype, "unknown crimetype")} )
+MERGE (c:Crime {crimeid: row.CrimeID, crimetype: coalesce(row.Crimetype, "unknown crimetype")} )
 MERGE (l:Location {location: coalesce(row.Location, "unknown")})
 MERGE (c)-[:HAPPENED_IN]->(l)
 ```
