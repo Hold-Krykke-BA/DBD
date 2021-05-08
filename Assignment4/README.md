@@ -47,6 +47,10 @@ We grabbed the data from the linked article, by going to its source where the st
 
 
 ### Java solution
+
+Source code can be found in [DBConnection.java](/Assignment4/src/main/java/DBConnection.java).  
+.conf files can be found in [Resources](/Assignment4/src/main/resources).
+
 - Struggles with Maven xd
 - Struggles with finding worthy algorithm
 - Struggles with GSD in general
