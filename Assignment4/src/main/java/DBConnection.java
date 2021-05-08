@@ -159,7 +159,7 @@ public class DBConnection implements AutoCloseable {
             connection.getNodesWithoutRelations(""); //no filter
             System.out.println("**********************");
             System.out.println("7. Find nodes with no \"PART_OF\" relations");
-            connection.getNodesWithoutRelations("PART_OF"); //no filter
+            connection.getNodesWithoutRelations("PART_OF"); //with filter
         }
     }
 }
