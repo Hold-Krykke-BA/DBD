@@ -51,11 +51,19 @@ We grabbed the data from the linked article, by going to its source where the st
 Source code can be found in [DBConnection.java](/Assignment4/src/main/java/DBConnection.java).  
 .conf files can be found in [Resources](/Assignment4/src/main/resources).
 
-- Struggles with Maven xd
-- Struggles with finding worthy algorithm
-- Struggles with GSD in general
-- made 7 queries instead
-- ALL connections were made to `core-1`
+
+#### Struggles we encountered
+We had some struggles with the Maven dependencies regarding det Neo4J driver dependency. Besides that, the most of the challenges revoled around the part of the assignement that required the use of some of the algorithms in the GSD plugin. We tried to implement a shotest path algorithm, but ended up abandoning that query. We couldn't use the `gds.beta.shortestPath.dijkstra` for some reason (we only had access to some of the other types) and at that point in time we had spent a lot of time on this assignment and decided that the time was better spent on trying to implement some queries, for future reference.  
+- ALL connections were made to `core-1` again due to the time akready spent on this assignment.  
+  
+We ended up making 7 queries of varying forms (they can be found [here](https://github.com/Hold-Krykke-BA/DBD/blob/main/Assignment4/src/main/java/DBConnection.java)).
+* `getSingleNode` - takes the parameter `nodeName` and returns name and description of that node. We are using the `parameters()` functionality to assign the parameter in the query.
+* `getMvcView` - returns the name of nodes in the MvcView
+* `updateSingleNode` - takes to parameters, `nodeName` and `nodeDescription` and updates the specified node with the desired description. We are again using the `parameters()` functionality to assign the parameters in the query. The method returns the updated node with name and description.
+* `getSoftwareDeveloper` - gets the relationships to "Software Developer" and prints their name and descriptions out.
+* `getNodeDomainRelations` - takes the parameter `nodeDomainName` gets all relations to that `nodeDomain`, using the `parameters()` functionality to assign the parameters in the query.
+* `getNodesWithoutRelations` - takes the String parameter `relationsFilter`. If the parameter is an empty String, the method gets all nodes without any relations. If the parameter is not empty the method gets all nodes without the specified relation. 
+
 
 <details><summary>Program output (<b>Click to reveal</b>)</summary>
 <p>
