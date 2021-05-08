@@ -13,7 +13,7 @@ We implemented 7 queries through Java, altough none was an algorithm as specifie
 
 ## Solution
 We set up the three cores and two replicas thanks to Martin's video guide.[1]  
-We took the data from the assignments "Software Methodology" database and recreated it in our `core-1`. We the checked the other cores and replicas and found the same data.  
+We took the data from the assignments "Software Methodology" database and recreated it in our `core-1`. We the checked the other cores and replicas and found the same data, so we assume the cluster works as intended.  
 Following this, we used Neo4j's guide on connecting to the database through Java.[2]  
 
 ### Database Setup
