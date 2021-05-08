@@ -55,6 +55,7 @@ Source code can be found in [DBConnection.java](/Assignment4/src/main/java/DBCon
 #### Struggles we encountered
 We had some struggles with the Maven dependencies regarding det Neo4J driver dependency. Besides that, the most of the challenges revolved around the part of the assignement that required the use of some of the algorithms in the GSD plugin. At this point we had already struggled a lot with the setup of the 3 cores and 2 replicas. We tried to implement a shotest path algorithm, but ended up abandoning that query. We couldn't use the `gds.beta.shortestPath.dijkstra` for some reason (we only had access to some of the other types) and at that point in time we had spent a lot of time on this assignment and decided that the time was better spent on trying to implement some queries, for future reference. All connections were made to `core-1` again due to the time already spent on this assignment.  
   
+#### Result
 We ended up making 7 queries of varying forms (see the DBConnection.java linked in at the start of this section).
 * `getSingleNode` - takes the parameter `nodeName` and returns name and description of that node. We are using the `parameters()` functionality to assign the parameter in the query.
 * `getMvcView` - returns the name of nodes in the MvcView
