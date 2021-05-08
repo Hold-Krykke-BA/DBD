@@ -8,9 +8,45 @@
 - 3 cores, 2 replicas
 
 ### Java solution
-- 
+- Struggles with Maven xd
+- Struggles with finding worthy algorithm
+- Struggles with GSD in general
+- made 7 queries instead
 
+<details><summary>Program output (<b>Click to reveal</b>)</summary>
+<p>
 
+```
+1. Which, and how many, nodes are there in to "MvcView"?
+Nodes in MvcView: ["_admin.html", "AdminNavigationView", "BillingAddressView", "CartView", "CreditCardDetailsView", "ContentEditView", "CheckoutView", "ContentListView", "_shopping.html", "CustomerNavigationView", "GiftCardDetailsView", "PaymentView", "ProductDetailView", "ProductEditView", "ProductListView", "ShippingAddressView"]
+Size of MvcView: 16
+**********************
+2. What, and how many, relations are there to "Software Developer"?
+Parent Node: "Software Development"
+Parent relations: [name: "Web"	description: "Anything related to the Web-facing part of the system", name: "Testing"	description: "Anything related to testing the system", name: "Technical"	description: "Anything technical about the system implementation", name: "Process"	description: "Process-related items", name: "Knowledge"	description: "Anyone or anything that is a source of information or knowledge", name: "Human"	description: "Organization and people"]
+Size of Parent relations: 6
+**********************
+3. Getting node by name "Term"
+getSingleNode result: "Term": "Vocabulary terms and definitions"
+**********************
+4. Updating node by name "Term"
+updateSingleNode result: "Term": "0.5917302176931089"
+**********************
+5. Getting node relations to nodeDomain "Technical"
+Relations to Technical: [name: "MvcView"	description: "INCLUDED_IN", name: "CodeFolder"	description: "INCLUDED_IN", name: "Service"	description: "INCLUDED_IN", name: "DbTable"	description: "INCLUDED_IN", name: "Component"	description: "INCLUDED_IN", name: "CssFile"	description: "INCLUDED_IN", name: "CodeSolution"	description: "INCLUDED_IN", name: "AppLayer"	description: "INCLUDED_IN", name: "Location"	description: "INCLUDED_IN", name: "Server"	description: "INCLUDED_IN", name: "DbProcedure"	description: "INCLUDED_IN", name: "Platform"	description: "INCLUDED_IN", name: "JsFile"	description: "INCLUDED_IN", name: "Setting"	description: "INCLUDED_IN", name: "Permission"	description: "INCLUDED_IN", name: "LocalizationKey"	description: "INCLUDED_IN", name: "MvcController"	description: "INCLUDED_IN", name: "Database"	description: "INCLUDED_IN", name: "DbFunction"	description: "INCLUDED_IN", name: "DbSchema"	description: "INCLUDED_IN", name: "Environment"	description: "INCLUDED_IN", name: "File"	description: "INCLUDED_IN", name: "DbView"	description: "INCLUDED_IN", name: "CodeProject"	description: "INCLUDED_IN", name: "Software Development"	description: "PART_OF"]
+Size of relations: 25
+**********************
+6. Find nodes with no relations
+Nodes filtered by getNodesWithoutRelations: [name: "Admin", name: "Catalog.css", name: "Checkout.css", name: "Shopping.css", name: "Validation.css", name: "BonzDB", name: "dbo", name: "dbo.ufnGetDiscountedPrice", name: "dbo.ufnGetExtendedPrice", name: "CartRequirements.docx", name: "DisablePurchaseFlag.docx", name: "Checkout", name: "Content Management", name: "Product Management", name: "Help Desk, Tier 1", name: "Help Desk, Tier 2", name: "Network Administrators", name: "Production Support", name: "Collins, Sasha", name: "Porter, Rick E.", name: "Quick, Kelly", name: "Williams, Garnet", name: "Req CT-3-1", name: "Req CT-2-1", name: "Req CT-4-1", name: "Add Availability Flag", name: "ProductManagement_EditProductDetails", name: "Product Management Test Suite", name: "AvailableProductsView"]
+Size: 29
+**********************
+7. Find nodes with no "PART_OF" relations
+Nodes filtered by getNodesWithoutRelations: [name: "Audience", name: "CodeFolder", name: "Component", name: "CssFile", name: "MvcController", name: "Defect", name: "Document", name: "Feature", name: "File", name: "JsFile", name: "Location", name: "LocalizationKey", name: "AppLayer", name: "MvcView", name: "Permission", name: "Person", name: "Platform", name: "UserProfile", name: "Publication", name: "Release", name: "Requirement", name: "Role", name: "Setting", name: "Skill", name: "CodeSolution", name: "Service", name: "Task", name: "Term", name: "UserStory", name: "CodeProject", name: "Admin", name: "Warehouse", name: "Change set 1931", name: "Change set 1956", name: "Change set 2216", name: "Address.css", name: "Catalog.css", name: "Checkout.css", name: "Global.css", name: "Payment.css", name: "ProductDetails.css", name: "ProductList.css", name: "Shopping.css", name: "Validation.css", name: "CartController", name: "CheckoutController", name: "ContentController", name: "PaymentController", name: "ProductController", name: "PromotionController", name: "BonzDB", name: "dbo", name: "Defect 2819", name: "Defect 2816", name: "dbo.ufnGetDiscountedPrice", name: "dbo.ufnGetExtendedPrice", name: "CartRequirements.docx", name: "DisablePurchaseFlag.docx", name: "InventoryProductEntity", name: "ShoppingProductEntity", name: "Break Fix Environment", name: "Dev Environment", name: "Integration Test Environment", name: "Production Environment", name: "Staging Environment", name: "UAT Environment", name: "Product.sql", name: "Checkout", name: "Content Management", name: "Product Management", name: "Database Administrators", name: "Developers", name: "Help Desk, Tier 1", name: "Help Desk, Tier 2", name: "Network Administrators", name: "Project Management (PMO)", name: "Production Support", name: "Quality Assurance", name: "Cart.js", name: "CreditCardPayment.js", name: "Checkout.js", name: "GiftCardPayment.js", name: "Product.js", name: "Validation.js", name: "_admin.html", name: "AdminNavigationView", name: "BillingAddressView", name: "CartView", name: "CreditCardDetailsView", name: "ContentEditView", name: "CheckoutView", name: "ContentListView", name: "_shopping.html", name: "CustomerNavigationView", name: "GiftCardDetailsView", name: "PaymentView", name: "ProductDetailView", name: "ProductEditView", name: "ProductListView", name: "ShippingAddressView", name: "ShoppingProduct_List_Get", name: "ShoppingProduct_Details_Get", name: "Busy, Betty", name: "CIO, Sylvia", name: "Debaron, Chuck", name: "Dev, David", name: "Dev, Donna", name: "Dev, Delilah", name: "Collins, Sasha", name: "Porter, Rick E.", name: "Quick, Kelly", name: "Williams, Garnet", name: "Mendez, Andrew", name: "Quigby, Susan", name: "Tester, Tommy", name: "Tester, Theresa", name: "Tester, Mihir", name: "Release v1.1", name: "Release v1.2", name: "Release v1.3", name: "Req CT-3-1", name: "Req CT-2-1", name: "Req CT-4-1", name: "Business Analyst", name: "CIO", name: "DBA", name: "Developer", name: "Project Manager", name: "QA Manager", name: "QA Tester", name: "InventoryProduct_List_Get", name: "Product", name: "Add Availability Flag", name: "ProductManagement_EditProductDetails", name: "ShoppingCart_AddProductToCart", name: "ShoppingCart_RemoveProductFromCart", name: "ShoppingCart_ChangeProductQuantity", name: "ShoppingCart_ViewCart", name: "Product Management Test Suite", name: "ShoppingCart_TestSuite", name: "ShoppingProductDetailsVM", name: "ShoppingProductListVM", name: "AvailableProductsView"]
+Size: 143
+```
+
+</p>
+</details>
 
 ## External references
 Neo4j developer guide for Java: https://neo4j.com/developer/java/  
