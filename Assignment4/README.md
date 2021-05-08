@@ -1,17 +1,57 @@
 # Assignment 4 - Graph
 
-## Discussion
+## Assignment description
+See [the assignment](/Assignment4/A4-Neo4j-Cluster-Application.pdf)
+- a cluster of minimum three Neo4j servers and two replicas
+- a software development methodology graph database
+- client application, which retrieves information from the database
+
+## Status
+We had some struggles with Maven, the `Graph Data Science` (GSD) library and others.
+
+We implemented 7 queries through Java, altough none was an algorithm as specified in the assignment. 
 
 ## Solution
+We set up the three cores and two replicas thanks to Martin's video guide.[1]  
+We grabbed the data from the assignments "software methodology" database and put it in our `core-1`, which we then checked our 4 other databases to find the same data.  
+Following this, we used Neo4j's guide on connecting to the database through Java.[2]  
 
-### Setup
-- 3 cores, 2 replicas
+### Database Setup
+We set up 3 cores and 2 replicas as requested:
+- `core-1`
+- `core-2`
+- `core-3`
+- `replica-1`
+- `replica-2`
+
+And set up the GSD library by copying the plugin from another project and following a guide by Neo4j.[3]
+
+#### Image of database setup
+(Click for better resolution)  
+![image](https://user-images.githubusercontent.com/37186286/117541260-51500d00-b013-11eb-803a-c566d978fa93.png)
+
+#### Image of browser setup
+(Click for better resolution)  
+![image](https://user-images.githubusercontent.com/37186286/117541420-139fb400-b014-11eb-854a-8f460f239263.png)
+
+
+### Database contents
+We grabbed the data from the linked article, by going to its source where the statements were available behind a `//hiden` statement:   https://portal.graphgist.org/graph_gists/software-development-process-model-2/source  
+
+#### Image of database contents:  
+(Click for better resolution)  
+![image](https://user-images.githubusercontent.com/37186286/117541064-6d06e380-b012-11eb-99fb-bed6f8b6e235.png)
+#### Image of the graph:  
+(Click for better resolution)  
+![graph](https://user-images.githubusercontent.com/37186286/117540884-907d5e80-b011-11eb-8c6c-3ea782c4b9bb.png)
+
 
 ### Java solution
 - Struggles with Maven xd
 - Struggles with finding worthy algorithm
 - Struggles with GSD in general
 - made 7 queries instead
+- ALL connections were made to `core-1`
 
 <details><summary>Program output (<b>Click to reveal</b>)</summary>
 <p>
@@ -49,7 +89,6 @@ Size: 143
 </details>
 
 ## External references
-Neo4j developer guide for Java: https://neo4j.com/developer/java/  
-Neo4j setting up GSD: https://neo4j.com/docs/graph-data-science/current/installation/#_neo4j_desktop  
-MRV's walkthrough on setting up 3 cores and 1 replica: https://cphbusiness.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=551727ed-3f24-4c02-ba90-ad1d00f5b2a7  
-
+[1]: MRV's walkthrough on setting up 3 cores and 1 replica: [Panopto](https://cphbusiness.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=551727ed-3f24-4c02-ba90-ad1d00f5b2a7)  
+[2]: Neo4j developer guide for Java: https://neo4j.com/developer/java/  
+[3]: Neo4j setting up GSD: https://neo4j.com/docs/graph-data-science/current/installation/#_neo4j_desktop  
