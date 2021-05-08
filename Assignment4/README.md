@@ -62,7 +62,7 @@ We ended up making 7 queries of varying forms (they can be found [here](https://
 * `updateSingleNode` - takes to parameters, `nodeName` and `nodeDescription` and updates the specified node with the desired description. We are again using the `parameters()` functionality to assign the parameters in the query. The method returns the updated node with name and description.
 * `getSoftwareDeveloper` - gets the relationships to "Software Developer" and prints their name and descriptions out.
 * `getNodeDomainRelations` - takes the parameter `nodeDomainName` gets all relations to that `nodeDomain`, using the `parameters()` functionality to assign the parameters in the query.
-* `getNodesWithoutRelations` - takes the String parameter `relationsFilter`. If the parameter is an empty String, the method gets all nodes without any relations. If the parameter is not empty the method gets all nodes without the specified relation. 
+* `getNodesWithoutRelations` - takes the String parameter `relationsFilter`. If the parameter is an empty String, the method gets all nodes without any relations. If the parameter is not empty the method gets all nodes without the specified relation. In this query we couldn't get the `parameters()` functionality to work. We suspect it's either due to some underlying formatting done by that call or the fact that we were trying to use the call to assign the parameter to the relation-part of the query. Either way, it didn't work and we decided to use the `String.format()` to format the query instead. 
 
 
 <details><summary>Program output (<b>Click to reveal</b>)</summary>
