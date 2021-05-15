@@ -8,7 +8,5 @@ public class RedisAccessor {
     public RedisAccessor(){
         jedis = new Jedis("0.0.0.0", 6379);
     }
-    public static void main(String[] args) {
-        Jedis jedis = new Jedis("0.0.0.0", 6379);
-    }
+    
 }
