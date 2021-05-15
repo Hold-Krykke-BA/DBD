@@ -54,7 +54,7 @@ public class RedisAccessor {
 
     public List<FPitem> getFPitems(String userID){
         List<String> postuuids = getPostUUIDs(getCacheID(userID));
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map;
         List<FPitem> fpitems = new ArrayList<>();
 
         for(String item : postuuids){
