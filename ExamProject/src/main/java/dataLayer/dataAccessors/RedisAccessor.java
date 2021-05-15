@@ -1,5 +1,7 @@
 package dataLayer.dataAccessors;
+import models.dataModels.User;
 import redis.clients.jedis.Jedis;
+import java.util.UUID;
 
 
 public class RedisAccessor {
@@ -8,5 +10,23 @@ public class RedisAccessor {
     public RedisAccessor(){
         jedis = new Jedis("0.0.0.0", 6379);
     }
-    
+
+    public void saveCacheID (User user){
+        UUID cacheID = UUID.randomUUID();
+        //System.out.println(cacheID);
+        jedis.set(user.getUserID(), cacheID.toString());
+    }
+
+    public String getCacheID(User user){
+        return jedis.get(user.getUserID());
+    }
+
+    public static void main(String[] args) {
+        User user = new User("arne", "s@g.dk", "172893");
+        RedisAccessor rDBD = new RedisAccessor();
+        rDBD.saveCacheID(user);
+        System.out.println(rDBD.getCacheID(user));
+    }
+
+
 }
