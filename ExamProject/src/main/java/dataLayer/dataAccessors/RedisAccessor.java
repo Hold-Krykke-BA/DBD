@@ -1,4 +1,4 @@
-package dataLayer.dataAccessors;
+package main.java.dataLayer.dataAccessors;
 
 public class RedisAccessor {
 }
