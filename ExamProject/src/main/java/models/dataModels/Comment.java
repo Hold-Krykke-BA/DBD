@@ -33,6 +33,10 @@ public class Comment {
         commentKarmaCount ++;
     }
 
+    public void detractFromCommentKarmaCount() {
+        commentKarmaCount --;
+    }
+
     public List<String> getChildCommentsID() {
         return childCommentsID;
     }

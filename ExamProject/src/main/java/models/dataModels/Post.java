@@ -9,7 +9,8 @@ public class Post {
     String subredditID;
     String userID;
     int postKarmaCount;
-    List<String> CommentsID;
+    List<String> commentsID;
+
 
     public Post(String postID, String timestamp, String subredditID, String userID, int postKarmaCount) {
         this.postID = postID;
@@ -17,7 +18,7 @@ public class Post {
         this.subredditID = subredditID;
         this.userID = userID;
         this.postKarmaCount = 0;
-        CommentsID = new ArrayList<>();
+        commentsID = new ArrayList<>();
     }
 
     public String getPostID() {
@@ -44,15 +45,19 @@ public class Post {
         postKarmaCount ++;
     }
 
+    public void detractFromPostKarmaCount() {
+        postKarmaCount --;
+    }
+
     public List<String> getCommentsID() {
-        return CommentsID;
+        return commentsID;
     }
 
     public void addToChildCommentsID(Comment comment) {
-        CommentsID.add(comment.commentID);
+        commentsID.add(comment.commentID);
     }
 
     public void removeChildComment(Comment comment){
-        CommentsID.remove(comment.commentID);
+        commentsID.remove(comment.commentID);
     }
 }
