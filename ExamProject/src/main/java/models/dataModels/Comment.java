@@ -12,7 +12,7 @@ public class Comment {
     public Comment(String commentID, String timestamp, int commentKarmaCount) {
         this.commentID = commentID;
         this.timestamp = timestamp;
-        this.commentKarmaCount = commentKarmaCount;
+        this.commentKarmaCount = 0;
         this.childCommentsID = new ArrayList<>();
     }
 
@@ -20,24 +20,17 @@ public class Comment {
         return commentID;
     }
 
-    public void setCommentID(String commentID) {
-        this.commentID = commentID;
-    }
 
     public String getTimestamp() {
         return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
     }
 
     public int getCommentKarmaCount() {
         return commentKarmaCount;
     }
 
-    public void setCommentKarmaCount(int commentKarmaCount) {
-        this.commentKarmaCount = commentKarmaCount;
+    public void addToCommentKarmaCount() {
+        commentKarmaCount ++;
     }
 
     public List<String> getChildCommentsID() {
