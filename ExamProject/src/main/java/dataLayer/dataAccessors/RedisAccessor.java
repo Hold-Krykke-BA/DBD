@@ -90,6 +90,12 @@ public class RedisAccessor {
         for (Object item : res) {
             System.out.println(item);
         }
+
+        List<FPitem> fpitems = rDBD.getFPitems(user.getUserID());
+        System.out.println("************************************************");
+        for (Object item : fpitems) {
+            System.out.println(item);
+        }
     }
 
 
