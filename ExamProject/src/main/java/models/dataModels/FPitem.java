@@ -56,4 +56,17 @@ public class FPitem {
     public int getCommentNum() {
         return commentNum;
     }
+
+    @Override
+    public String toString() {
+        return "FPitem{" +
+                "postTitle='" + postTitle + '\'' +
+                ", subRedditName='" + subRedditName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userID='" + userID + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                ", PostKarma=" + PostKarma +
+                ", commentNum=" + commentNum +
+                '}';
+    }
 }

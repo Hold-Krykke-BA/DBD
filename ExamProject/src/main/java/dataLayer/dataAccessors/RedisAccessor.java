@@ -5,8 +5,7 @@ import models.dataModels.SubReddit;
 import models.dataModels.User;
 import redis.clients.jedis.Jedis;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 public class RedisAccessor {
@@ -27,17 +26,43 @@ public class RedisAccessor {
     }
 
     // should be either transaction or collect all fpItems and set all of them in same db-call
-    public void savePostUUIDs(FPitem fpItem){
+    public void createPostUUIDs(FPitem fpItem){
         UUID postUUID = UUID.randomUUID();
         if(getCacheID(fpItem.getUserID()) == null){
             createCacheID(fpItem.getUserID());
         }
         String cacheID = getCacheID(fpItem.getUserID());
         jedis.rpush(cacheID, postUUID.toString());
+        // call create FPitem
+        createFPitem(fpItem, postUUID.toString());
     }
 
     public List<String> getPostUUIDs(String cacheID){
         return jedis.lrange(cacheID, 0, -1);
+    }
+
+    public void createFPitem(FPitem fpItem, String postuuid){
+        Map<String, String> map = new HashMap<>();
+        map.put("subreddit",fpItem.getSubRedditName());
+        map.put("comments",String.valueOf(fpItem.getCommentNum()));
+        map.put("created",fpItem.getTimestamp());
+        map.put("karma",String.valueOf(fpItem.getPostKarma()));
+        map.put("title",fpItem.getPostTitle());
+        map.put("createdby",fpItem.getUserName());
+        jedis.hset(postuuid, map);
+    }
+
+    public List<FPitem> getFPitems(String userID){
+        List<String> postuuids = getPostUUIDs(getCacheID(userID));
+        Map<String, String> map = new HashMap<>();
+        List<FPitem> fpitems = new ArrayList<>();
+
+        for(String item : postuuids){
+           map = jedis.hgetAll(item);
+           fpitems.add(new FPitem(map.get("title"), map.get("subreddit"), map.get("createdby"), map.get("created"),
+                   Integer.parseInt(map.get("karma")), Integer.parseInt(map.get("comments")), userID));
+        }
+        return fpitems;
     }
 
     public static void main(String[] args) {
@@ -46,7 +71,7 @@ public class RedisAccessor {
         RedisAccessor rDBD = new RedisAccessor();
         rDBD.createCacheID(user.getUserID());
 
-        System.out.println(rDBD.getCacheID(user.getUserID()));
+        //System.out.println(rDBD.getCacheID(user.getUserID()));
         //System.out.println(rDBD.getCacheID(user3.getUserID()) == null);
 
         // String postID, String timestamp, String postTitle, String subredditID, String userID, int postKarmaCount
@@ -59,8 +84,8 @@ public class RedisAccessor {
         FPitem fPitem1 = new FPitem(post1, subreddit, user);
         FPitem fPitem2 = new FPitem(post2, subreddit, user);
 
-        rDBD.savePostUUIDs(fPitem1);
-        rDBD.savePostUUIDs(fPitem2);
+        rDBD.createPostUUIDs(fPitem1);
+        rDBD.createPostUUIDs(fPitem2);
         List<String> res = rDBD.getPostUUIDs(rDBD.getCacheID(user.getUserID()));
         for (Object item : res) {
             System.out.println(item);
