@@ -1,4 +1,4 @@
-package main.java.dataLayer;
+package dataLayer;
 
 public interface IDataController {
 }

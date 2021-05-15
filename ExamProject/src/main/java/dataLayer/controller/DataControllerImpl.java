@@ -1,4 +1,4 @@
-package main.java.dataLayer.controller;
+package dataLayer.controller;
 
 public class DataControllerImpl {
 }

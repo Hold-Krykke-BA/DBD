@@ -1,4 +1,4 @@
-package main.java.models.dataModels;
+package models.dataModels;
 
 public class Comment {
 }
