@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Post {
     String postID;
+    String postTitle;
     String timestamp;
     String subredditID;
     String userID;
@@ -12,13 +13,19 @@ public class Post {
     List<String> commentsID;
 
 
-    public Post(String postID, String timestamp, String subredditID, String userID, int postKarmaCount) {
+    public Post(String postID, String timestamp, String postTitle, String subredditID, String userID, int postKarmaCount) {
         this.postID = postID;
         this.timestamp = timestamp;
+        this.postTitle = postTitle;
         this.subredditID = subredditID;
         this.userID = userID;
         this.postKarmaCount = 0;
         commentsID = new ArrayList<>();
+    }
+
+    public int getCommentsSize(){
+        // temp. solution - should be a recursive call I think since comments can have children
+        return commentsID.size();
     }
 
     public String getPostID() {
@@ -31,6 +38,10 @@ public class Post {
 
     public String getSubredditID() {
         return subredditID;
+    }
+
+    public String getPostTitle(){
+        return postTitle;
     }
 
     public String getUserID() {
