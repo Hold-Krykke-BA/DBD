@@ -1,4 +1,4 @@
-package models.dataModels;
+package main.java.models.dataModels;
 // am unsure if this needs to be a model
 public class Frontpage {
 }
