@@ -11,7 +11,7 @@ public class PostgresAccessor {
 
 
     public PostgresAccessor(){
-        connection = connectToDB("jdbc:postgresql://localhost:5432/softexam2021");
+        connection = connectToDB("jdbc:postgresql://localhost:5433/soft2021");
 
     }
 
