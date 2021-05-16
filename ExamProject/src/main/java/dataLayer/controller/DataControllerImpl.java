@@ -13,16 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataControllerImpl implements IDataController {
-    RedisAccessor redDBD;
-    PostgresAccessor pgrDBD;
-    Neo4jAccessor neoDBD;
-    int minFrontpageItems = 25;
+    private static DataControllerImpl singleton = null;
+    private RedisAccessor redDBD;
+    private PostgresAccessor pgrDBD;
+    private Neo4jAccessor neoDBD;
+    private int minFrontpageItems = 25;
 
-    public DataControllerImpl(){
+    private DataControllerImpl(){
         this.redDBD = new RedisAccessor();
         this.pgrDBD = new PostgresAccessor();
         this.neoDBD = new Neo4jAccessor();
+    }
 
+    public static DataControllerImpl getInstance(){
+        if (singleton == null){
+            singleton = new DataControllerImpl();
+        }
+        return singleton;
     }
 
     @Override
