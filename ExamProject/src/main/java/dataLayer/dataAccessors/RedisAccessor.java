@@ -74,7 +74,7 @@ public class RedisAccessor {
     }
 
 
-    
+
     // all below is just testing and are to-be-deleted whenever we don't need the testing anymore
     public static void main(String[] args) throws InterruptedException {
         User user = new User("arne", "s@g.dk", "172893");
