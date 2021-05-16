@@ -11,14 +11,13 @@ import java.util.*;
 public class RedisAccessor {
     Jedis jedis;
     int cacheTimeout = 15000;
-    // docker run --name redistwo -v redis-data:/data -p 6379:6379 -d redis:alpine (porten er vigtig! uden -p "bindes" den ikke til localhost og kan ikke findes fra windows)
+
     public RedisAccessor(){
         jedis = new Jedis("0.0.0.0", 6379);
     }
 
     public void createCacheID (String userID){
         UUID cacheID = UUID.randomUUID();
-        //System.out.println(cacheID);
         jedis.set(userID, cacheID.toString());
         jedis.pexpire(userID,cacheTimeout);
     }
@@ -27,7 +26,6 @@ public class RedisAccessor {
         return jedis.get(userID);
     }
 
-    // should be either transaction or collect all fpItems and set all of them in same db-call
     public void createPostCache(FPitem fpItem){
         UUID postUUID = UUID.randomUUID();
         if(getCacheID(fpItem.getUserID()) == null){
@@ -37,7 +35,6 @@ public class RedisAccessor {
         jedis.rpush(cacheID, postUUID.toString());
         jedis.pexpire(cacheID,cacheTimeout);
 
-        // call create FPitem
         createFPitem(fpItem, postUUID.toString());
     }
 
@@ -76,6 +73,8 @@ public class RedisAccessor {
         return fpitems;
     }
 
+
+    
     // all below is just testing and are to-be-deleted whenever we don't need the testing anymore
     public static void main(String[] args) throws InterruptedException {
         User user = new User("arne", "s@g.dk", "172893");
