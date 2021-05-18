@@ -12,9 +12,6 @@ public class PostgresAccessor {
         connection = connectToDB("jdbc:postgresql://localhost:5433/soft2021");
 
     }
-    public Connection getConnection(){
-        return connection;
-    }
 
     private Connection connectToDB(String url){
         Connection connection = null;
@@ -26,6 +23,10 @@ public class PostgresAccessor {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return connection;
+    }
+
+    public Connection getConnection(){
         return connection;
     }
 
