@@ -77,6 +77,11 @@ public class RedisAccessor {
 
     // all below is just testing and are to-be-deleted whenever we don't need the testing anymore
     public static void main(String[] args) throws InterruptedException {
+        for (int i = 0; i < 10; i++) {
+            UUID cacheID = UUID.randomUUID();
+            System.out.println(cacheID);
+        }
+
         User user = new User("arne", "s@g.dk", "172893");
         User user3 = new User("arne", "s@g.dk", "1111111");
         RedisAccessor rDBD = new RedisAccessor();
