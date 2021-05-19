@@ -1,16 +1,27 @@
-version: '3.8'
+version: '3.9'
+
+# Thanks to Kenneth for version 3.8
+
+# Open a terminal in the folder of this script
+# docker-compose up
+# or named
+# docker-compose -p dbdexam up
+
 
 x-shared:
   &common
-  NEO4J_AUTH: neo4j/foobar
+  NEO4J_AUTH: neo4j/softdbd
   #NEO4J_AUTH: none
   NEO4J_ACCEPT_LICENSE_AGREEMENT: "yes"
   NEO4J_causal__clustering_initial__discovery__members: core1:5000,core2:5000,core3:5000
   NEO4J_dbms_default__listen__address: 0.0.0.0
   NEO4J_dbms_memory_pagecache_size: 1G
-  NEO4J_dbms.memory.heap.initial_size: 2G
-  NEO4J_dbms_memory_heap_max__size: 4G
+  NEO4J_dbms.memory.heap.initial_size: 512M
+  NEO4J_dbms_memory_heap_max__size: 1G
   NEO4J_causal__clustering_minimum__core__cluster__size__at__runtime: 3
+  NEO4JLABS_PLUGINS: '["graph-data-science"]'
+  NEO4J_dbms_security_procedures_unrestricted: gds.*
+  NEO4J_dbms_security_procedures_allowlist: gds.*
 
 x-shared-core:
   &common-core
@@ -24,7 +35,7 @@ networks:
 services:
   core1:
     hostname: core1
-    image: neo4j:enterprise
+    image: neo4j:4.2.5-enterprise
     networks:
       - lan
     ports:
@@ -38,13 +49,11 @@ services:
       NEO4J_causal__clustering_transaction__advertised__address: core1:6000
       NEO4J_causal__clustering_raft__advertised__address: core1:7000
       NEO4J_causal__clustering_initial__discovery__members: core1:5000,core2:5000,core3:5000
-      NEO4JLABS_PLUGINS: '["graph-data-science"]'
-      NEO4J_dbms_security_procedures_unrestricted: gds.*
-      NEO4J_dbms_security_procedures_allowlist: gds.*
+
 
   core2:
     hostname: core2
-    image: neo4j:enterprise
+    image: neo4j:4.2.5-enterprise
     networks:
       - lan
     ports:
@@ -60,13 +69,11 @@ services:
       NEO4J_dbms_connector_http_listen__address: :7475
       NEO4J_dbms_connector_https_listen__address: :6478
       NEO4J_dbms_connector_bolt_listen__address: :7688
-      NEO4JLABS_PLUGINS: '["graph-data-science"]'
-      NEO4J_dbms_security_procedures_unrestricted: gds.*
-      NEO4J_dbms_security_procedures_allowlist: gds.*
+
 
   core3:
     hostname: core3
-    image: neo4j:enterprise
+    image: neo4j:4.2.5-enterprise
     networks:
       - lan
     ports:
@@ -82,13 +89,12 @@ services:
       NEO4J_dbms_connector_http_listen__address: :7476
       NEO4J_dbms_connector_https_listen__address: :6479
       NEO4J_dbms_connector_bolt_listen__address: :7689
-      NEO4JLABS_PLUGINS: '["graph-data-science"]'
-      NEO4J_dbms_security_procedures_unrestricted: gds.*
-      NEO4J_dbms_security_procedures_allowlist: gds.*
 
 
   readreplica1:
-    image: neo4j:enterprise
+    hostname: readreplica1
+
+    image: neo4j:4.2.5-enterprise
     networks:
       - lan
     ports:
@@ -104,12 +110,10 @@ services:
       NEO4J_dbms_connector_http_listen__address: :7477
       NEO4J_dbms_connector_https_listen__address: :6480
       NEO4J_dbms_connector_bolt_listen__address: :7690
-      NEO4JLABS_PLUGINS: '["graph-data-science"]'
-      NEO4J_dbms_security_procedures_unrestricted: gds.*
-      NEO4J_dbms_security_procedures_allowlist: gds.*
 
   readreplica2:
-    image: neo4j:enterprise
+    hostname: readreplica2
+    image: neo4j:4.2.5-enterprise
     networks:
       - lan
     ports:
@@ -125,6 +129,3 @@ services:
       NEO4J_dbms_connector_http_listen__address: :7478
       NEO4J_dbms_connector_https_listen__address: :6481
       NEO4J_dbms_connector_bolt_listen__address: :7691
-      NEO4JLABS_PLUGINS: '["graph-data-science"]'
-      NEO4J_dbms_security_procedures_unrestricted: gds.*
-      NEO4J_dbms_security_procedures_allowlist: gds.*
