@@ -30,7 +30,7 @@ CREATE TABLE user_subreddit (
 CREATE TABLE post (
   post_id VARCHAR (50) UNIQUE NOT NULL,
   post_title VARCHAR (255) NOT NULL,
-  post_timestamp VARCHAR (30) NOT NULL,
+  post_timestamp TIMESTAMP NOT NULL,
   post_content VARCHAR (1000) NOT NULL,
   post_karma int NOT NULL,
   user_id VARCHAR (50) NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE post (
 CREATE TABLE postcomment (
   comment_id VARCHAR (50) UNIQUE NOT NULL,
   parent_id VARCHAR (50),
-  comment_timestamp VARCHAR (30) NOT NULL,
+  comment_timestamp TIMESTAMP NOT NULL,
   comment_content VARCHAR (1000) NOT NULL,
   comment_karma int NOT NULL,
   post_id VARCHAR (50) NOT NULL,

@@ -2,11 +2,12 @@ package models.dataModels;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 public class Post {
     String postID;
     String postTitle;
-    String timestamp;
+    Date timestamp;
     String subredditID;
     String userID;
     String content;
@@ -14,7 +15,7 @@ public class Post {
     List<String> commentsID;
 
 
-    public Post(String postID, String timestamp, String postTitle, String subredditID, String userID, int postKarmaCount, String postcontent) {
+    public Post(String postID, Date timestamp, String postTitle, String subredditID, String userID, int postKarmaCount, String postcontent) {
         this.postID = postID;
         this.timestamp = timestamp;
         this.postTitle = postTitle;
@@ -38,7 +39,7 @@ public class Post {
         return content;
     }
 
-    public String getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 

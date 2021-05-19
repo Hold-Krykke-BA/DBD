@@ -6,6 +6,8 @@ import models.dataModels.SubReddit;
 import models.dataModels.User;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -101,14 +103,14 @@ public class PostgresAccessor {
         }
         return allIDs;
     }
-        // post_id, post_title, post_timestamp, post_content, post_karma, user_id, subreddit_id
+        // post_id, post_title, post_timestamp, post_content, post_karma, user_id, subreddit_id 2021-05-19 20:34:52
     public void insertPost(Connection conn, Post post, User user, SubReddit subreddit) {
         PreparedStatement stmt;
         try {
             stmt = conn.prepareStatement("INSERT INTO public.post (post_id, post_title, post_timestamp, post_content, post_karma, user_id, subreddit_id) VALUES (?, ?, ?, ?, ?, ?, ?);");
             stmt.setString(1, post.getPostID());
             stmt.setString(2, post.getPostTitle());
-            stmt.setString(3, post.getTimestamp());
+            stmt.setTimestamp(3, new Timestamp(post.getTimestamp().getTime()));
             stmt.setString(4, post.getPostContent());
             stmt.setInt(5, post.getPostKarmaCount());
             stmt.setString(6,user.getUserID());
@@ -122,9 +124,18 @@ public class PostgresAccessor {
 
 
     public static void main(String[] args) throws SQLException {
+        Date date = new Date();
+        Date date2 = null;
+        try {
+            date2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2021-05-19 20:51:00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println("DATE: " + date);
+        System.out.println("DATE: " + date2);
         SubReddit sub = new SubReddit("3", "wsbtester");
         User user = new User("dfv", "p@b.com", "7");
-        Post post = new Post("9", "2017-06-22 19:10:25-07","tyl","3","7",0,"hellohellohellohell");
+        Post post = new Post("9", date,"tyl","3","7",0,"hellohellohellohell");
         PostgresAccessor pgr = new PostgresAccessor();
         pgr.insertUserId(pgr.getConnection(), user);
         //pgr.updateUserId(pgr.getConnection(), user, "00000");

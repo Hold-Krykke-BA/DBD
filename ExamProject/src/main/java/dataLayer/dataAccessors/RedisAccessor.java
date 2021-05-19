@@ -5,6 +5,9 @@ import models.dataModels.SubReddit;
 import models.dataModels.User;
 import redis.clients.jedis.Jedis;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.*;
 
 
@@ -52,13 +55,14 @@ public class RedisAccessor {
         Map<String, String> map = new HashMap<>();
         map.put("subreddit",fpItem.getSubRedditName());
         map.put("comments",String.valueOf(fpItem.getCommentNum()));
-        map.put("created",fpItem.getTimestamp());
+        map.put("created",fpItem.getTimestamp().toString());
         map.put("karma",String.valueOf(fpItem.getPostKarma()));
         map.put("title",fpItem.getPostTitle());
         map.put("createdby",fpItem.getUserName());
         jedis.hset(postuuid, map);
         jedis.pexpire(postuuid,cacheTimeout);
     }
+
 
     public List<FPitem> getFPitems(String userID){
         List<String> postuuids = getPostUUIDs(getCacheID(userID));
@@ -67,8 +71,12 @@ public class RedisAccessor {
 
         for(String item : postuuids){
            map = jedis.hgetAll(item);
-           fpitems.add(new FPitem(map.get("title"), map.get("subreddit"), map.get("createdby"), map.get("created"),
-                   Integer.parseInt(map.get("karma")), Integer.parseInt(map.get("comments")), userID));
+            try {
+                fpitems.add(new FPitem(map.get("title"), map.get("subreddit"), map.get("createdby"), new SimpleDateFormat("").parse(map.get("created")),
+                        Integer.parseInt(map.get("karma")), Integer.parseInt(map.get("comments")), userID));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
         return fpitems;
     }
@@ -77,6 +85,7 @@ public class RedisAccessor {
 
     // all below is just testing and are to-be-deleted whenever we don't need the testing anymore
     public static void main(String[] args) throws InterruptedException {
+        Date date = new Date();
         for (int i = 0; i < 10; i++) {
             UUID cacheID = UUID.randomUUID();
             System.out.println(cacheID);
@@ -91,8 +100,8 @@ public class RedisAccessor {
         //System.out.println(rDBD.getCacheID(user3.getUserID()) == null);
 
         // String postID, String timestamp, String postTitle, String subredditID, String userID, int postKarmaCount
-        Post post1 = new Post("222222", "301468795", "TestPost3", "363636", "172893", 0, "sdfsdf");
-        Post post2 = new Post("333333", "4017414795", "TestPost4", "363636", "172893", 0, "sfsdf" );
+        Post post1 = new Post("222222", date, "TestPost3", "363636", "172893", 0, "sdfsdf");
+        Post post2 = new Post("333333", date, "TestPost4", "363636", "172893", 0, "sfsdf" );
         //Post post3 = new Post("987654321", "2017414795", "TestPost2", "363636", "1111111", 0 );
 
         // String subRedditID, String subRedditName

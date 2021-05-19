@@ -1,15 +1,16 @@
 package models.dataModels;
+import java.util.Date;
 
 public class FPitem {
     String postTitle;
     String subRedditName;
     String userName;
     String userID;
-    String timestamp;
+    Date timestamp;
     int PostKarma;
     int commentNum;
 
-    public FPitem(String postTitle, String subRedditName, String userName, String timestamp, int postKarma, int commentNum, String userID) {
+    public FPitem(String postTitle, String subRedditName, String userName, Date timestamp, int postKarma, int commentNum, String userID) {
         this.postTitle = postTitle;
         this.subRedditName = subRedditName;
         this.userName = userName;
@@ -29,23 +30,15 @@ public class FPitem {
         this.userID = user.getUserID();
     }
 
-    public String getPostTitle() {
-        return postTitle;
-    }
+    public String getPostTitle() { return postTitle; }
 
-    public String getSubRedditName() {
-        return subRedditName;
-    }
+    public String getSubRedditName() {return subRedditName; }
 
-    public String getUserID(){
-        return userID;
-    }
+    public String getUserID(){ return userID; }
 
-    public String getUserName() {
-        return userName;
-    }
+    public String getUserName() { return userName; }
 
-    public String getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
