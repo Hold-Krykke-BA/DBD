@@ -6,11 +6,23 @@ import java.util.List;
 
 public class Comment {
     String commentID;
+    String parentID;
+    String content;
     LocalDateTime timestamp;
     int commentKarmaCount;
     List<String> childCommentsID;
 
-    public Comment(String commentID, LocalDateTime timestamp, int commentKarmaCount) {
+    public Comment(String commentID, LocalDateTime timestamp, int commentKarmaCount, String content) {
+        this.content = content;
+        this.commentID = commentID;
+        this.timestamp = timestamp;
+        this.commentKarmaCount = 0;
+        this.childCommentsID = new ArrayList<>();
+    }
+
+    public Comment(String commentID, LocalDateTime timestamp, int commentKarmaCount, String content, String parentid) {
+        this.parentID = parentid;
+        this.content = content;
         this.commentID = commentID;
         this.timestamp = timestamp;
         this.commentKarmaCount = 0;
@@ -28,6 +40,14 @@ public class Comment {
 
     public int getCommentKarmaCount() {
         return commentKarmaCount;
+    }
+
+    public String getCommentContent() {
+        return content;
+    }
+
+    public String getCommentParentID() {
+        return parentID;
     }
 
     public void addToCommentKarmaCount() {

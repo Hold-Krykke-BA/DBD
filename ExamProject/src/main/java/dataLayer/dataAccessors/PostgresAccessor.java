@@ -1,6 +1,7 @@
 package dataLayer.dataAccessors;
 
 
+import models.dataModels.Comment;
 import models.dataModels.Post;
 import models.dataModels.SubReddit;
 import models.dataModels.User;
@@ -104,7 +105,7 @@ public class PostgresAccessor {
         }
         return allIDs;
     }
-        // post_id, post_title, post_timestamp, post_content, post_karma, user_id, subreddit_id 2021-05-19 20:34:52
+
     public void insertPost(Connection conn, Post post, User user, SubReddit subreddit) {
         PreparedStatement stmt;
         try {
@@ -116,6 +117,23 @@ public class PostgresAccessor {
             stmt.setInt(5, post.getPostKarmaCount());
             stmt.setString(6,user.getUserID());
             stmt.setString(7, subreddit.getSubRedditID());
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void insertComment(Connection conn, Post post, User user, Comment comment) {
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("INSERT INTO public.post (comment_id, parent_id, comment_timestamp, comment_content, comment_karma, post_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?);");
+            stmt.setString(1, comment.getCommentID());
+            stmt.setString(2, comment.getCommentParentID());
+            stmt.setTimestamp(3, DateConverter.LocalDateTimeToJavaTimestamp(comment.getTimestamp()));
+            stmt.setString(4, comment.getCommentContent());
+            stmt.setInt(5, comment.getCommentKarmaCount());
+            stmt.setString(6, post.getPostID());
+            stmt.setString(7, user.getUserID());
             stmt.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
