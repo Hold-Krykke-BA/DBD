@@ -1,24 +1,29 @@
 package util;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
+// 2021-05-19 21:14:35
+// yyyy-MM-dd hh:mm:ss
 public class DateConverter {
 
-    public static Date getDateFromString(String stringDate){
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(stringDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
+    public static LocalDateTime getDateFromString(String stringDate){
+        return LocalDateTime.parse(stringDate, getDateFormatter());
     }
 
-    public static String getStringFromDate(Date date){
-        StringBuilder strb = new StringBuilder();
-        strb.append(date.)
+    public static DateTimeFormatter getDateFormatter(){
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    }
 
-        return strb.toString();
+    public static String getStringFromDate(LocalDateTime date){
+        return date.format(getDateFormatter());
+    }
+
+    public static LocalDateTime javaSQLTimestampToLocalDateTime(Timestamp timestamp){
+        return timestamp.toLocalDateTime();
+    }
+
+    public static Timestamp LocalDateTimeToJavaTimestamp(LocalDateTime localdatetime){
+        return Timestamp.valueOf(localdatetime);
     }
 }

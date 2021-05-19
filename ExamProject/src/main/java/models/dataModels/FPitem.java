@@ -1,16 +1,18 @@
 package models.dataModels;
-import java.util.Date;
+
+
+import java.time.LocalDateTime;
 
 public class FPitem {
     String postTitle;
     String subRedditName;
     String userName;
     String userID;
-    Date timestamp;
+    LocalDateTime timestamp;
     int PostKarma;
     int commentNum;
 
-    public FPitem(String postTitle, String subRedditName, String userName, Date timestamp, int postKarma, int commentNum, String userID) {
+    public FPitem(String postTitle, String subRedditName, String userName, LocalDateTime timestamp, int postKarma, int commentNum, String userID) {
         this.postTitle = postTitle;
         this.subRedditName = subRedditName;
         this.userName = userName;
@@ -38,7 +40,7 @@ public class FPitem {
 
     public String getUserName() { return userName; }
 
-    public Date getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 

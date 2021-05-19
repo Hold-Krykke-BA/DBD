@@ -4,10 +4,11 @@ import models.dataModels.Post;
 import models.dataModels.SubReddit;
 import models.dataModels.User;
 import redis.clients.jedis.Jedis;
+import util.DateConverter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -55,7 +56,7 @@ public class RedisAccessor {
         Map<String, String> map = new HashMap<>();
         map.put("subreddit",fpItem.getSubRedditName());
         map.put("comments",String.valueOf(fpItem.getCommentNum()));
-        map.put("created",fpItem.getTimestamp().toString());
+        map.put("created",DateConverter.getStringFromDate(fpItem.getTimestamp()));
         map.put("karma",String.valueOf(fpItem.getPostKarma()));
         map.put("title",fpItem.getPostTitle());
         map.put("createdby",fpItem.getUserName());
@@ -71,21 +72,17 @@ public class RedisAccessor {
 
         for(String item : postuuids){
            map = jedis.hgetAll(item);
-            try {
-                fpitems.add(new FPitem(map.get("title"), map.get("subreddit"), map.get("createdby"), new SimpleDateFormat("").parse(map.get("created")),
-                        Integer.parseInt(map.get("karma")), Integer.parseInt(map.get("comments")), userID));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            fpitems.add(new FPitem(map.get("title"), map.get("subreddit"), map.get("createdby"), DateConverter.getDateFromString(map.get("created")),
+                    Integer.parseInt(map.get("karma")), Integer.parseInt(map.get("comments")), userID));
+
         }
         return fpitems;
     }
 
 
-
     // all below is just testing and are to-be-deleted whenever we don't need the testing anymore
     public static void main(String[] args) throws InterruptedException {
-        Date date = new Date();
+        LocalDateTime date = LocalDateTime.now();
         for (int i = 0; i < 10; i++) {
             UUID cacheID = UUID.randomUUID();
             System.out.println(cacheID);

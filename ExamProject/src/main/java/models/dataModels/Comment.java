@@ -1,15 +1,16 @@
 package models.dataModels;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Comment {
     String commentID;
-    String timestamp;
+    LocalDateTime timestamp;
     int commentKarmaCount;
     List<String> childCommentsID;
 
-    public Comment(String commentID, String timestamp, int commentKarmaCount) {
+    public Comment(String commentID, LocalDateTime timestamp, int commentKarmaCount) {
         this.commentID = commentID;
         this.timestamp = timestamp;
         this.commentKarmaCount = 0;
@@ -21,7 +22,7 @@ public class Comment {
     }
 
 
-    public String getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 

@@ -4,14 +4,15 @@ package dataLayer.dataAccessors;
 import models.dataModels.Post;
 import models.dataModels.SubReddit;
 import models.dataModels.User;
+import util.DateConverter;
 
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.Date;
 
 public class PostgresAccessor {
     Connection connection;
@@ -110,7 +111,7 @@ public class PostgresAccessor {
             stmt = conn.prepareStatement("INSERT INTO public.post (post_id, post_title, post_timestamp, post_content, post_karma, user_id, subreddit_id) VALUES (?, ?, ?, ?, ?, ?, ?);");
             stmt.setString(1, post.getPostID());
             stmt.setString(2, post.getPostTitle());
-            stmt.setTimestamp(3, new Timestamp(post.getTimestamp().getTime()));
+            stmt.setTimestamp(3, DateConverter.LocalDateTimeToJavaTimestamp(post.getTimestamp()));
             stmt.setString(4, post.getPostContent());
             stmt.setInt(5, post.getPostKarmaCount());
             stmt.setString(6,user.getUserID());
@@ -124,15 +125,7 @@ public class PostgresAccessor {
 
 
     public static void main(String[] args) throws SQLException {
-        Date date = new Date();
-        Date date2 = null;
-        try {
-            date2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2021-05-19 20:51:00");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        System.out.println("DATE: " + date);
-        System.out.println("DATE: " + date2);
+        LocalDateTime date = LocalDateTime.now();
         SubReddit sub = new SubReddit("3", "wsbtester");
         User user = new User("dfv", "p@b.com", "7");
         Post post = new Post("9", date,"tyl","3","7",0,"hellohellohellohell");
