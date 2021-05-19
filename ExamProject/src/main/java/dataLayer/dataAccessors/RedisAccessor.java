@@ -91,8 +91,8 @@ public class RedisAccessor {
         //System.out.println(rDBD.getCacheID(user3.getUserID()) == null);
 
         // String postID, String timestamp, String postTitle, String subredditID, String userID, int postKarmaCount
-        Post post1 = new Post("222222", "301468795", "TestPost3", "363636", "172893", 0 );
-        Post post2 = new Post("333333", "4017414795", "TestPost4", "363636", "172893", 0 );
+        Post post1 = new Post("222222", "301468795", "TestPost3", "363636", "172893", 0, "sdfsdf");
+        Post post2 = new Post("333333", "4017414795", "TestPost4", "363636", "172893", 0, "sfsdf" );
         //Post post3 = new Post("987654321", "2017414795", "TestPost2", "363636", "1111111", 0 );
 
         // String subRedditID, String subRedditName

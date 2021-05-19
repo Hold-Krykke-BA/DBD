@@ -1,10 +1,15 @@
 package dataLayer.dataAccessors;
 
 
+import models.dataModels.Post;
+import models.dataModels.SubReddit;
 import models.dataModels.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+import java.util.Date;
 
 public class PostgresAccessor {
     Connection connection;
@@ -24,8 +29,8 @@ public class PostgresAccessor {
         try {
             connection = DriverManager.getConnection(url,props);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return connection;
     }
@@ -35,39 +40,98 @@ public class PostgresAccessor {
             return connection;
     }
 
-    public void insertUserId(Connection conn, User user)throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO public.reddit_user (user_id) VALUES (?);");
-        stmt.setString(1, user.getUserID());
-        stmt.execute();
-    }
-
-    public void updateUserId(Connection conn, User user, String newID)throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("update public.reddit_user set user_id = ? where user_id = ?;");
-        stmt.setString(1, newID);
-        stmt.setString(2, user.getUserID());
-        stmt.executeUpdate();
-    }
-
-
-
-    public void test(Connection conn) throws SQLException {
-        DatabaseMetaData dbmd = conn.getMetaData();
-        try (ResultSet tables = dbmd.getTables(null, null, "%", new String[] { "TABLE" })) {
-            while (tables.next()) {
-                System.out.println(tables.getString("TABLE_NAME"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public void insertUserId(Connection conn, User user) {
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("INSERT INTO public.reddit_user (user_id) VALUES (?);");
+            stmt.setString(1, user.getUserID());
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
 
-    public static void main(String[] args) throws SQLException {
-        User user = new User("tretor", "t@b.com", "0000");
-        PostgresAccessor pgr = new PostgresAccessor();
-        pgr.test(pgr.getConnection());
-        pgr.insertUserId(pgr.getConnection(), user);
-        pgr.updateUserId(pgr.getConnection(), user, "0");
+    public void insertSubreddit(Connection conn, SubReddit subreddit) {
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("INSERT INTO public.subreddit (subreddit_id, subreddit_name) VALUES (?, ?);");
+            stmt.setString(1, subreddit.getSubRedditID());
+            stmt.setString(2, subreddit.getSubRedditName());
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 
+    public void insertUser_Subreddit(Connection conn, SubReddit subreddit, User user) {
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("INSERT INTO public.user_subreddit (user_id, subreddit_id) VALUES (?, ?);");
+            stmt.setString(1, user.getUserID());
+            stmt.setString(2, subreddit.getSubRedditID());
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void updateUserId(Connection conn, User user, String newID) {
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("update public.reddit_user set user_id = ? where user_id = ?;");
+            stmt.setString(1, newID);
+            stmt.setString(2, user.getUserID());
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public List<String> getAllUserID(Connection conn) {
+        PreparedStatement stmt;
+        List<String> allIDs = new ArrayList<>();
+        try {
+            stmt = conn.prepareStatement("select * from public.reddit_user;");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                allIDs.add(rs.getString("user_id"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return allIDs;
+    }
+        // post_id, post_title, post_timestamp, post_content, post_karma, user_id, subreddit_id
+    public void insertPost(Connection conn, Post post, User user, SubReddit subreddit) {
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("INSERT INTO public.post (post_id, post_title, post_timestamp, post_content, post_karma, user_id, subreddit_id) VALUES (?, ?, ?, ?, ?, ?, ?);");
+            stmt.setString(1, post.getPostID());
+            stmt.setString(2, post.getPostTitle());
+            stmt.setString(3, post.getTimestamp());
+            stmt.setString(4, post.getPostContent());
+            stmt.setInt(5, post.getPostKarmaCount());
+            stmt.setString(6,user.getUserID());
+            stmt.setString(7, subreddit.getSubRedditID());
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+
+    public static void main(String[] args) throws SQLException {
+        SubReddit sub = new SubReddit("3", "wsbtester");
+        User user = new User("dfv", "p@b.com", "7");
+        Post post = new Post("9", "2017-06-22 19:10:25-07","tyl","3","7",0,"hellohellohellohell");
+        PostgresAccessor pgr = new PostgresAccessor();
+        pgr.insertUserId(pgr.getConnection(), user);
+        //pgr.updateUserId(pgr.getConnection(), user, "00000");
+       // System.out.println(pgr.getAllUserID(pgr.getConnection()).toString());
+        pgr.insertSubreddit(pgr.getConnection(), sub);
+        pgr.insertUser_Subreddit(pgr.getConnection(), sub, user);
+        pgr.insertPost(pgr.getConnection(), post, user, sub);
 
     }
 }
