@@ -138,9 +138,16 @@ public class PostgresAccessor {
         }
     }
 // StringManipulation.generateRandomString(10)
-//    public List<FPitem> getFrontPageItems(){
-//
-//    }
+    public List<FPitem> getFrontPageItems(){
+        List<FPitem> fpitems = new ArrayList<>();
+
+        FPitem item = new FPitem("","", "", "", LocalDateTime.now(), 0, 0, "");
+
+
+
+
+        return fpitems;
+    }
 
 
 
@@ -148,7 +155,7 @@ public class PostgresAccessor {
         LocalDateTime date = LocalDateTime.now();
         SubReddit sub = new SubReddit("3", "wsbtester");
         User user = new User("dfv", "p@b.com", "7");
-        Post post = new Post("9", date,"tyl","3","7",0,"hellohellohellohell");
+        Post post = new Post("9", StringManipulation.generateRandomString(10), date,"tyl","3","7",0,"hellohellohellohell");
         Comment comment = new Comment("2", date, 0, "the parent");
         Comment commentchild = new Comment("21", date, 0, "the child",comment.getCommentID());
         PostgresAccessor pgr = new PostgresAccessor();

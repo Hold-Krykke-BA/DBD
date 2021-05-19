@@ -42,22 +42,22 @@ VALUES ('30f18a0b-e052-44eb-8c24-23a032b97af3','609f1f9f-dba7-44c8-838b-c00bb5d3
 ('2e3ae8ec-1334-475e-b5bb-d1e89bdb416d','4db2d45c-ceab-4924-9933-c770b75f9ab8')
 RETURNING *;
 
-INSERT INTO post(post_id, post_title, post_timestamp, post_content, post_karma, user_id, subreddit_id)
-VALUES ('c9fd943c-e1b8-4391-ade4-3c9f35561384','Click this','2021-05-19 20:20:12','Totally not boring content in this post, not at all.',445,'0cb981da-10b9-4dcb-8905-b70b69dbdf95','609f1f9f-dba7-44c8-838b-c00bb5d3e7ac'), 
-('9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f','Click here','2021-05-19 20:21:12','Totally not funny content in this post, not at all.',2356,'0cb981da-10b9-4dcb-8905-b70b69dbdf95','4db2d45c-ceab-4924-9933-c770b75f9ab8'), 
-('f496a876-1dd7-442f-8e43-2b1d26cd1998','Click on me','2021-05-19 20:22:12','Totally not cute content in this post, not at all.',5,'0cb981da-10b9-4dcb-8905-b70b69dbdf95','61871f72-fc8c-499e-9fbc-57d000b0b025'), 
-('6dd17ca4-6c53-4eac-ad08-1eb45e06ca32','Click bait','2021-05-19 20:23:12','Totally not awesome content in this post, not at all.',92,'62eabb1d-10e1-4e43-ae48-6889835a678d','bcedc54f-1a26-4ff3-b300-8f3b37a11e3c'), 
-('dd78af08-156f-4a10-8389-3305c2f232b9','Click bait - not','2021-05-19 20:24:12','Totally not sad content in this post, not at all.',852,'8f03dc56-43d8-460d-8409-d7d0bf225ea7','6d117b01-9755-48d0-8557-71d11a929563'), 
-('8772e835-c2fa-46de-bd52-816afa8ae9bb','Click here to help','2021-05-19 20:25:12','Totally not happy content in this post, not at all.',15,'8f03dc56-43d8-460d-8409-d7d0bf225ea7','280c2631-bed6-4500-9fc0-abe386d2eea0'), 
-('5104c346-25c3-421d-befb-3b9df51d7639','Click here to learn','2021-05-19 20:26:12','Totally not nice content in this post, not at all.',2,'62eabb1d-10e1-4e43-ae48-6889835a678d','f1843571-aa55-418d-9a43-9bc2054452fa'), 
-('826a5869-dfff-4c92-a197-070ecb3224e8','Click to see','2021-05-19 20:27:12','Totally not interesting content in this post, not at all.',30147,'78d1bf47-b986-46f5-90d0-17b08e7c416b','a01ae092-bcc7-417f-911a-2446c296543f'), 
-('276ad150-df48-4fca-8456-c1449e45dd58','Click here to see','2021-05-19 20:28:12','Totally not exciting content in this post, not at all.',546,'62eabb1d-10e1-4e43-ae48-6889835a678d','a98eb449-82d1-4578-babb-eaf0ec799e17'), 
-('f3ca3be2-5fb3-42db-9228-749edf8db69b','Click to get karma','2021-05-19 20:29:12','Totally not random content in this post, not at all.',197,'458df730-bd64-4e5d-a0cf-85f21e5a7839','908addc7-5980-417c-b7c4-7776c3ecfe8d'), 
-('2a75023b-b9f9-4bdf-b6c5-998d017b1429','Click farming karma','2021-05-19 20:30:12','Totally not likeable content in this post, not at all.',2657,'458df730-bd64-4e5d-a0cf-85f21e5a7839','4db2d45c-ceab-4924-9933-c770b75f9ab8'), 
-('25e33115-3858-42a9-9188-f58d9544a48f','Click not here','2021-05-19 20:31:12','Totally not general content in this post, not at all.',843,'78d1bf47-b986-46f5-90d0-17b08e7c416b','4db2d45c-ceab-4924-9933-c770b75f9ab8'), 
-('eb69a0b7-74df-4162-9550-4e1961f5f644','Click AMA','2021-05-19 20:32:12','Totally not relevent content in this post, not at all.',41,'458df730-bd64-4e5d-a0cf-85f21e5a7839','609f1f9f-dba7-44c8-838b-c00bb5d3e7ac'), 
-('5911e638-9944-498f-bc67-81680e9ed085','Click','2021-05-19 20:33:12','Totally not productive content in this post, not at all.',75,'0cb981da-10b9-4dcb-8905-b70b69dbdf95','609f1f9f-dba7-44c8-838b-c00bb5d3e7ac'), 
-('aaec91f9-2e7a-401e-9247-1312a82c673f','Cli...','2021-05-19 20:34:12','Totally not great content in this post, not at all.',654,'78d1bf47-b986-46f5-90d0-17b08e7c416b','609f1f9f-dba7-44c8-838b-c00bb5d3e7ac') 
+INSERT INTO post(post_id, post_url_identifier, post_title, post_timestamp, post_content, post_karma, user_id, subreddit_id)
+VALUES ('c9fd943c-e1b8-4391-ade4-3c9f35561384','1YjAR','Click this','2021-05-19 20:20:12','Totally not boring content in this post, not at all.',445,'0cb981da-10b9-4dcb-8905-b70b69dbdf95','609f1f9f-dba7-44c8-838b-c00bb5d3e7ac'), 
+('9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f','IbNwN','Click here','2021-05-19 20:21:12','Totally not funny content in this post, not at all.',2356,'0cb981da-10b9-4dcb-8905-b70b69dbdf95','4db2d45c-ceab-4924-9933-c770b75f9ab8'), 
+('f496a876-1dd7-442f-8e43-2b1d26cd1998','7llf6','Click on me','2021-05-19 20:22:12','Totally not cute content in this post, not at all.',5,'0cb981da-10b9-4dcb-8905-b70b69dbdf95','61871f72-fc8c-499e-9fbc-57d000b0b025'), 
+('6dd17ca4-6c53-4eac-ad08-1eb45e06ca32','L8azq','Click bait','2021-05-19 20:23:12','Totally not awesome content in this post, not at all.',92,'62eabb1d-10e1-4e43-ae48-6889835a678d','bcedc54f-1a26-4ff3-b300-8f3b37a11e3c'), 
+('dd78af08-156f-4a10-8389-3305c2f232b9','LiTET','Click bait - not','2021-05-19 20:24:12','Totally not sad content in this post, not at all.',852,'8f03dc56-43d8-460d-8409-d7d0bf225ea7','6d117b01-9755-48d0-8557-71d11a929563'), 
+('8772e835-c2fa-46de-bd52-816afa8ae9bb','2Hgnv','Click here to help','2021-05-19 20:25:12','Totally not happy content in this post, not at all.',15,'8f03dc56-43d8-460d-8409-d7d0bf225ea7','280c2631-bed6-4500-9fc0-abe386d2eea0'), 
+('5104c346-25c3-421d-befb-3b9df51d7639','VwuU3','Click here to learn','2021-05-19 20:26:12','Totally not nice content in this post, not at all.',2,'62eabb1d-10e1-4e43-ae48-6889835a678d','f1843571-aa55-418d-9a43-9bc2054452fa'), 
+('826a5869-dfff-4c92-a197-070ecb3224e8','aPQQc','Click to see','2021-05-19 20:27:12','Totally not interesting content in this post, not at all.',30147,'78d1bf47-b986-46f5-90d0-17b08e7c416b','a01ae092-bcc7-417f-911a-2446c296543f'), 
+('276ad150-df48-4fca-8456-c1449e45dd58','7kKVr','Click here to see','2021-05-19 20:28:12','Totally not exciting content in this post, not at all.',546,'62eabb1d-10e1-4e43-ae48-6889835a678d','a98eb449-82d1-4578-babb-eaf0ec799e17'), 
+('f3ca3be2-5fb3-42db-9228-749edf8db69b','Wu3RZ','Click to get karma','2021-05-19 20:29:12','Totally not random content in this post, not at all.',197,'458df730-bd64-4e5d-a0cf-85f21e5a7839','908addc7-5980-417c-b7c4-7776c3ecfe8d'), 
+('2a75023b-b9f9-4bdf-b6c5-998d017b1429','NeX5x','Click farming karma','2021-05-19 20:30:12','Totally not likeable content in this post, not at all.',2657,'458df730-bd64-4e5d-a0cf-85f21e5a7839','4db2d45c-ceab-4924-9933-c770b75f9ab8'), 
+('25e33115-3858-42a9-9188-f58d9544a48f','UEqmW','Click not here','2021-05-19 20:31:12','Totally not general content in this post, not at all.',843,'78d1bf47-b986-46f5-90d0-17b08e7c416b','4db2d45c-ceab-4924-9933-c770b75f9ab8'), 
+('eb69a0b7-74df-4162-9550-4e1961f5f644','6oYO8','Click AMA','2021-05-19 20:32:12','Totally not relevent content in this post, not at all.',41,'458df730-bd64-4e5d-a0cf-85f21e5a7839','609f1f9f-dba7-44c8-838b-c00bb5d3e7ac'), 
+('5911e638-9944-498f-bc67-81680e9ed085','RXgqu','Click','2021-05-19 20:33:12','Totally not productive content in this post, not at all.',75,'0cb981da-10b9-4dcb-8905-b70b69dbdf95','609f1f9f-dba7-44c8-838b-c00bb5d3e7ac'), 
+('aaec91f9-2e7a-401e-9247-1312a82c673f','bHWr6','Cli...','2021-05-19 20:34:12','Totally not great content in this post, not at all.',654,'78d1bf47-b986-46f5-90d0-17b08e7c416b','609f1f9f-dba7-44c8-838b-c00bb5d3e7ac') 
 RETURNING *;
 
 INSERT INTO postcomment(comment_id, parent_id, comment_timestamp, comment_content, comment_karma, post_id, user_id)

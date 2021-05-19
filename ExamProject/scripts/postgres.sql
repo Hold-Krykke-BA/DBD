@@ -29,6 +29,7 @@ CREATE TABLE user_subreddit (
 
 CREATE TABLE post (
   post_id VARCHAR (50) UNIQUE NOT NULL,
+  post_url_identifier VARCHAR(25) NOT NULL,
   post_title VARCHAR (255) NOT NULL,
   post_timestamp TIMESTAMP NOT NULL,
   post_content VARCHAR (1000) NOT NULL,

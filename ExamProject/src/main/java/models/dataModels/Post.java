@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Post {
     String postID;
+    String postUrlIdentifier;
     String postTitle;
     LocalDateTime timestamp;
     String subredditID;
@@ -15,7 +16,8 @@ public class Post {
     List<String> commentsID;
 
 
-    public Post(String postID, LocalDateTime timestamp, String postTitle, String subredditID, String userID, int postKarmaCount, String postcontent) {
+    public Post(String postID, String postidentifier, LocalDateTime timestamp, String postTitle, String subredditID, String userID, int postKarmaCount, String postcontent) {
+        this.postUrlIdentifier = postidentifier;
         this.postID = postID;
         this.timestamp = timestamp;
         this.postTitle = postTitle;
@@ -33,6 +35,10 @@ public class Post {
 
     public String getPostID() {
         return postID;
+    }
+
+    public String getPostUrlIdentifier() {
+        return postUrlIdentifier;
     }
 
     public String getPostContent() {

@@ -5,9 +5,8 @@ import models.dataModels.SubReddit;
 import models.dataModels.User;
 import redis.clients.jedis.Jedis;
 import util.DateConverter;
+import util.StringManipulation;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -60,6 +59,7 @@ public class RedisAccessor {
         map.put("karma",String.valueOf(fpItem.getPostKarma()));
         map.put("title",fpItem.getPostTitle());
         map.put("createdby",fpItem.getUserName());
+        map.put("postidentifier",fpItem.getPostUrlIdentifier());
         jedis.hset(postuuid, map);
         jedis.pexpire(postuuid,cacheTimeout);
     }
@@ -72,7 +72,7 @@ public class RedisAccessor {
 
         for(String item : postuuids){
            map = jedis.hgetAll(item);
-            fpitems.add(new FPitem(map.get("title"), map.get("subreddit"), map.get("createdby"), DateConverter.getDateFromString(map.get("created")),
+            fpitems.add(new FPitem(map.get("postidentifier"), map.get("title"), map.get("subreddit"), map.get("createdby"), DateConverter.getDateFromString(map.get("created")),
                     Integer.parseInt(map.get("karma")), Integer.parseInt(map.get("comments")), userID));
 
         }
@@ -97,8 +97,8 @@ public class RedisAccessor {
         //System.out.println(rDBD.getCacheID(user3.getUserID()) == null);
 
         // String postID, String timestamp, String postTitle, String subredditID, String userID, int postKarmaCount
-        Post post1 = new Post("222222", date, "TestPost3", "363636", "172893", 0, "sdfsdf");
-        Post post2 = new Post("333333", date, "TestPost4", "363636", "172893", 0, "sfsdf" );
+        Post post1 = new Post("222222", StringManipulation.generateRandomString(5), date, "TestPost3", "363636", "172893", 0, "sdfsdf");
+        Post post2 = new Post("333333",StringManipulation.generateRandomString(5), date, "TestPost4", "363636", "172893", 0, "sfsdf" );
         //Post post3 = new Post("987654321", "2017414795", "TestPost2", "363636", "1111111", 0 );
 
         // String subRedditID, String subRedditName
