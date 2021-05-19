@@ -1,11 +1,9 @@
 package dataLayer.dataAccessors;
 
 
-import models.dataModels.Comment;
-import models.dataModels.Post;
-import models.dataModels.SubReddit;
-import models.dataModels.User;
+import models.dataModels.*;
 import util.DateConverter;
+import util.StringManipulation;
 
 import java.sql.*;
 import java.text.ParseException;
@@ -126,7 +124,7 @@ public class PostgresAccessor {
     public void insertComment(Connection conn, Post post, User user, Comment comment) {
         PreparedStatement stmt;
         try {
-            stmt = conn.prepareStatement("INSERT INTO public.post (comment_id, parent_id, comment_timestamp, comment_content, comment_karma, post_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?);");
+            stmt = conn.prepareStatement("INSERT INTO public.postcomment (comment_id, parent_id, comment_timestamp, comment_content, comment_karma, post_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?);");
             stmt.setString(1, comment.getCommentID());
             stmt.setString(2, comment.getCommentParentID());
             stmt.setTimestamp(3, DateConverter.LocalDateTimeToJavaTimestamp(comment.getTimestamp()));
@@ -139,6 +137,10 @@ public class PostgresAccessor {
             ex.printStackTrace();
         }
     }
+// StringManipulation.generateRandomString(10)
+//    public List<FPitem> getFrontPageItems(){
+//
+//    }
 
 
 
@@ -147,6 +149,8 @@ public class PostgresAccessor {
         SubReddit sub = new SubReddit("3", "wsbtester");
         User user = new User("dfv", "p@b.com", "7");
         Post post = new Post("9", date,"tyl","3","7",0,"hellohellohellohell");
+        Comment comment = new Comment("2", date, 0, "the parent");
+        Comment commentchild = new Comment("21", date, 0, "the child",comment.getCommentID());
         PostgresAccessor pgr = new PostgresAccessor();
         pgr.insertUserId(pgr.getConnection(), user);
         //pgr.updateUserId(pgr.getConnection(), user, "00000");
@@ -154,6 +158,8 @@ public class PostgresAccessor {
         pgr.insertSubreddit(pgr.getConnection(), sub);
         pgr.insertUser_Subreddit(pgr.getConnection(), sub, user);
         pgr.insertPost(pgr.getConnection(), post, user, sub);
+        pgr.insertComment(pgr.getConnection(), post, user, comment);
+        pgr.insertComment(pgr.getConnection(), post, user, commentchild);
 
     }
 }
