@@ -48,6 +48,7 @@ public class RedisAccessor {
     }
 
     public List<String> getPostUUIDs(String cacheID){
+        if(cacheID == null) return new ArrayList<>();
         return jedis.lrange(cacheID, 0, -1);
     }
 
@@ -114,16 +115,19 @@ public class RedisAccessor {
             System.out.println(item);
         }
 
-        List<FPitem> fpitems = rDBD.getFPitems(user.getUserID());
+        System.out.println("USER CACHE ID " + rDBD.getCacheID("3f"));
+
+        List<FPitem> fpitems = rDBD.getFPitems("3f");
         System.out.println("************************************************");
         for (Object item : fpitems) {
+            System.out.println("Am here");
             System.out.println(item);
         }
 
         System.out.println("CacheID : " + rDBD.getCacheID(user.getUserID()));
         System.out.println("All keys:");
         System.out.println(rDBD.jedis.keys("*"));
-        Thread.sleep(15000);
+//        Thread.sleep(15000);
         System.out.println("CacheID : " + rDBD.getCacheID(user.getUserID()));
 
         System.out.println("All keys:");

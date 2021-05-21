@@ -1,6 +1,7 @@
 package dataLayer.dataAccessors;
 
 
+import dataLayer.controller.DataControllerImpl;
 import models.dataModels.*;
 import util.DateConverter;
 import util.StringManipulation;
@@ -137,9 +138,10 @@ public class PostgresAccessor {
                 map.put("post_id", rs.getString("post_id"));
                 map.put("post_url_identifier", rs.getString("post_url_identifier"));
                 map.put("post_timestamp", DateConverter.getDateFromString(rs.getString("post_timestamp")));
-                map.put("user_id", rs.getString("user_id"));
+                map.put("post_user_id", rs.getString("user_id"));
                 map.put("subreddit_name", rs.getString("subreddit_name"));
                 map.put("comments", rs.getInt("comments"));
+                map.put("post_karma", rs.getInt("post_karma"));
                 fpitems.add(map);
             }
             for(Map map : fpitems){

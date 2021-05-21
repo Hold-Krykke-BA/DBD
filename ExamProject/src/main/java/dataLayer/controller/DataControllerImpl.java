@@ -9,8 +9,10 @@ import models.dataModels.SubReddit;
 import models.dataModels.User;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DataControllerImpl implements IDataController {
     private static DataControllerImpl singleton = null;
@@ -38,10 +40,26 @@ public class DataControllerImpl implements IDataController {
         if (result.size() < minFrontpageItems){
             List<FPitem> uncached = new ArrayList<>();
             // call postgress and add new FPitems to uncached list
+            // call neo4j with post_user_id from postgres to get username
+            List<Map<String, Object>> FPmapList = pgrDBD.getFrontPageItems(pgrDBD.getConnection());
+            for(Map<String, Object> map : FPmapList){
+                uncached.add(new FPitem((String)map.get("post_title"), (String)map.get("post_url_identifier"),
+                        (String)map.get("subreddit_name"), "username", (LocalDateTime) map.get("post_timestamp"),
+                        (int) map.get("post_karma"), (int)map.get("comments"), (String)map.get("post_user_id")));
+            }
             redDBD.createCacheID(userID);
             redDBD.createMultiplePostCache(uncached);
+            result = uncached;
         }
         return result;
+    }
+
+    public static void main(String[] args) {
+        DataControllerImpl dc = new DataControllerImpl();
+        List<FPitem> fp = dc.getFrontPageItems("3f");
+        for(FPitem item : fp){
+            System.out.println(item.toString());
+        }
     }
 
     @Override
