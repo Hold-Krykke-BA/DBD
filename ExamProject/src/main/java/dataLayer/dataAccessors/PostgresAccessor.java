@@ -45,7 +45,7 @@ public class PostgresAccessor {
     public void insertUserId(Connection conn, User user) {
         PreparedStatement stmt;
         try {
-            stmt = conn.prepareStatement("INSERT INTO public.reddit_user (user_id) VALUES (?);");
+            stmt = conn.prepareStatement("CALL public.insert_userID(?)");
             stmt.setString(1, user.getUserID());
             stmt.execute();
         } catch (SQLException ex) {
@@ -56,7 +56,7 @@ public class PostgresAccessor {
     public void insertSubreddit(Connection conn, SubReddit subreddit) {
         PreparedStatement stmt;
         try {
-            stmt = conn.prepareStatement("INSERT INTO public.subreddit (subreddit_id, subreddit_name) VALUES (?, ?);");
+            stmt = conn.prepareStatement("CALL public.insert_subreddit(?, ?)");
             stmt.setString(1, subreddit.getSubRedditID());
             stmt.setString(2, subreddit.getSubRedditName());
             stmt.execute();
@@ -68,7 +68,7 @@ public class PostgresAccessor {
     public void insertUser_Subreddit(Connection conn, SubReddit subreddit, User user) {
         PreparedStatement stmt;
         try {
-            stmt = conn.prepareStatement("INSERT INTO public.user_subreddit (user_id, subreddit_id) VALUES (?, ?);");
+            stmt = conn.prepareStatement("CALL public.insert_user_subreddit(?, ?)");
             stmt.setString(1, user.getUserID());
             stmt.setString(2, subreddit.getSubRedditID());
             stmt.execute();
@@ -107,14 +107,15 @@ public class PostgresAccessor {
     public void insertPost(Connection conn, Post post, User user, SubReddit subreddit) {
         PreparedStatement stmt;
         try {
-            stmt = conn.prepareStatement("INSERT INTO public.post (post_id, post_title, post_timestamp, post_content, post_karma, user_id, subreddit_id) VALUES (?, ?, ?, ?, ?, ?, ?);");
+            stmt = conn.prepareStatement("CALL public.insert_post(?, ?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, post.getPostID());
-            stmt.setString(2, post.getPostTitle());
-            stmt.setTimestamp(3, DateConverter.LocalDateTimeToJavaTimestamp(post.getTimestamp()));
-            stmt.setString(4, post.getPostContent());
-            stmt.setInt(5, post.getPostKarmaCount());
-            stmt.setString(6,user.getUserID());
-            stmt.setString(7, subreddit.getSubRedditID());
+            stmt.setString(2, StringManipulation.generateRandomString(5));
+            stmt.setString(3, post.getPostTitle());
+            stmt.setTimestamp(4, DateConverter.LocalDateTimeToJavaTimestamp(post.getTimestamp()));
+            stmt.setString(5, post.getPostContent());
+            stmt.setInt(6, post.getPostKarmaCount());
+            stmt.setString(7,user.getUserID());
+            stmt.setString(8, subreddit.getSubRedditID());
             stmt.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -124,7 +125,7 @@ public class PostgresAccessor {
     public void insertComment(Connection conn, Post post, User user, Comment comment) {
         PreparedStatement stmt;
         try {
-            stmt = conn.prepareStatement("INSERT INTO public.postcomment (comment_id, parent_id, comment_timestamp, comment_content, comment_karma, post_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?);");
+            stmt = conn.prepareStatement("CALL public.insert_postcomment(?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, comment.getCommentID());
             stmt.setString(2, comment.getCommentParentID());
             stmt.setTimestamp(3, DateConverter.LocalDateTimeToJavaTimestamp(comment.getTimestamp()));
