@@ -9,10 +9,7 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class PostgresAccessor {
     Connection connection;
@@ -127,28 +124,30 @@ public class PostgresAccessor {
             ex.printStackTrace();
         }
     }
-// StringManipulation.generateRandomString(10)
-    public List<FPitem> getFrontPageItems(Connection conn){
-        List<FPitem> fpitems = new ArrayList<>();
 
-        FPitem item = new FPitem("","", "", "", LocalDateTime.now(), 0, 0, "");
-//"609f1f9f-dba7-44c8-838b-c00bb5d3e7ac"
+    public List<Map<String, Object>> getFrontPageItems(Connection conn){
+        List<Map<String, Object>> fpitems = new ArrayList<>();
         PreparedStatement stmt;
-        List<String> allIDs = new ArrayList<>();
         try {
             stmt = conn.prepareStatement("select * from public.get_FPitem('609f1f9f-dba7-44c8-838b-c00bb5d3e7ac');");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
-                allIDs.add(rs.getString("user_id"));
-                allIDs.add(rs.getString("subreddit_name"));
-                allIDs.add(rs.getString("comments"));
+                Map<String, Object> map = new HashMap<>();
+                map.put("post_title", rs.getString("post_title"));
+                map.put("post_id", rs.getString("post_id"));
+                map.put("post_url_identifier", rs.getString("post_url_identifier"));
+                map.put("post_timestamp", DateConverter.getDateFromString(rs.getString("post_timestamp")));
+                map.put("user_id", rs.getString("user_id"));
+                map.put("subreddit_name", rs.getString("subreddit_name"));
+                map.put("comments", rs.getInt("comments"));
+                fpitems.add(map);
+            }
+            for(Map map : fpitems){
+                System.out.println(map.keySet() + "\n" + map.values());
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        System.out.println(Arrays.deepToString(allIDs.toArray()));
-
-
         return fpitems;
     }
 
