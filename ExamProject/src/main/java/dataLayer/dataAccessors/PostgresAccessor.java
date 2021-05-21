@@ -77,23 +77,11 @@ public class PostgresAccessor {
         }
     }
 
-    public void updateUserId(Connection conn, User user, String newID) {
-        PreparedStatement stmt;
-        try {
-            stmt = conn.prepareStatement("update public.reddit_user set user_id = ? where user_id = ?;");
-            stmt.setString(1, newID);
-            stmt.setString(2, user.getUserID());
-            stmt.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
     public List<String> getAllUserID(Connection conn) {
         PreparedStatement stmt;
         List<String> allIDs = new ArrayList<>();
         try {
-            stmt = conn.prepareStatement("select * from public.reddit_user;");
+            stmt = conn.prepareStatement("select * from public.all_userIDs();");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
                 allIDs.add(rs.getString("user_id"));
@@ -161,13 +149,11 @@ public class PostgresAccessor {
         Comment commentchild = new Comment("21", date, 0, "the child",comment.getCommentID());
         PostgresAccessor pgr = new PostgresAccessor();
         pgr.insertUserId(pgr.getConnection(), user);
-        //pgr.updateUserId(pgr.getConnection(), user, "00000");
-       // System.out.println(pgr.getAllUserID(pgr.getConnection()).toString());
         pgr.insertSubreddit(pgr.getConnection(), sub);
         pgr.insertUser_Subreddit(pgr.getConnection(), sub, user);
         pgr.insertPost(pgr.getConnection(), post, user, sub);
         pgr.insertComment(pgr.getConnection(), post, user, comment);
         pgr.insertComment(pgr.getConnection(), post, user, commentchild);
-
+        System.out.println(pgr.getAllUserID(pgr.getConnection()));
     }
 }

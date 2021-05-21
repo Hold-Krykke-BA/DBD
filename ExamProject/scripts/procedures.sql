@@ -28,7 +28,7 @@ end
 $$;
 
 
-CREATE or replace PROCEDURE insert_post(p_id varchar, p_url_id varchar, p_title varchar, p_timestamp timestamp, p_content varchar, p_karma int, u_id varchar, s_id varchar)
+CREATE or replace PROCEDURE insert_post(p_id varchar, p_url_id varchar, p_title varchar, p_timestamp TIMESTAMP, p_content varchar, p_karma int, u_id varchar, s_id varchar)
 LANGUAGE plpgsql
 security definer
 AS $$
@@ -39,7 +39,7 @@ end
 $$;
 
 
-CREATE or replace PROCEDURE insert_postcomment(c_id varchar, par_id varchar, c_timestamp timestamp, c_content varchar, c_karma int, post_id varchar, u_id varchar)
+CREATE or replace PROCEDURE insert_postcomment(c_id varchar, par_id varchar, c_timestamp TIMESTAMP, c_content varchar, c_karma int, post_id varchar, u_id varchar)
 LANGUAGE plpgsql
 security definer
 AS $$
@@ -50,32 +50,15 @@ end
 $$;
 
 
+create or replace FUNCTION all_userIDs()
+  returns TABLE (user_id varchar) 
+AS
+$func$
+  SELECT * 
+  FROM public.reddit_user;
+$func$ 
+LANGUAGE sql;
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-AS $$
-begin
-	if (bark_pitch is not null) THEN
-		insert into vet.dog (pet_name, pet_age, vet_id, barkpitch) VALUES
-			 (p_name, p_age, v_id, bark_pitch);
-	elseif (life_count is not null) then
-		INSERT INTO vet.cat (pet_name, pet_age, vet_id, lifecount)	values
-			(p_name, p_age, v_id, life_count);
-	else 
-		INSERT INTO vet.pet (pet_name, pet_age, vet_id)	values
-			(p_name, p_age, v_id);
-	end if;
-end
-$$;
