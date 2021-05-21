@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -127,12 +128,25 @@ public class PostgresAccessor {
         }
     }
 // StringManipulation.generateRandomString(10)
-    public List<FPitem> getFrontPageItems(){
+    public List<FPitem> getFrontPageItems(Connection conn){
         List<FPitem> fpitems = new ArrayList<>();
 
         FPitem item = new FPitem("","", "", "", LocalDateTime.now(), 0, 0, "");
-
-
+//"609f1f9f-dba7-44c8-838b-c00bb5d3e7ac"
+        PreparedStatement stmt;
+        List<String> allIDs = new ArrayList<>();
+        try {
+            stmt = conn.prepareStatement("select * from public.get_FPitem('609f1f9f-dba7-44c8-838b-c00bb5d3e7ac');");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                allIDs.add(rs.getString("user_id"));
+                allIDs.add(rs.getString("subreddit_name"));
+                allIDs.add(rs.getString("comments"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println(Arrays.deepToString(allIDs.toArray()));
 
 
         return fpitems;
@@ -141,19 +155,20 @@ public class PostgresAccessor {
 
 
     public static void main(String[] args) throws SQLException {
-        LocalDateTime date = LocalDateTime.now();
-        SubReddit sub = new SubReddit("3", "wsbtester");
-        User user = new User("dfv", "p@b.com", "7");
-        Post post = new Post("9", StringManipulation.generateRandomString(10), date,"tyl","3","7",0,"hellohellohellohell");
-        Comment comment = new Comment("2", date, 0, "the parent");
-        Comment commentchild = new Comment("21", date, 0, "the child",comment.getCommentID());
+//        LocalDateTime date = LocalDateTime.now();
+//        SubReddit sub = new SubReddit("3", "wsbtester");
+//        User user = new User("dfv", "p@b.com", "7");
+//        Post post = new Post("eb69a0b7-74df-4162-9550-4e1961f5f644", StringManipulation.generateRandomString(10), date,"tyl","3","7",0,"hellohellohellohell");
+//        Comment comment = new Comment("2", date, 0, "the parent");
+//        Comment commentchild = new Comment("21", date, 0, "the child",comment.getCommentID());
         PostgresAccessor pgr = new PostgresAccessor();
-        pgr.insertUserId(pgr.getConnection(), user);
-        pgr.insertSubreddit(pgr.getConnection(), sub);
-        pgr.insertUser_Subreddit(pgr.getConnection(), sub, user);
-        pgr.insertPost(pgr.getConnection(), post, user, sub);
-        pgr.insertComment(pgr.getConnection(), post, user, comment);
-        pgr.insertComment(pgr.getConnection(), post, user, commentchild);
+//        pgr.insertUserId(pgr.getConnection(), user);
+//        pgr.insertSubreddit(pgr.getConnection(), sub);
+//        pgr.insertUser_Subreddit(pgr.getConnection(), sub, user);
+//        pgr.insertPost(pgr.getConnection(), post, user, sub);
+//        pgr.insertComment(pgr.getConnection(), post, user, comment);
+//        pgr.insertComment(pgr.getConnection(), post, user, commentchild);
         System.out.println(pgr.getAllUserID(pgr.getConnection()));
+        pgr.getFrontPageItems(pgr.getConnection());
     }
 }
