@@ -12,7 +12,7 @@ public class Post {
     String subredditID;
     String userID;
     String content;
-    int postKarmaCount;
+    int postKarmaCount = 0;
     List<String> commentsID;
 
 
@@ -23,7 +23,18 @@ public class Post {
         this.postTitle = postTitle;
         this.subredditID = subredditID;
         this.userID = userID;
-        this.postKarmaCount = 0;
+        this.postKarmaCount = postKarmaCount;
+        commentsID = new ArrayList<>();
+        this.content = postcontent;
+    }
+
+    public Post(String postID, String postidentifier, LocalDateTime timestamp, String postTitle, String subredditID, String userID, String postcontent) {
+        this.postUrlIdentifier = postidentifier;
+        this.postID = postID;
+        this.timestamp = timestamp;
+        this.postTitle = postTitle;
+        this.subredditID = subredditID;
+        this.userID = userID;
         commentsID = new ArrayList<>();
         this.content = postcontent;
     }
@@ -83,5 +94,20 @@ public class Post {
 
     public void removeChildComment(Comment comment){
         commentsID.remove(comment.commentID);
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "postID='" + postID + '\'' +
+                ", postUrlIdentifier='" + postUrlIdentifier + '\'' +
+                ", postTitle='" + postTitle + '\'' +
+                ", timestamp=" + timestamp +
+                ", subredditID='" + subredditID + '\'' +
+                ", userID='" + userID + '\'' +
+                ", content='" + content + '\'' +
+                ", postKarmaCount=" + postKarmaCount +
+                ", commentsID=" + commentsID +
+                '}';
     }
 }

@@ -81,7 +81,48 @@ END
 $func$
 LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION get_Post(subname varchar, p_url varchar)
+  returns setof post AS
+	'select p from post p left join subreddit s on p.subreddit_id = s.subreddit_id 
+	where p.post_url_identifier = p_url and s.subreddit_name = subname;'
+LANGUAGE sql;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--***********************************
+DROP FUNCTION if exists
+get_Post(subname varchar, p_url varchar)
+CASCADE;
+
+CREATE OR REPLACE FUNCTION get_Post(subname varchar, p_url)
+  RETURNS SETOF post AS
+$func$
+BEGIN
+   RETURN QUERY
+	select p from post p left join subreddit s on p.subreddit_id = s.subreddit_id 
+	where p.post_url_identifier = p_url and s.subreddit_name = subname;              
+END
+$func$
+LANGUAGE plpgsql;
+
+SELECT * FROM get_Post('funny', '1YjAR');
+
+
+select p from post p left join subreddit s on p.subreddit_id = s.subreddit_id 
+where p.post_url_identifier = '1YjAR' and s.subreddit_name = 'funny';
 
 
 

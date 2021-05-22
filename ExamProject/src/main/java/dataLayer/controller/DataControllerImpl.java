@@ -40,7 +40,7 @@ public class DataControllerImpl implements IDataController {
             List<FPitem> uncached = new ArrayList<>();
 
             // FOR RÚNI: call neo4j with post_user_id from postgres to get post_username
-            List<Map<String, Object>> FPmapList = pgrDBD.getFrontPageItems();
+            List<Map<String, Object>> FPmapList = pgrDBD.getFrontPageItemsBySubRedditID("609f1f9f-dba7-44c8-838b-c00bb5d3e7ac");
             for(Map<String, Object> map : FPmapList){
                 uncached.add(new FPitem((String)map.get("post_title"), (String)map.get("post_url_identifier"),
                         (String)map.get("subreddit_name"), "post_username", (LocalDateTime) map.get("post_timestamp"),
