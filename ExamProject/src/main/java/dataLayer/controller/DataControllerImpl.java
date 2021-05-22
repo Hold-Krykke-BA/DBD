@@ -40,12 +40,12 @@ public class DataControllerImpl implements IDataController {
 
         if (result.size() < minFrontpageItems){
             List<FPitem> uncached = new ArrayList<>();
-            // call postgress and add new FPitems to uncached list --- DONE
-            // call neo4j with post_user_id from postgres to get username
+            
+            // FOR RÚNI: call neo4j with post_user_id from postgres to get post_username
             List<Map<String, Object>> FPmapList = pgrDBD.getFrontPageItems(pgrDBD.getConnection());
             for(Map<String, Object> map : FPmapList){
                 uncached.add(new FPitem((String)map.get("post_title"), (String)map.get("post_url_identifier"),
-                        (String)map.get("subreddit_name"), "username", (LocalDateTime) map.get("post_timestamp"),
+                        (String)map.get("subreddit_name"), "post_username", (LocalDateTime) map.get("post_timestamp"),
                         (int) map.get("post_karma"), (int)map.get("comments"), (String)map.get("post_user_id")));
             }
             redDBD.createCacheID(userID);
