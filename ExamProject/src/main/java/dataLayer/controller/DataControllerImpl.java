@@ -117,6 +117,6 @@ public class DataControllerImpl implements IDataController {
     public PostWithCommentsContainer getPostCommentContainer(String urlIdentifier, String subredditName, String postID) {
         PostWithCommentsContainer pwcContainer = new PostWithCommentsContainer(pgrDBD.getPost(subredditName, urlIdentifier), pgrDBD.getComments(postID));
         // comments needs to be ordered/sorted by parentID and timestamp before returning
-        return null; 
+        return null;
     }
 }
