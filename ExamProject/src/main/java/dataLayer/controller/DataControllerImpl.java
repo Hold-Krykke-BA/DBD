@@ -37,9 +37,10 @@ public class DataControllerImpl implements IDataController {
     @Override
     public List<FPitem> getFrontPageItems(String userID) {
         List<FPitem> result = redDBD.getFPitems(userID);
+
         if (result.size() < minFrontpageItems){
             List<FPitem> uncached = new ArrayList<>();
-            // call postgress and add new FPitems to uncached list
+            // call postgress and add new FPitems to uncached list --- DONE
             // call neo4j with post_user_id from postgres to get username
             List<Map<String, Object>> FPmapList = pgrDBD.getFrontPageItems(pgrDBD.getConnection());
             for(Map<String, Object> map : FPmapList){
@@ -48,7 +49,7 @@ public class DataControllerImpl implements IDataController {
                         (int) map.get("post_karma"), (int)map.get("comments"), (String)map.get("post_user_id")));
             }
             redDBD.createCacheID(userID);
-            redDBD.createMultiplePostCache(uncached);
+            redDBD.createMultiplePostCache(uncached, redDBD.getCacheID(userID));
             result = uncached;
         }
         return result;
@@ -56,7 +57,7 @@ public class DataControllerImpl implements IDataController {
 
     public static void main(String[] args) {
         DataControllerImpl dc = new DataControllerImpl();
-        List<FPitem> fp = dc.getFrontPageItems("3f");
+        List<FPitem> fp = dc.getFrontPageItems("3ff"); //cache-owner user id, not post-owner
         for(FPitem item : fp){
             System.out.println(item.toString());
         }

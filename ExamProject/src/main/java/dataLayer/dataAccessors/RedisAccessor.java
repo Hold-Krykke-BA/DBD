@@ -13,7 +13,7 @@ import java.util.*;
 
 public class RedisAccessor {
     Jedis jedis;
-    int cacheTimeout = 15000;
+    int cacheTimeout = 15000000;
 
     public RedisAccessor(){
         jedis = new Jedis("0.0.0.0", 6379);
@@ -29,21 +29,21 @@ public class RedisAccessor {
         return jedis.get(userID);
     }
 
-    public void createPostCache(FPitem fpItem){
+    public void createPostCache(FPitem fpItem , String cacheID){
         UUID postUUID = UUID.randomUUID();
-        if(getCacheID(fpItem.getUserID()) == null){
-            createCacheID(fpItem.getUserID());
-        }
-        String cacheID = getCacheID(fpItem.getUserID());
+      //  if(getCacheID(fpItem.getUserID()) == null){
+//            createCacheID(fpItem.getUserID()); // forkert user
+//        }
+       // String cacheID = getCacheID(fpItem.getUserID()); // forkert user
         jedis.rpush(cacheID, postUUID.toString());
         jedis.pexpire(cacheID,cacheTimeout);
 
         createFPitem(fpItem, postUUID.toString());
     }
 
-    public void createMultiplePostCache(List<FPitem> fpitems){
+    public void createMultiplePostCache(List<FPitem> fpitems, String cacheID){
         for(FPitem item : fpitems){
-            createPostCache(item);
+            createPostCache(item, cacheID);
         }
     }
 
@@ -108,30 +108,33 @@ public class RedisAccessor {
         fplist.add(new FPitem(post1, subreddit, user));
         fplist.add(new FPitem(post2, subreddit, user));
 
-        rDBD.createMultiplePostCache(fplist);
+//        rDBD.createMultiplePostCache(fplist);
 
-        List<String> res = rDBD.getPostUUIDs(rDBD.getCacheID(user.getUserID()));
-        for (Object item : res) {
-            System.out.println(item);
-        }
+//        List<String> res = rDBD.getPostUUIDs(rDBD.getCacheID(user.getUserID()));
+//        for (Object item : res) {
+//            System.out.println(item);
+//        }
 
         System.out.println("USER CACHE ID " + rDBD.getCacheID("3f"));
+        System.out.println("USER POSTUUIDS " + rDBD.getPostUUIDs(rDBD.getCacheID("3f")));
+
 
         List<FPitem> fpitems = rDBD.getFPitems("3f");
+        System.out.println("FPITEMS " + fpitems.toString());
         System.out.println("************************************************");
         for (Object item : fpitems) {
             System.out.println("Am here");
             System.out.println(item);
         }
 
-        System.out.println("CacheID : " + rDBD.getCacheID(user.getUserID()));
+//        System.out.println("CacheID : " + rDBD.getCacheID(user.getUserID()));
         System.out.println("All keys:");
         System.out.println(rDBD.jedis.keys("*"));
 //        Thread.sleep(15000);
-        System.out.println("CacheID : " + rDBD.getCacheID(user.getUserID()));
+//        System.out.println("CacheID : " + rDBD.getCacheID(user.getUserID()));
 
-        System.out.println("All keys:");
-        System.out.println(rDBD.jedis.keys("*"));
+//        System.out.println("All keys:");
+//        System.out.println(rDBD.jedis.keys("*"));
     }
 
 
