@@ -41,7 +41,8 @@ public class PostgresAccessor {
             return connection;
     }
 
-    public void insertUserId(Connection conn, User user) {
+    public void insertUserId(User user) {
+        Connection conn = getConnection();
         PreparedStatement stmt;
         try {
             stmt = conn.prepareStatement("CALL public.insert_userID(?)");
@@ -52,7 +53,8 @@ public class PostgresAccessor {
         }
     }
 
-    public void insertSubreddit(Connection conn, SubReddit subreddit) {
+    public void insertSubreddit(SubReddit subreddit) {
+        Connection conn = getConnection();
         PreparedStatement stmt;
         try {
             stmt = conn.prepareStatement("CALL public.insert_subreddit(?, ?)");
@@ -64,7 +66,8 @@ public class PostgresAccessor {
         }
     }
 
-    public void insertUser_Subreddit(Connection conn, SubReddit subreddit, User user) {
+    public void insertUser_Subreddit(SubReddit subreddit, User user) {
+        Connection conn = getConnection();
         PreparedStatement stmt;
         try {
             stmt = conn.prepareStatement("CALL public.insert_user_subreddit(?, ?)");
@@ -76,7 +79,8 @@ public class PostgresAccessor {
         }
     }
 
-    public List<String> getAllUserID(Connection conn) {
+    public List<String> getAllUserID() {
+        Connection conn = getConnection();
         PreparedStatement stmt;
         List<String> allIDs = new ArrayList<>();
         try {
@@ -91,7 +95,8 @@ public class PostgresAccessor {
         return allIDs;
     }
 
-    public void insertPost(Connection conn, Post post, User user, SubReddit subreddit) {
+    public void insertPost(Post post, User user, SubReddit subreddit) {
+        Connection conn = getConnection();
         PreparedStatement stmt;
         try {
             stmt = conn.prepareStatement("CALL public.insert_post(?, ?, ?, ?, ?, ?, ?, ?)");
@@ -109,7 +114,8 @@ public class PostgresAccessor {
         }
     }
 
-    public void insertComment(Connection conn, Post post, User user, Comment comment) {
+    public void insertComment(Post post, User user, Comment comment) {
+        Connection conn = getConnection();
         PreparedStatement stmt;
         try {
             stmt = conn.prepareStatement("CALL public.insert_postcomment(?, ?, ?, ?, ?, ?, ?)");
@@ -126,7 +132,8 @@ public class PostgresAccessor {
         }
     }
 
-    public List<Map<String, Object>> getFrontPageItems(Connection conn){
+    public List<Map<String, Object>> getFrontPageItems(){
+        Connection conn = getConnection();
         List<Map<String, Object>> fpitems = new ArrayList<>();
         PreparedStatement stmt;
         try {
@@ -169,7 +176,7 @@ public class PostgresAccessor {
 //        pgr.insertPost(pgr.getConnection(), post, user, sub);
 //        pgr.insertComment(pgr.getConnection(), post, user, comment);
 //        pgr.insertComment(pgr.getConnection(), post, user, commentchild);
-        System.out.println(pgr.getAllUserID(pgr.getConnection()));
-        pgr.getFrontPageItems(pgr.getConnection());
+        System.out.println(pgr.getAllUserID());
+        pgr.getFrontPageItems();
     }
 }

@@ -1,8 +1,6 @@
 package dataLayer;
 
-import models.dataModels.FPitem;
-import models.dataModels.SubReddit;
-import models.dataModels.User;
+import models.dataModels.*;
 
 import java.util.List;
 
@@ -13,5 +11,10 @@ public interface IDataController {
     public void getUserMessages(String userID);
     public void createMessage(String userIDsender, String userIDreciever);
     public void authenticateUser(String userID);
-    // and more...
+    public void createComment(Post post, User user, Comment comment);
+    public void createPost(Post post, User user, SubReddit subreddit);
+    public void createSubreddit(SubReddit subreddit);
+    public void subscribeUserToSubreddit(SubReddit subreddit, User user);
+    public void createUser(User user);
+
 }

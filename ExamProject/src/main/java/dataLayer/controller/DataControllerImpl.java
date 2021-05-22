@@ -4,9 +4,7 @@ import dataLayer.IDataController;
 import dataLayer.dataAccessors.Neo4jAccessor;
 import dataLayer.dataAccessors.PostgresAccessor;
 import dataLayer.dataAccessors.RedisAccessor;
-import models.dataModels.FPitem;
-import models.dataModels.SubReddit;
-import models.dataModels.User;
+import models.dataModels.*;
 
 
 import java.time.LocalDateTime;
@@ -40,9 +38,9 @@ public class DataControllerImpl implements IDataController {
 
         if (result.size() < minFrontpageItems){
             List<FPitem> uncached = new ArrayList<>();
-            
+
             // FOR RÚNI: call neo4j with post_user_id from postgres to get post_username
-            List<Map<String, Object>> FPmapList = pgrDBD.getFrontPageItems(pgrDBD.getConnection());
+            List<Map<String, Object>> FPmapList = pgrDBD.getFrontPageItems();
             for(Map<String, Object> map : FPmapList){
                 uncached.add(new FPitem((String)map.get("post_title"), (String)map.get("post_url_identifier"),
                         (String)map.get("subreddit_name"), "post_username", (LocalDateTime) map.get("post_timestamp"),
@@ -86,5 +84,31 @@ public class DataControllerImpl implements IDataController {
     @Override
     public void authenticateUser(String userID) {
 
+    }
+
+    @Override
+    public void createComment(Post post, User user, Comment comment) {
+        pgrDBD.insertComment(post, user, comment);
+    }
+
+    @Override
+    public void createPost(Post post, User user, SubReddit subreddit) {
+        pgrDBD.insertPost(post, user,subreddit);
+    }
+
+    @Override
+    public void createSubreddit(SubReddit subreddit) {
+        pgrDBD.insertSubreddit(subreddit);
+    }
+
+    @Override
+    public void subscribeUserToSubreddit(SubReddit subreddit, User user) {
+        pgrDBD.insertUser_Subreddit(subreddit, user);
+    }
+
+    @Override
+    public void createUser(User user) {
+        // Insert in neo4j also
+        pgrDBD.insertUserId(user);
     }
 }
