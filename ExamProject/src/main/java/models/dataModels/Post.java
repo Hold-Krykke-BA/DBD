@@ -1,8 +1,6 @@
 package models.dataModels;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Post {
     String postID;
@@ -13,7 +11,6 @@ public class Post {
     String userID;
     String content;
     int postKarmaCount = 0;
-    List<String> commentsID;
 
 
     public Post(String postID, String postidentifier, LocalDateTime timestamp, String postTitle, String subredditID, String userID, int postKarmaCount, String postcontent) {
@@ -24,7 +21,6 @@ public class Post {
         this.subredditID = subredditID;
         this.userID = userID;
         this.postKarmaCount = postKarmaCount;
-        commentsID = new ArrayList<>();
         this.content = postcontent;
     }
 
@@ -35,13 +31,7 @@ public class Post {
         this.postTitle = postTitle;
         this.subredditID = subredditID;
         this.userID = userID;
-        commentsID = new ArrayList<>();
         this.content = postcontent;
-    }
-
-    public int getCommentsSize(){
-        // temp. solution - should be a recursive call I think since comments can have children
-        return commentsID.size();
     }
 
     public String getPostID() {
@@ -84,18 +74,6 @@ public class Post {
         postKarmaCount --;
     }
 
-    public List<String> getCommentsID() {
-        return commentsID;
-    }
-
-    public void addToChildCommentsID(Comment comment) {
-        commentsID.add(comment.commentID);
-    }
-
-    public void removeChildComment(Comment comment){
-        commentsID.remove(comment.commentID);
-    }
-
     @Override
     public String toString() {
         return "Post{" +
@@ -107,7 +85,6 @@ public class Post {
                 ", userID='" + userID + '\'' +
                 ", content='" + content + '\'' +
                 ", postKarmaCount=" + postKarmaCount +
-                ", commentsID=" + commentsID +
                 '}';
     }
 }
