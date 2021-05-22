@@ -31,7 +31,6 @@ public class FPitem {
         this.userName = user.getUserName();
         this.timestamp = post.getTimestamp();
         this.PostKarma = post.getPostKarmaCount();
-        this.commentNum = post.getCommentsSize();
         this.userID = user.getUserID();
     }
 
