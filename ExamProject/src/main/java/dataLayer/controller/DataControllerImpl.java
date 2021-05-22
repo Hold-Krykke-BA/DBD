@@ -4,13 +4,13 @@ import dataLayer.IDataController;
 import dataLayer.dataAccessors.Neo4jAccessor;
 import dataLayer.dataAccessors.PostgresAccessor;
 import dataLayer.dataAccessors.RedisAccessor;
-import models.dataModels.FPitem;
-import models.dataModels.SubReddit;
-import models.dataModels.User;
+import models.dataModels.*;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DataControllerImpl implements IDataController {
     private static DataControllerImpl singleton = null;
@@ -35,13 +35,30 @@ public class DataControllerImpl implements IDataController {
     @Override
     public List<FPitem> getFrontPageItems(String userID) {
         List<FPitem> result = redDBD.getFPitems(userID);
+
         if (result.size() < minFrontpageItems){
             List<FPitem> uncached = new ArrayList<>();
-            // call postgress and add new FPitems to uncached list
+
+            // FOR RÚNI: call neo4j with post_user_id from postgres to get post_username
+            List<Map<String, Object>> FPmapList = pgrDBD.getFrontPageItems();
+            for(Map<String, Object> map : FPmapList){
+                uncached.add(new FPitem((String)map.get("post_title"), (String)map.get("post_url_identifier"),
+                        (String)map.get("subreddit_name"), "post_username", (LocalDateTime) map.get("post_timestamp"),
+                        (int) map.get("post_karma"), (int)map.get("comments"), (String)map.get("post_user_id")));
+            }
             redDBD.createCacheID(userID);
-            redDBD.createMultiplePostCache(uncached);
+            redDBD.createMultiplePostCache(uncached, redDBD.getCacheID(userID));
+            result = uncached;
         }
         return result;
+    }
+
+    public static void main(String[] args) {
+        DataControllerImpl dc = new DataControllerImpl();
+        List<FPitem> fp = dc.getFrontPageItems("3ff"); //cache-owner user id, not post-owner
+        for(FPitem item : fp){
+            System.out.println(item.toString());
+        }
     }
 
     @Override
@@ -67,5 +84,31 @@ public class DataControllerImpl implements IDataController {
     @Override
     public void authenticateUser(String userID) {
 
+    }
+
+    @Override
+    public void createComment(Post post, User user, Comment comment) {
+        pgrDBD.insertComment(post, user, comment);
+    }
+
+    @Override
+    public void createPost(Post post, User user, SubReddit subreddit) {
+        pgrDBD.insertPost(post, user,subreddit);
+    }
+
+    @Override
+    public void createSubreddit(SubReddit subreddit) {
+        pgrDBD.insertSubreddit(subreddit);
+    }
+
+    @Override
+    public void subscribeUserToSubreddit(SubReddit subreddit, User user) {
+        pgrDBD.insertUser_Subreddit(subreddit, user);
+    }
+
+    @Override
+    public void createUser(User user) {
+        // Insert in neo4j also
+        pgrDBD.insertUserId(user);
     }
 }

@@ -6,6 +6,10 @@ DROP TABLE IF EXISTS
    postcomment   
 CASCADE;
 
+DROP FUNCTION if exists
+get_fpitem(character varying),
+all_userIDs();
+
 CREATE TABLE subreddit (
   subreddit_id VARCHAR (50) UNIQUE NOT NULL,
   subreddit_name VARCHAR UNIQUE NOT NULL,
@@ -29,6 +33,7 @@ CREATE TABLE user_subreddit (
 
 CREATE TABLE post (
   post_id VARCHAR (50) UNIQUE NOT NULL,
+  post_url_identifier VARCHAR(25) NOT NULL,
   post_title VARCHAR (255) NOT NULL,
   post_timestamp TIMESTAMP NOT NULL,
   post_content VARCHAR (1000) NOT NULL,

@@ -4,13 +4,16 @@ import models.dataModels.Post;
 import models.dataModels.SubReddit;
 import models.dataModels.User;
 import redis.clients.jedis.Jedis;
+import util.DateConverter;
+import util.StringManipulation;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 
 public class RedisAccessor {
     Jedis jedis;
-    int cacheTimeout = 15000;
+    int cacheTimeout = 15000000;
 
     public RedisAccessor(){
         jedis = new Jedis("0.0.0.0", 6379);
@@ -26,25 +29,26 @@ public class RedisAccessor {
         return jedis.get(userID);
     }
 
-    public void createPostCache(FPitem fpItem){
+    public void createPostCache(FPitem fpItem , String cacheID){
         UUID postUUID = UUID.randomUUID();
-        if(getCacheID(fpItem.getUserID()) == null){
-            createCacheID(fpItem.getUserID());
-        }
-        String cacheID = getCacheID(fpItem.getUserID());
+      //  if(getCacheID(fpItem.getUserID()) == null){
+//            createCacheID(fpItem.getUserID()); // forkert user
+//        }
+       // String cacheID = getCacheID(fpItem.getUserID()); // forkert user
         jedis.rpush(cacheID, postUUID.toString());
         jedis.pexpire(cacheID,cacheTimeout);
 
         createFPitem(fpItem, postUUID.toString());
     }
 
-    public void createMultiplePostCache(List<FPitem> fpitems){
+    public void createMultiplePostCache(List<FPitem> fpitems, String cacheID){
         for(FPitem item : fpitems){
-            createPostCache(item);
+            createPostCache(item, cacheID);
         }
     }
 
     public List<String> getPostUUIDs(String cacheID){
+        if(cacheID == null) return new ArrayList<>();
         return jedis.lrange(cacheID, 0, -1);
     }
 
@@ -52,13 +56,15 @@ public class RedisAccessor {
         Map<String, String> map = new HashMap<>();
         map.put("subreddit",fpItem.getSubRedditName());
         map.put("comments",String.valueOf(fpItem.getCommentNum()));
-        map.put("created",fpItem.getTimestamp());
+        map.put("created",DateConverter.getStringFromDate(fpItem.getTimestamp()));
         map.put("karma",String.valueOf(fpItem.getPostKarma()));
         map.put("title",fpItem.getPostTitle());
         map.put("createdby",fpItem.getUserName());
+        map.put("postidentifier",fpItem.getPostUrlIdentifier());
         jedis.hset(postuuid, map);
         jedis.pexpire(postuuid,cacheTimeout);
     }
+
 
     public List<FPitem> getFPitems(String userID){
         List<String> postuuids = getPostUUIDs(getCacheID(userID));
@@ -67,16 +73,17 @@ public class RedisAccessor {
 
         for(String item : postuuids){
            map = jedis.hgetAll(item);
-           fpitems.add(new FPitem(map.get("title"), map.get("subreddit"), map.get("createdby"), map.get("created"),
-                   Integer.parseInt(map.get("karma")), Integer.parseInt(map.get("comments")), userID));
+            fpitems.add(new FPitem(map.get("postidentifier"), map.get("title"), map.get("subreddit"), map.get("createdby"), DateConverter.getDateFromString(map.get("created")),
+                    Integer.parseInt(map.get("karma")), Integer.parseInt(map.get("comments")), userID));
+
         }
         return fpitems;
     }
 
 
-
     // all below is just testing and are to-be-deleted whenever we don't need the testing anymore
     public static void main(String[] args) throws InterruptedException {
+        LocalDateTime date = LocalDateTime.now();
         for (int i = 0; i < 10; i++) {
             UUID cacheID = UUID.randomUUID();
             System.out.println(cacheID);
@@ -91,8 +98,8 @@ public class RedisAccessor {
         //System.out.println(rDBD.getCacheID(user3.getUserID()) == null);
 
         // String postID, String timestamp, String postTitle, String subredditID, String userID, int postKarmaCount
-        Post post1 = new Post("222222", "301468795", "TestPost3", "363636", "172893", 0 );
-        Post post2 = new Post("333333", "4017414795", "TestPost4", "363636", "172893", 0 );
+        Post post1 = new Post("222222", StringManipulation.generateRandomString(5), date, "TestPost3", "363636", "172893", 0, "sdfsdf");
+        Post post2 = new Post("333333",StringManipulation.generateRandomString(5), date, "TestPost4", "363636", "172893", 0, "sfsdf" );
         //Post post3 = new Post("987654321", "2017414795", "TestPost2", "363636", "1111111", 0 );
 
         // String subRedditID, String subRedditName
@@ -101,27 +108,33 @@ public class RedisAccessor {
         fplist.add(new FPitem(post1, subreddit, user));
         fplist.add(new FPitem(post2, subreddit, user));
 
-        rDBD.createMultiplePostCache(fplist);
+//        rDBD.createMultiplePostCache(fplist);
 
-        List<String> res = rDBD.getPostUUIDs(rDBD.getCacheID(user.getUserID()));
-        for (Object item : res) {
-            System.out.println(item);
-        }
+//        List<String> res = rDBD.getPostUUIDs(rDBD.getCacheID(user.getUserID()));
+//        for (Object item : res) {
+//            System.out.println(item);
+//        }
 
-        List<FPitem> fpitems = rDBD.getFPitems(user.getUserID());
+        System.out.println("USER CACHE ID " + rDBD.getCacheID("3f"));
+        System.out.println("USER POSTUUIDS " + rDBD.getPostUUIDs(rDBD.getCacheID("3f")));
+
+
+        List<FPitem> fpitems = rDBD.getFPitems("3f");
+        System.out.println("FPITEMS " + fpitems.toString());
         System.out.println("************************************************");
         for (Object item : fpitems) {
+            System.out.println("Am here");
             System.out.println(item);
         }
 
-        System.out.println("CacheID : " + rDBD.getCacheID(user.getUserID()));
+//        System.out.println("CacheID : " + rDBD.getCacheID(user.getUserID()));
         System.out.println("All keys:");
         System.out.println(rDBD.jedis.keys("*"));
-        Thread.sleep(15000);
-        System.out.println("CacheID : " + rDBD.getCacheID(user.getUserID()));
+//        Thread.sleep(15000);
+//        System.out.println("CacheID : " + rDBD.getCacheID(user.getUserID()));
 
-        System.out.println("All keys:");
-        System.out.println(rDBD.jedis.keys("*"));
+//        System.out.println("All keys:");
+//        System.out.println(rDBD.jedis.keys("*"));
     }
 
 

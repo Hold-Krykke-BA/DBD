@@ -1,16 +1,21 @@
 package models.dataModels;
 
+
+import java.time.LocalDateTime;
+
 public class FPitem {
     String postTitle;
+    String postUrlIdentifier;
     String subRedditName;
     String userName;
     String userID;
-    String timestamp;
+    LocalDateTime timestamp;
     int PostKarma;
     int commentNum;
 
-    public FPitem(String postTitle, String subRedditName, String userName, String timestamp, int postKarma, int commentNum, String userID) {
+    public FPitem(String postTitle, String postidentifier, String subRedditName, String userName, LocalDateTime timestamp, int postKarma, int commentNum, String userID) {
         this.postTitle = postTitle;
+        this.postUrlIdentifier = postidentifier;
         this.subRedditName = subRedditName;
         this.userName = userName;
         this.timestamp = timestamp;
@@ -21,6 +26,7 @@ public class FPitem {
 
     public FPitem(Post post, SubReddit subReddit, User user) {
         this.postTitle = post.getPostTitle();
+        this.postUrlIdentifier = post.getPostUrlIdentifier();
         this.subRedditName = subReddit.getSubRedditName();
         this.userName = user.getUserName();
         this.timestamp = post.getTimestamp();
@@ -29,23 +35,17 @@ public class FPitem {
         this.userID = user.getUserID();
     }
 
-    public String getPostTitle() {
-        return postTitle;
-    }
+    public String getPostTitle() { return postTitle; }
 
-    public String getSubRedditName() {
-        return subRedditName;
-    }
+    public String getPostUrlIdentifier() { return postUrlIdentifier; }
 
-    public String getUserID(){
-        return userID;
-    }
+    public String getSubRedditName() {return subRedditName; }
 
-    public String getUserName() {
-        return userName;
-    }
+    public String getUserID(){ return userID; }
 
-    public String getTimestamp() {
+    public String getUserName() { return userName; }
+
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 

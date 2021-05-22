@@ -1,16 +1,25 @@
 package dataLayer.dataAccessors;
 
 
+import dataLayer.controller.DataControllerImpl;
+import models.dataModels.*;
+import util.DateConverter;
+import util.StringManipulation;
+
 import java.sql.*;
-import java.util.Properties;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class PostgresAccessor {
     Connection connection;
+    String conStr;
 
 
     public PostgresAccessor(){
-        connection = connectToDB("jdbc:postgresql://localhost:5433/soft2021");
-
+        this.connection = null;
+        this.conStr = "jdbc:postgresql://localhost:5433/soft2021";
     }
 
     private Connection connectToDB(String url){
@@ -20,29 +29,154 @@ public class PostgresAccessor {
         props.setProperty("user", "softdbd");
         try {
             connection = DriverManager.getConnection(url,props);
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return connection;
     }
 
     public Connection getConnection(){
-        return connection;
+        if(connection == null) connection = connectToDB(conStr);
+            return connection;
     }
 
-    public void test(Connection conn) throws SQLException {
-        DatabaseMetaData dbmd = conn.getMetaData();
-        try (ResultSet tables = dbmd.getTables(null, null, "%", new String[] { "TABLE" })) {
-            while (tables.next()) {
-                System.out.println(tables.getString("TABLE_NAME"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public void insertUserId(User user) {
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("CALL public.insert_userID(?)");
+            stmt.setString(1, user.getUserID());
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
-    public static void main(String[] args) throws SQLException {
-        PostgresAccessor pgr = new PostgresAccessor();
-        pgr.test(pgr.getConnection());
 
+    public void insertSubreddit(SubReddit subreddit) {
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("CALL public.insert_subreddit(?, ?)");
+            stmt.setString(1, subreddit.getSubRedditID());
+            stmt.setString(2, subreddit.getSubRedditName());
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void insertUser_Subreddit(SubReddit subreddit, User user) {
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("CALL public.insert_user_subreddit(?, ?)");
+            stmt.setString(1, user.getUserID());
+            stmt.setString(2, subreddit.getSubRedditID());
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public List<String> getAllUserID() {
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        List<String> allIDs = new ArrayList<>();
+        try {
+            stmt = conn.prepareStatement("select * from public.all_userIDs();");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                allIDs.add(rs.getString("user_id"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return allIDs;
+    }
+
+    public void insertPost(Post post, User user, SubReddit subreddit) {
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("CALL public.insert_post(?, ?, ?, ?, ?, ?, ?, ?)");
+            stmt.setString(1, post.getPostID());
+            stmt.setString(2, StringManipulation.generateRandomString(5));
+            stmt.setString(3, post.getPostTitle());
+            stmt.setTimestamp(4, DateConverter.LocalDateTimeToJavaTimestamp(post.getTimestamp()));
+            stmt.setString(5, post.getPostContent());
+            stmt.setInt(6, post.getPostKarmaCount());
+            stmt.setString(7,user.getUserID());
+            stmt.setString(8, subreddit.getSubRedditID());
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void insertComment(Post post, User user, Comment comment) {
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("CALL public.insert_postcomment(?, ?, ?, ?, ?, ?, ?)");
+            stmt.setString(1, comment.getCommentID());
+            stmt.setString(2, comment.getCommentParentID());
+            stmt.setTimestamp(3, DateConverter.LocalDateTimeToJavaTimestamp(comment.getTimestamp()));
+            stmt.setString(4, comment.getCommentContent());
+            stmt.setInt(5, comment.getCommentKarmaCount());
+            stmt.setString(6, post.getPostID());
+            stmt.setString(7, user.getUserID());
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public List<Map<String, Object>> getFrontPageItems(){
+        Connection conn = getConnection();
+        List<Map<String, Object>> fpitems = new ArrayList<>();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("select * from public.get_FPitem('609f1f9f-dba7-44c8-838b-c00bb5d3e7ac');");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Map<String, Object> map = new HashMap<>();
+                map.put("post_title", rs.getString("post_title"));
+                map.put("post_id", rs.getString("post_id"));
+                map.put("post_url_identifier", rs.getString("post_url_identifier"));
+                map.put("post_timestamp", DateConverter.getDateFromString(rs.getString("post_timestamp")));
+                map.put("post_user_id", rs.getString("user_id"));
+                map.put("subreddit_name", rs.getString("subreddit_name"));
+                map.put("comments", rs.getInt("comments"));
+                map.put("post_karma", rs.getInt("post_karma"));
+                fpitems.add(map);
+            }
+            for(Map map : fpitems){
+                System.out.println(map.keySet() + "\n" + map.values());
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return fpitems;
+    }
+
+
+
+    public static void main(String[] args) throws SQLException {
+//        LocalDateTime date = LocalDateTime.now();
+//        SubReddit sub = new SubReddit("3", "wsbtester");
+//        User user = new User("dfv", "p@b.com", "7");
+//        Post post = new Post("eb69a0b7-74df-4162-9550-4e1961f5f644", StringManipulation.generateRandomString(10), date,"tyl","3","7",0,"hellohellohellohell");
+//        Comment comment = new Comment("2", date, 0, "the parent");
+//        Comment commentchild = new Comment("21", date, 0, "the child",comment.getCommentID());
+        PostgresAccessor pgr = new PostgresAccessor();
+//        pgr.insertUserId(pgr.getConnection(), user);
+//        pgr.insertSubreddit(pgr.getConnection(), sub);
+//        pgr.insertUser_Subreddit(pgr.getConnection(), sub, user);
+//        pgr.insertPost(pgr.getConnection(), post, user, sub);
+//        pgr.insertComment(pgr.getConnection(), post, user, comment);
+//        pgr.insertComment(pgr.getConnection(), post, user, commentchild);
+        System.out.println(pgr.getAllUserID());
+        pgr.getFrontPageItems();
     }
 }

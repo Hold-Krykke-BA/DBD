@@ -1,19 +1,23 @@
 package models.dataModels;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Post {
     String postID;
+    String postUrlIdentifier;
     String postTitle;
-    String timestamp;
+    LocalDateTime timestamp;
     String subredditID;
     String userID;
+    String content;
     int postKarmaCount;
     List<String> commentsID;
 
 
-    public Post(String postID, String timestamp, String postTitle, String subredditID, String userID, int postKarmaCount) {
+    public Post(String postID, String postidentifier, LocalDateTime timestamp, String postTitle, String subredditID, String userID, int postKarmaCount, String postcontent) {
+        this.postUrlIdentifier = postidentifier;
         this.postID = postID;
         this.timestamp = timestamp;
         this.postTitle = postTitle;
@@ -21,6 +25,7 @@ public class Post {
         this.userID = userID;
         this.postKarmaCount = 0;
         commentsID = new ArrayList<>();
+        this.content = postcontent;
     }
 
     public int getCommentsSize(){
@@ -32,7 +37,15 @@ public class Post {
         return postID;
     }
 
-    public String getTimestamp() {
+    public String getPostUrlIdentifier() {
+        return postUrlIdentifier;
+    }
+
+    public String getPostContent() {
+        return content;
+    }
+
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
