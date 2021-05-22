@@ -87,6 +87,16 @@ CREATE OR REPLACE FUNCTION get_Post(subname varchar, p_url varchar)
 	where p.post_url_identifier = p_url and s.subreddit_name = subname;'
 LANGUAGE sql;
 
+CREATE OR REPLACE FUNCTION get_Comments(postid varchar)
+  RETURNS SETOF postcomment AS
+$func$
+BEGIN
+   RETURN QUERY
+	select * from postcomment c  
+	where c.post_id = postid;              
+END
+$func$
+LANGUAGE plpgsql;
 
 
 
