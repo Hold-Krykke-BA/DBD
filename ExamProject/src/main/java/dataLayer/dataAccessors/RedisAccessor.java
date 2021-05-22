@@ -105,8 +105,8 @@ public class RedisAccessor {
         // String subRedditID, String subRedditName
         SubReddit subreddit = new SubReddit("363636", "WSB");
         List<FPitem> fplist = new ArrayList<>();
-        fplist.add(new FPitem(post1, subreddit, user));
-        fplist.add(new FPitem(post2, subreddit, user));
+//        fplist.add(new FPitem(post1, subreddit, user));
+//        fplist.add(new FPitem(post2, subreddit, user));
 
 //        rDBD.createMultiplePostCache(fplist);
 

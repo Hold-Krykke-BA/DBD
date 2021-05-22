@@ -24,15 +24,15 @@ public class FPitem {
         this.userID = userID;
     }
 
-    public FPitem(Post post, SubReddit subReddit, User user) {
-        this.postTitle = post.getPostTitle();
-        this.postUrlIdentifier = post.getPostUrlIdentifier();
-        this.subRedditName = subReddit.getSubRedditName();
-        this.userName = user.getUserName();
-        this.timestamp = post.getTimestamp();
-        this.PostKarma = post.getPostKarmaCount();
-        this.userID = user.getUserID();
-    }
+//    public FPitem(Post post, SubReddit subReddit, User user) {
+//        this.postTitle = post.getPostTitle();
+//        this.postUrlIdentifier = post.getPostUrlIdentifier();
+//        this.subRedditName = subReddit.getSubRedditName();
+//        this.userName = user.getUserName();
+//        this.timestamp = post.getTimestamp();
+//        this.PostKarma = post.getPostKarmaCount();
+//        this.userID = user.getUserID();
+//    }
 
     public String getPostTitle() { return postTitle; }
 

@@ -5,6 +5,7 @@ import dataLayer.dataAccessors.Neo4jAccessor;
 import dataLayer.dataAccessors.PostgresAccessor;
 import dataLayer.dataAccessors.RedisAccessor;
 import models.dataModels.*;
+import models.viewModels.PostWithCommentsContainer;
 
 
 import java.time.LocalDateTime;
@@ -110,5 +111,12 @@ public class DataControllerImpl implements IDataController {
     public void createUser(User user) {
         // Insert in neo4j also
         pgrDBD.insertUserId(user);
+    }
+
+    @Override
+    public PostWithCommentsContainer getPostCommentContainer(String urlIdentifier, String subredditName, String postID) {
+        PostWithCommentsContainer pwcContainer = new PostWithCommentsContainer(pgrDBD.getPost(subredditName, urlIdentifier), pgrDBD.getComments(postID));
+        // comments needs to be ordered/sorted by parentID and timestamp before returning
+        return null; 
     }
 }
