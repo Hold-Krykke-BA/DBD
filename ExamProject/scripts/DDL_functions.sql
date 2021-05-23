@@ -8,6 +8,16 @@ $func$
 LANGUAGE sql;
 
 
+create or replace FUNCTION all_userIDs()
+  returns TABLE (user_id varchar) 
+AS
+$func$
+  SELECT * 
+  FROM public.reddit_user;
+$func$ 
+LANGUAGE sql;
+
+
 CREATE OR REPLACE FUNCTION get_FPitem(subID varchar)
   RETURNS TABLE (post_title varchar, 
 				post_id varchar,

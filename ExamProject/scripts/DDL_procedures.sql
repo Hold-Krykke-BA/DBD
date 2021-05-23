@@ -50,15 +50,46 @@ end
 $$;
 
 
-create or replace FUNCTION all_userIDs()
-  returns TABLE (user_id varchar) 
-AS
-$func$
-  SELECT * 
-  FROM public.reddit_user;
-$func$ 
-LANGUAGE sql;
+CREATE or replace PROCEDURE update_post(p_id varchar, p_content varchar)
+LANGUAGE plpgsql
+security definer 
+AS $$
+begin
+	UPDATE public.post
+			set post_content=p_content
+			WHERE post_id = p_id;
+end
+$$;
 
 
+CREATE or replace PROCEDURE update_comment(c_id varchar, c_content varchar)
+LANGUAGE plpgsql
+security definer 
+AS $$
+begin
+	UPDATE public.postcomment
+			set comment_content=c_content
+			WHERE comment_id = c_id;
+end
+$$;
 
 
+CREATE or replace PROCEDURE delete_post(p_id varchar)
+LANGUAGE plpgsql
+security definer 
+AS $$
+begin
+	DELETE FROM public.post
+		WHERE post_id = p_id;
+end
+$$;
+
+CREATE or replace PROCEDURE delete_comment(c_id varchar)
+LANGUAGE plpgsql
+security definer 
+AS $$
+begin
+	DELETE FROM public.postcomment
+		WHERE comment_id = c_id;
+end
+$$;
