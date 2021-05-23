@@ -202,6 +202,55 @@ public class PostgresAccessor {
         return fpitems;
     }
 
+    public void updatePost(String postId, String updatedContent) {
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("CALL public.update_postt(?, ?)");
+            stmt.setString(1, postId);
+            stmt.setString(2, updatedContent);
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void deletePost(String postID) {
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("CALL public.delete_post(?)");
+            stmt.setString(1, postID);
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void updateComment(String commentID, String updatedContent) {
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("CALL public.update_comment(?, ?)");
+            stmt.setString(1, commentID);
+            stmt.setString(2, updatedContent);
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void deleteComment(String commentID) {
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("CALL public.delete_comment(?)");
+            stmt.setString(1, commentID);
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 
 
     public static void main(String[] args) throws SQLException {
