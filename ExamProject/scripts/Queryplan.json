@@ -25,7 +25,31 @@
 ]
 
 # After index:
-
+# EXPLAIN(FORMAT JSON, ANALYZE)
+# SELECT * FROM get_Post('funny', '1YjAR');
+[
+  {
+    "Plan": {
+      "Node Type": "Function Scan",
+      "Parallel Aware": false,
+      "Function Name": "get_post",
+      "Alias": "get_post",
+      "Startup Cost": 0.25,
+      "Total Cost": 10.25,
+      "Plan Rows": 1000,
+      "Plan Width": 1466,
+      "Actual Startup Time": 0.160,
+      "Actual Total Time": 0.160,
+      "Actual Rows": 1,
+      "Actual Loops": 1
+    },
+    "Planning Time": 0.024,
+    "Triggers": [
+    ],
+    "Execution Time": 0.170
+  }
+]
+################################################################
 
 # Before indexing:
 # EXPLAIN(FORMAT JSON, ANALYZE)
@@ -55,6 +79,7 @@
 
 
 # After index:
+# EXPLAIN(FORMAT JSON, ANALYZE)
 # CREATE INDEX sort_post_id ON public.postcomment (post_id);
 [
   {
