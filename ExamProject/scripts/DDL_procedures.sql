@@ -60,33 +60,5 @@ $func$
 LANGUAGE sql;
 
 
-CREATE OR REPLACE FUNCTION get_FPitem(subID varchar)
-  RETURNS TABLE (post_title varchar, 
-				post_id varchar,
-				post_url_identifier varchar,
-				post_timestamp TIMESTAMP,
-				user_id varchar,
-				subreddit_name varchar,
-				post_karma int,
-				comments bigint) AS
-$func$
-BEGIN
-   RETURN QUERY
-	select p.post_title, p.post_id, p.post_url_identifier, p.post_timestamp, p.user_id, s.subreddit_name, p.post_karma, count(c.comment_id) as comments
-	from subreddit s left join post p on s.subreddit_id = p.subreddit_id 
-	left join postcomment c on p.post_id = c.post_id 
-	where s.subreddit_id = subID
-	group by p.post_id, s.subreddit_name;                   
-END
-$func$
-LANGUAGE plpgsql;
 
 
-
-
-
-select p.post_title, p.post_id, p.post_url_identifier, p.post_timestamp, p.user_id, s.subreddit_name, count(c.comment_id) as comments
-from subreddit s left join post p on s.subreddit_id = p.subreddit_id 
-left join postcomment c on p.post_id = c.post_id 
-where s.subreddit_id = '609f1f9f-dba7-44c8-838b-c00bb5d3e7ac'
-group by p.post_id, s.subreddit_name;

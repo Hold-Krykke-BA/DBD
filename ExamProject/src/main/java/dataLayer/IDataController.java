@@ -1,6 +1,7 @@
 package dataLayer;
 
 import models.dataModels.*;
+import models.viewModels.PostWithCommentsContainer;
 
 import java.util.List;
 
@@ -16,5 +17,6 @@ public interface IDataController {
     public void createSubreddit(SubReddit subreddit);
     public void subscribeUserToSubreddit(SubReddit subreddit, User user);
     public void createUser(User user);
+    public PostWithCommentsContainer getPostCommentContainer(String urlIdentifier, String subredditName, String postID);
 
 }

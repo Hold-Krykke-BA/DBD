@@ -114,6 +114,46 @@ public class PostgresAccessor {
         }
     }
 
+    public Post getPost(String subredditName, String postURLidentifier){
+    Post post = null;
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("select * from public.get_Post(?, ?);");
+            stmt.setString(1, subredditName);
+            stmt.setString(2, postURLidentifier);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                post = new Post(rs.getString("post_id"), rs.getString("post_url_identifier"),
+                        DateConverter.getDateFromString(rs.getString("post_timestamp")),
+                        rs.getString("post_title"), rs.getString("subreddit_id"),
+                        rs.getString("user_id"),rs.getInt("post_karma"), rs.getString("post_content"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    return post;
+    }
+
+    public List<Comment> getComments(String postID){
+        List<Comment> comments = new ArrayList<>();
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("select * from public.get_Comments(?);");
+            stmt.setString(1, postID);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                comments.add(new Comment(rs.getString("comment_id"), DateConverter.getDateFromString(rs.getString("comment_timestamp")),
+                        rs.getInt("comment_karma"), rs.getString("comment_content"), rs.getString("parent_id"),
+                        rs.getString("post_id"), rs.getString("user_id")));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return comments;
+    }
+
     public void insertComment(Post post, User user, Comment comment) {
         Connection conn = getConnection();
         PreparedStatement stmt;
@@ -132,12 +172,14 @@ public class PostgresAccessor {
         }
     }
 
-    public List<Map<String, Object>> getFrontPageItems(){
+    public List<Map<String, Object>> getFrontPageItemsBySubRedditID(String subredditID){
         Connection conn = getConnection();
         List<Map<String, Object>> fpitems = new ArrayList<>();
         PreparedStatement stmt;
-        try {
-            stmt = conn.prepareStatement("select * from public.get_FPitem('609f1f9f-dba7-44c8-838b-c00bb5d3e7ac');");
+        try { //'609f1f9f-dba7-44c8-838b-c00bb5d3e7ac'
+            stmt = conn.prepareStatement("select * from public.get_FPitem(?);");
+            stmt.setString(1, subredditID);
+
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
                 Map<String, Object> map = new HashMap<>();
@@ -177,6 +219,8 @@ public class PostgresAccessor {
 //        pgr.insertComment(pgr.getConnection(), post, user, comment);
 //        pgr.insertComment(pgr.getConnection(), post, user, commentchild);
         System.out.println(pgr.getAllUserID());
-        pgr.getFrontPageItems();
+        pgr.getFrontPageItemsBySubRedditID("609f1f9f-dba7-44c8-838b-c00bb5d3e7ac");
+        System.out.println(pgr.getPost("funny", "1YjAR").toString());
+        System.out.println(pgr.getComments("8772e835-c2fa-46de-bd52-816afa8ae9bb").toString());
     }
 }
