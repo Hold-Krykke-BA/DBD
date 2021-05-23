@@ -1,18 +1,3 @@
-DROP TABLE IF EXISTS 
-   subreddit,
-   reddit_user,
-   user_subreddit,
-   post,
-   postcomment   
-CASCADE;
-
-DROP FUNCTION if exists
-get_fpitem(character varying),
-all_userIDs(),
-get_Post(subname varchar, p_url varchar),
-get_Comments(postid varchar)
-CASCADE;
-
 CREATE TABLE subreddit (
   subreddit_id VARCHAR (50) UNIQUE NOT NULL,
   subreddit_name VARCHAR UNIQUE NOT NULL,

@@ -1,0 +1,80 @@
+# Before indexing:
+# EXPLAIN(FORMAT JSON, ANALYZE)
+# SELECT * FROM get_Post('funny', '1YjAR');
+[
+  {
+    "Plan": {
+      "Node Type": "Function Scan",
+      "Parallel Aware": false,
+      "Function Name": "get_post",
+      "Alias": "get_post",
+      "Startup Cost": 0.25,
+      "Total Cost": 10.25,
+      "Plan Rows": 1000,
+      "Plan Width": 1466,
+      "Actual Startup Time": 4.684,
+      "Actual Total Time": 4.684,
+      "Actual Rows": 1,
+      "Actual Loops": 1
+    },
+    "Planning Time": 0.070,
+    "Triggers": [
+    ],
+    "Execution Time": 4.785
+  }
+]
+
+# After index:
+
+
+# Before indexing:
+# EXPLAIN(FORMAT JSON, ANALYZE)
+# select * from public.get_Comments('8772e835-c2fa-46de-bd52-816afa8ae9bb');
+[
+  {
+    "Plan": {
+      "Node Type": "Function Scan",
+      "Parallel Aware": false,
+      "Function Name": "get_comments",
+      "Alias": "get_comments",
+      "Startup Cost": 0.25,
+      "Total Cost": 10.25,
+      "Plan Rows": 1000,
+      "Plan Width": 1000,
+      "Actual Startup Time": 0.523,
+      "Actual Total Time": 0.523,
+      "Actual Rows": 3,
+      "Actual Loops": 1
+    },
+    "Planning Time": 0.049,
+    "Triggers": [
+    ],
+    "Execution Time": 10.909
+  }
+]
+
+
+# After index:
+# CREATE INDEX sort_post_id ON public.postcomment (post_id);
+[
+  {
+    "Plan": {
+      "Node Type": "Function Scan",
+      "Parallel Aware": false,
+      "Function Name": "get_comments",
+      "Alias": "get_comments",
+      "Startup Cost": 0.25,
+      "Total Cost": 10.25,
+      "Plan Rows": 1000,
+      "Plan Width": 1000,
+      "Actual Startup Time": 0.164,
+      "Actual Total Time": 0.164,
+      "Actual Rows": 3,
+      "Actual Loops": 1
+    },
+    "Planning Time": 0.025,
+    "Triggers": [
+    ],
+    "Execution Time": 0.178
+  }
+]
