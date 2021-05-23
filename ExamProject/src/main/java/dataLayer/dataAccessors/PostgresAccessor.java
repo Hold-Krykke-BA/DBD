@@ -1,15 +1,10 @@
 package dataLayer.dataAccessors;
 
-
-import dataLayer.controller.DataControllerImpl;
 import models.dataModels.*;
 import util.DateConverter;
 import util.StringManipulation;
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class PostgresAccessor {
@@ -176,7 +171,7 @@ public class PostgresAccessor {
         Connection conn = getConnection();
         List<Map<String, Object>> fpitems = new ArrayList<>();
         PreparedStatement stmt;
-        try { //'609f1f9f-dba7-44c8-838b-c00bb5d3e7ac'
+        try {
             stmt = conn.prepareStatement("select * from public.get_FPitem(?);");
             stmt.setString(1, subredditID);
 

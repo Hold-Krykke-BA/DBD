@@ -31,10 +31,6 @@ public class RedisAccessor {
 
     public void createPostCache(FPitem fpItem , String cacheID){
         UUID postUUID = UUID.randomUUID();
-      //  if(getCacheID(fpItem.getUserID()) == null){
-//            createCacheID(fpItem.getUserID()); // forkert user
-//        }
-       // String cacheID = getCacheID(fpItem.getUserID()); // forkert user
         jedis.rpush(cacheID, postUUID.toString());
         jedis.pexpire(cacheID,cacheTimeout);
 
