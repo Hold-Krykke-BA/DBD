@@ -64,7 +64,8 @@ public class DataControllerImpl implements IDataController {
 
     @Override
     public List<SubReddit> getSubRedditsByUser(String userID) {
-        return null;
+        List<SubReddit> subreddits; // check cache first else:
+        return pgrDBD.getFollowedSubreddits(userID);
     }
 
     @Override
@@ -103,7 +104,7 @@ public class DataControllerImpl implements IDataController {
     }
 
     @Override
-    public void subscribeUserToSubreddit(SubReddit subreddit, User user) {
+    public void followSubreddit(SubReddit subreddit, User user) {
         pgrDBD.insert_User_Follow_Subreddit(subreddit, user);
     }
 
@@ -114,9 +115,15 @@ public class DataControllerImpl implements IDataController {
     }
 
     @Override
-    public PostWithCommentsContainer getPostCommentContainer(String urlIdentifier, String subredditName, String postID) {
+    public PostWithCommentsContainer getPostWithComments(String urlIdentifier, String subredditName, String postID) {
         PostWithCommentsContainer pwcContainer = new PostWithCommentsContainer(pgrDBD.getPost(subredditName, urlIdentifier), pgrDBD.getComments(postID));
         // comments needs to be ordered/sorted by parentID and timestamp before returning
         return null;
+    }
+
+    @Override
+    public void unfollowSubreddit(String userID, String subredditID) {
+        pgrDBD.unfollow_user_subreddit(userID, subredditID);
+
     }
 }
