@@ -93,3 +93,13 @@ begin
 		WHERE comment_id = c_id;
 end
 $$;
+
+CREATE or replace PROCEDURE remove_user_follow_subreddit(u_id varchar, s_id varchar)
+LANGUAGE plpgsql
+security definer 
+AS $$
+begin
+	DELETE FROM public.user_subreddit
+		WHERE user_id = u_id AND subreddit_id = s_id;
+end
+$$;

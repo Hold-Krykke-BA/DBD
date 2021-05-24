@@ -104,7 +104,7 @@ public class DataControllerImpl implements IDataController {
 
     @Override
     public void subscribeUserToSubreddit(SubReddit subreddit, User user) {
-        pgrDBD.insertUser_Subreddit(subreddit, user);
+        pgrDBD.insert_User_Follow_Subreddit(subreddit, user);
     }
 
     @Override

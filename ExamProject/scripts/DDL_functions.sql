@@ -55,3 +55,15 @@ BEGIN
 END
 $func$
 LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION get_FollowedSubreddits(userid varchar)
+    RETURNS SETOF subreddit AS
+$func$
+BEGIN
+   RETURN QUERY
+	select s.subreddit_id, s.subreddit_name from subreddit s left join user_subreddit us on s.subreddit_id = us.subreddit_id
+	where us.user_id = userid;              
+END
+$func$
+LANGUAGE plpgsql;

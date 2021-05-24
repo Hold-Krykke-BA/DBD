@@ -61,7 +61,7 @@ public class PostgresAccessor {
         }
     }
 
-    public void insertUser_Subreddit(SubReddit subreddit, User user) {
+    public void insert_User_Follow_Subreddit(SubReddit subreddit, User user) {
         Connection conn = getConnection();
         PreparedStatement stmt;
         try {
@@ -247,18 +247,48 @@ public class PostgresAccessor {
         }
     }
 
+    public List<SubReddit> getFollowedSubreddits(String userID){
+        List<SubReddit> subreddits = new ArrayList<>();
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("select * from public.get_FollowedSubreddits(?);");
+            stmt.setString(1, userID);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                subreddits.add(new SubReddit(rs.getString("subreddit_id"), rs.getString("subreddit_name")));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return subreddits;
+    }
+
+    public void unfollow_user_subreddit(String userID, String subredditID) {
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("CALL public.remove_user_follow_subreddit(?, ?)");
+            stmt.setString(1, userID);
+            stmt.setString(2, subredditID);
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
     public static void main(String[] args) throws SQLException {
 //        LocalDateTime date = LocalDateTime.now();
-//        SubReddit sub = new SubReddit("3", "wsbtester");
-//        User user = new User("dfv", "p@b.com", "7");
+        SubReddit sub = new SubReddit("3", "wsbtester");
+        User user = new User("dfv", "p@b.com", "7");
 //        Post post = new Post("eb69a0b7-74df-4162-9550-4e1961f5f644", StringManipulation.generateRandomString(10), date,"tyl","3","7",0,"hellohellohellohell");
 //        Comment comment = new Comment("2", date, 0, "the parent");
 //        Comment commentchild = new Comment("21", date, 0, "the child",comment.getCommentID());
         PostgresAccessor pgr = new PostgresAccessor();
-//        pgr.insertUserId(pgr.getConnection(), user);
-//        pgr.insertSubreddit(pgr.getConnection(), sub);
-//        pgr.insertUser_Subreddit(pgr.getConnection(), sub, user);
+//        pgr.insertUserId(user);
+//        pgr.insertSubreddit(sub);
+//        pgr.insert_User_Follow_Subreddit(sub, user);
 //        pgr.insertPost(pgr.getConnection(), post, user, sub);
 //        pgr.insertComment(pgr.getConnection(), post, user, comment);
 //        pgr.insertComment(pgr.getConnection(), post, user, commentchild);
@@ -266,5 +296,8 @@ public class PostgresAccessor {
         pgr.getFrontPageItemsBySubRedditID("609f1f9f-dba7-44c8-838b-c00bb5d3e7ac");
         System.out.println(pgr.getPost("funny", "1YjAR").toString());
         System.out.println(pgr.getComments("8772e835-c2fa-46de-bd52-816afa8ae9bb").toString());
+//        System.out.println(pgr.getFollowedSubreddits("7"));
+//        pgr.unfollow_user_subreddit("7", "3");
+//        System.out.println(pgr.getFollowedSubreddits("7"));
     }
 }
