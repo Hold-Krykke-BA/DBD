@@ -3,15 +3,37 @@ package models.dataModels;
 import java.util.Objects;
 
 public class User {
-    String userName;
-    String userID;
-    String userMail;
+    private String userName;
+    private String userID;
+    private String userMail;
+    private String password;
 
     public User(String name, String mail, String id){
         this.userID = id;
         this.userMail = mail;
         this.userName = name;
     }
+
+    /**
+     * Creates a new user. If used for a database, make sure to pass null to userID
+     * @param userName
+     * @param userMail
+     * @param password
+     * @param userID User ID. Null if for database
+     */
+    public User(String userName, String userMail, String password, String userID) {
+        this.userName = userName;
+        this.userID = userID;
+        this.userMail = userMail;
+        this.password = password;
+    }
+
+    public User(String userName, String userMail) {
+        this.userName = userName;
+        this.userMail = userMail;
+    }
+
+
 
     public String getUserName() {
         return userName;

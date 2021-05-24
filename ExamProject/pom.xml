@@ -35,13 +35,24 @@
         </dependency>
 
         <dependency>
+            <groupId>org.neo4j.driver</groupId>
+            <artifactId>neo4j-java-driver</artifactId> <!--Database Connector-->
+            <version>4.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j</artifactId> <!--Embedded DB: Used for Types-->
+            <version>4.2.6</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.20</version>
         </dependency>
 
     </dependencies>
-    
+
 </project>
 
 

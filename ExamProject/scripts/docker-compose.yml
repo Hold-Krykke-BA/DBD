@@ -1,11 +1,20 @@
-version: '3.9'
+version: '3.8'
 
-# Thanks to Kenneth for version 3.8
+# Thanks to Kenneth for the initial version 1.0.
+# V1.1 adds defined image (4.2.5), documentation,
+# smaller core size and optimized shared settings.
+
+# Version 1.2 adds support for the apoc library.
 
 # Open a terminal in the folder of this script
-# docker-compose up
-# or named
-# docker-compose -p dbdexam up
+### docker-compose up
+# or named:
+### docker-compose -p dbdexam up
+
+# Following runs should instead utilize these commands:
+### docker-compose -p dbdexam start
+# logging to CLI:
+### docker-compose -p dbdexam logs -t -f --tail 5
 
 
 x-shared:
@@ -19,9 +28,10 @@ x-shared:
   NEO4J_dbms.memory.heap.initial_size: 512M
   NEO4J_dbms_memory_heap_max__size: 1G
   NEO4J_causal__clustering_minimum__core__cluster__size__at__runtime: 3
-  NEO4JLABS_PLUGINS: '["graph-data-science"]'
-  NEO4J_dbms_security_procedures_unrestricted: gds.*
-  NEO4J_dbms_security_procedures_allowlist: gds.*
+  NEO4JLABS_PLUGINS: '["graph-data-science", "apoc"]'
+  NEO4J_dbms_security_procedures_unrestricted: gds.*,apoc.*
+  NEO4J_dbms_security_procedures_allowlist: gds.*,apoc.*
+  #NEO4J_apoc_uuid_enabled: true
 
 x-shared-core:
   &common-core
