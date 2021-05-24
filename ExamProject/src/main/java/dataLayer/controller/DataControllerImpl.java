@@ -75,7 +75,6 @@ public class DataControllerImpl implements IDataController {
     public List<SubReddit> getSubRedditsByUser(String userID) {
         List<SubReddit> subreddits = redDBD.getFollowedSubreddits(userID);
         if(subreddits.isEmpty()){
-            System.out.println("IN IF");
             subreddits = pgrDBD.getFollowedSubreddits(userID);
             for(SubReddit subreddit : subreddits){
                 redDBD.createUserSubredditCache(userID, subreddit);
