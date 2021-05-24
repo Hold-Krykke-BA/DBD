@@ -29,11 +29,11 @@ public class SubReddit {
     }
 
     public void addToModUsersID(User user) {
-        modUsersID.add(user.userID);
+        modUsersID.add(user.getUserID());
     }
 
     public void removeFromModUsersID(User user){
-        modUsersID.remove(user.userID);
+        modUsersID.remove(user.getUserID());
     }
 
     public List<String> getSubbedUsersID() {
@@ -41,10 +41,10 @@ public class SubReddit {
     }
 
     public void addToSubbedUsersID(User user) {
-        subbedUsersID.add(user.userID);
+        subbedUsersID.add(user.getUserID());
     }
 
     public void removeFromSubbedUsersID(User user){
-        subbedUsersID.remove(user.userID);
+        subbedUsersID.remove(user.getUserID());
     }
 }
