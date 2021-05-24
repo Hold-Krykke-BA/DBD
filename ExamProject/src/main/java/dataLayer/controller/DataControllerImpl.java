@@ -47,8 +47,8 @@ public class DataControllerImpl implements IDataController {
                         (String)map.get("subreddit_name"), "post_username", (LocalDateTime) map.get("post_timestamp"),
                         (int) map.get("post_karma"), (int)map.get("comments"), (String)map.get("post_user_id")));
             }
-            redDBD.createCacheID(userID);
-            redDBD.createMultiplePostCache(uncached, redDBD.getCacheID(userID));
+            redDBD.createFrontpageCacheID(userID);
+            redDBD.createMultiplePostCache(uncached, redDBD.getFrontpageCacheID(userID));
             result = uncached;
         }
         return result;
@@ -60,13 +60,30 @@ public class DataControllerImpl implements IDataController {
         for(FPitem item : fp){
             System.out.println(item.toString());
         }
+        User user = new User("", "", "a643196f-6a35-496e-a206-774c4bdc1d7c");
+        SubReddit subReddit1 = new SubReddit("280c2631-bed6-4500-9fc0-abe386d2eea0", "photography");
+        SubReddit subReddit2 = new SubReddit("f1843571-aa55-418d-9a43-9bc2054452fa", "legaladvice");
+        System.out.println(dc.getSubRedditsByUser("a643196f-6a35-496e-a206-774c4bdc1d7c"));
+        dc.unfollowSubreddit("a643196f-6a35-496e-a206-774c4bdc1d7c", "f1843571-aa55-418d-9a43-9bc2054452fa");
+        System.out.println(dc.getSubRedditsByUser("a643196f-6a35-496e-a206-774c4bdc1d7c"));
+//        dc.followSubreddit(subReddit1, user);
+//        dc.followSubreddit(subReddit2, user);
+        System.out.println(dc.getSubRedditsByUser("a643196f-6a35-496e-a206-774c4bdc1d7c"));
     }
 
     @Override
     public List<SubReddit> getSubRedditsByUser(String userID) {
-        List<SubReddit> subreddits; // check cache first else:
-        return pgrDBD.getFollowedSubreddits(userID);
+        List<SubReddit> subreddits = redDBD.getFollowedSubreddits(userID);
+        if(subreddits.isEmpty()){
+            System.out.println("IN IF");
+            subreddits = pgrDBD.getFollowedSubreddits(userID);
+            for(SubReddit subreddit : subreddits){
+                redDBD.createUserSubredditCache(userID, subreddit);
+            }
+        }
+        return subreddits;
     }
+
 
     @Override
     public User getUserInfo(String userID) {
@@ -106,6 +123,7 @@ public class DataControllerImpl implements IDataController {
     @Override
     public void followSubreddit(SubReddit subreddit, User user) {
         pgrDBD.insert_User_Follow_Subreddit(subreddit, user);
+        redDBD.createUserSubredditCache(user.getUserID(), subreddit);
     }
 
     @Override
@@ -124,6 +142,7 @@ public class DataControllerImpl implements IDataController {
     @Override
     public void unfollowSubreddit(String userID, String subredditID) {
         pgrDBD.unfollow_user_subreddit(userID, subredditID);
+        redDBD.removeUserSubredditCache(userID, subredditID);
 
     }
 }
