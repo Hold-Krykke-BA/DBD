@@ -15,8 +15,8 @@ public interface IDataController {
     public void createComment(Post post, User user, Comment comment);
     public void createPost(Post post, User user, SubReddit subreddit);
     public void createSubreddit(SubReddit subreddit);
-    public void subscribeUserToSubreddit(SubReddit subreddit, User user);
+    public void followSubreddit(SubReddit subreddit, User user);
     public void createUser(User user);
-    public PostWithCommentsContainer getPostCommentContainer(String urlIdentifier, String subredditName, String postID);
-
+    public PostWithCommentsContainer getPostWithComments(String urlIdentifier, String subredditName, String postID);
+    public void unfollowSubreddit(String userID, String subredditID);
 }

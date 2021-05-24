@@ -10,7 +10,8 @@ DROP FUNCTION if exists
 get_fpitem(character varying),
 all_userIDs(),
 get_Post(subname varchar, p_url varchar),
-get_Comments(postid varchar)
+get_Comments(postid varchar),
+get_FollowedSubreddits(userid varchar)
 CASCADE;
 
 DROP INDEX IF exists 

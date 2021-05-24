@@ -8,6 +8,16 @@ $func$
 LANGUAGE sql;
 
 
+create or replace FUNCTION all_userIDs()
+  returns TABLE (user_id varchar) 
+AS
+$func$
+  SELECT * 
+  FROM public.reddit_user;
+$func$ 
+LANGUAGE sql;
+
+
 CREATE OR REPLACE FUNCTION get_FPitem(subID varchar)
   RETURNS TABLE (post_title varchar, 
 				post_id varchar,
@@ -42,6 +52,18 @@ BEGIN
    RETURN QUERY
 	select * from postcomment c  
 	where c.post_id = postid;              
+END
+$func$
+LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION get_FollowedSubreddits(userid varchar)
+    RETURNS SETOF subreddit AS
+$func$
+BEGIN
+   RETURN QUERY
+	select s.subreddit_id, s.subreddit_name from subreddit s left join user_subreddit us on s.subreddit_id = us.subreddit_id
+	where us.user_id = userid;              
 END
 $func$
 LANGUAGE plpgsql;

@@ -19,22 +19,18 @@ public class RedisAccessor {
         jedis = new Jedis("0.0.0.0", 6379);
     }
 
-    public void createCacheID (String userID){
+    public void createFrontpageCacheID(String userID){
         UUID cacheID = UUID.randomUUID();
         jedis.set(userID, cacheID.toString());
         jedis.pexpire(userID,cacheTimeout);
     }
 
-    public String getCacheID(String userID){
+    public String getFrontpageCacheID(String userID){
         return jedis.get(userID);
     }
 
     public void createPostCache(FPitem fpItem , String cacheID){
         UUID postUUID = UUID.randomUUID();
-      //  if(getCacheID(fpItem.getUserID()) == null){
-//            createCacheID(fpItem.getUserID()); // forkert user
-//        }
-       // String cacheID = getCacheID(fpItem.getUserID()); // forkert user
         jedis.rpush(cacheID, postUUID.toString());
         jedis.pexpire(cacheID,cacheTimeout);
 
@@ -67,7 +63,7 @@ public class RedisAccessor {
 
 
     public List<FPitem> getFPitems(String userID){
-        List<String> postuuids = getPostUUIDs(getCacheID(userID));
+        List<String> postuuids = getPostUUIDs(getFrontpageCacheID(userID));
         Map<String, String> map;
         List<FPitem> fpitems = new ArrayList<>();
 
@@ -80,6 +76,29 @@ public class RedisAccessor {
         return fpitems;
     }
 
+    public void createUserSubredditCache(String userID, SubReddit subreddit){
+        String cacheKey = userID + "-sub";
+        Map<String, String> map = new HashMap<>();
+        map.put(subreddit.getSubRedditID(), subreddit.getSubRedditName());
+        jedis.hset(cacheKey, map);
+    }
+
+    public void removeUserSubredditCache(String userID, String subredditID){
+        String cacheKey = userID + "-sub";
+        Map<String, String> map = new HashMap<>();
+        jedis.hdel(cacheKey, subredditID);
+    }
+
+    public List<SubReddit> getFollowedSubreddits(String userID){
+        String cacheKey = userID + "-sub";
+        List<SubReddit> subreddits = new ArrayList<>();
+
+        Map<String, String> map = jedis.hgetAll(cacheKey);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            subreddits.add(new SubReddit(entry.getKey(), entry.getValue()));
+        }
+        return subreddits;
+    }
 
     // all below is just testing and are to-be-deleted whenever we don't need the testing anymore
     public static void main(String[] args) throws InterruptedException {
@@ -92,7 +111,7 @@ public class RedisAccessor {
         User user = new User("arne", "s@g.dk", "172893");
         User user3 = new User("arne", "s@g.dk", "1111111");
         RedisAccessor rDBD = new RedisAccessor();
-        rDBD.createCacheID(user.getUserID());
+        rDBD.createFrontpageCacheID(user.getUserID());
 
         //System.out.println(rDBD.getCacheID(user.getUserID()));
         //System.out.println(rDBD.getCacheID(user3.getUserID()) == null);
@@ -115,11 +134,11 @@ public class RedisAccessor {
 //            System.out.println(item);
 //        }
 
-        System.out.println("USER CACHE ID " + rDBD.getCacheID("3f"));
-        System.out.println("USER POSTUUIDS " + rDBD.getPostUUIDs(rDBD.getCacheID("3f")));
+        System.out.println("USER CACHE ID " + rDBD.getFrontpageCacheID("3ff"));
+        System.out.println("USER POSTUUIDS " + rDBD.getPostUUIDs(rDBD.getFrontpageCacheID("3ff")));
 
 
-        List<FPitem> fpitems = rDBD.getFPitems("3f");
+        List<FPitem> fpitems = rDBD.getFPitems("3ff");
         System.out.println("FPITEMS " + fpitems.toString());
         System.out.println("************************************************");
         for (Object item : fpitems) {

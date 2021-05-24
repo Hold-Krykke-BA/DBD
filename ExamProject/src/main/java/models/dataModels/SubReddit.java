@@ -1,19 +1,13 @@
 package models.dataModels;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class SubReddit {
     String subRedditID;
     String subRedditName;
-    List<String> modUsersID;
-    List<String> subbedUsersID;
 
     public SubReddit(String subRedditID, String subRedditName) {
         this.subRedditID = subRedditID;
         this.subRedditName = subRedditName;
-        this.modUsersID = new ArrayList<>();
-        this.subbedUsersID = new ArrayList<>();
     }
 
     public String getSubRedditID() {
@@ -24,27 +18,12 @@ public class SubReddit {
         return subRedditName;
     }
 
-    public List<String> getModUsersID() {
-        return modUsersID;
-    }
 
-    public void addToModUsersID(User user) {
-        modUsersID.add(user.userID);
-    }
-
-    public void removeFromModUsersID(User user){
-        modUsersID.remove(user.userID);
-    }
-
-    public List<String> getSubbedUsersID() {
-        return subbedUsersID;
-    }
-
-    public void addToSubbedUsersID(User user) {
-        subbedUsersID.add(user.userID);
-    }
-
-    public void removeFromSubbedUsersID(User user){
-        subbedUsersID.remove(user.userID);
+    @Override
+    public String toString() {
+        return "SubReddit{" +
+                "subRedditID='" + subRedditID + '\'' +
+                ", subRedditName='" + subRedditName + '\'' +
+                '}';
     }
 }
