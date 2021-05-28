@@ -1,10 +1,8 @@
 package models.dataModels;
 
-import org.neo4j.ogm.annotation.NodeEntity;
 
 import java.util.Objects;
 
-@NodeEntity
 public class User {
     private String userName;
     private String userID;
@@ -62,6 +60,14 @@ public class User {
         this.userMail = userMail;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,5 +79,15 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(userName, userID, userMail);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userName='" + userName + '\'' +
+                ", userID='" + userID + '\'' +
+                ", userMail='" + userMail + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
