@@ -1,38 +1,52 @@
 package models.dataModels;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 public class Post {
     String postID;
+    String postUrlIdentifier;
     String postTitle;
-    String timestamp;
+    LocalDateTime timestamp;
     String subredditID;
     String userID;
-    int postKarmaCount;
-    List<String> commentsID;
+    String content;
+    int postKarmaCount = 0;
 
 
-    public Post(String postID, String timestamp, String postTitle, String subredditID, String userID, int postKarmaCount) {
+    public Post(String postID, String postidentifier, LocalDateTime timestamp, String postTitle, String subredditID, String userID, int postKarmaCount, String postcontent) {
+        this.postUrlIdentifier = postidentifier;
         this.postID = postID;
         this.timestamp = timestamp;
         this.postTitle = postTitle;
         this.subredditID = subredditID;
         this.userID = userID;
-        this.postKarmaCount = 0;
-        commentsID = new ArrayList<>();
+        this.postKarmaCount = postKarmaCount;
+        this.content = postcontent;
     }
 
-    public int getCommentsSize(){
-        // temp. solution - should be a recursive call I think since comments can have children
-        return commentsID.size();
+    public Post(String postID, String postidentifier, LocalDateTime timestamp, String postTitle, String subredditID, String userID, String postcontent) {
+        this.postUrlIdentifier = postidentifier;
+        this.postID = postID;
+        this.timestamp = timestamp;
+        this.postTitle = postTitle;
+        this.subredditID = subredditID;
+        this.userID = userID;
+        this.content = postcontent;
     }
 
     public String getPostID() {
         return postID;
     }
 
-    public String getTimestamp() {
+    public String getPostUrlIdentifier() {
+        return postUrlIdentifier;
+    }
+
+    public String getPostContent() {
+        return content;
+    }
+
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
@@ -60,15 +74,17 @@ public class Post {
         postKarmaCount --;
     }
 
-    public List<String> getCommentsID() {
-        return commentsID;
-    }
-
-    public void addToChildCommentsID(Comment comment) {
-        commentsID.add(comment.commentID);
-    }
-
-    public void removeChildComment(Comment comment){
-        commentsID.remove(comment.commentID);
+    @Override
+    public String toString() {
+        return "Post{" +
+                "postID='" + postID + '\'' +
+                ", postUrlIdentifier='" + postUrlIdentifier + '\'' +
+                ", postTitle='" + postTitle + '\'' +
+                ", timestamp=" + timestamp +
+                ", subredditID='" + subredditID + '\'' +
+                ", userID='" + userID + '\'' +
+                ", content='" + content + '\'' +
+                ", postKarmaCount=" + postKarmaCount +
+                '}';
     }
 }
