@@ -83,6 +83,16 @@ public class DataControllerImpl implements IDataController {
         return subreddits;
     }
 
+    /**
+     * Returns user + karmacount + ?
+     *
+     * NOTE: ADD TO INTERFACE
+     * @param userID
+     */
+    public void getFrontPageInfo(String userID) {
+
+    }
+
 
     @Override
     public User getUserInfo(String userID) {
@@ -101,6 +111,10 @@ public class DataControllerImpl implements IDataController {
 
     @Override
     public void authenticateUser(String userID) {
+        //if authenticated, check session
+        //1. get session on user
+        //2. if no session, make new
+        //3. if session, renew ttl and return
 
     }
 
