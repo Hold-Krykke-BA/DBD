@@ -9,6 +9,28 @@ CREATE TABLE reddit_user (
   PRIMARY KEY (user_id)
 );
 
+--CREATE TABLE user_karma (
+--  user_id VARCHAR (50) NOT NULL,
+--  sum_comment_karma int DEFAULT 0,
+--  sum_post_karma int DEFAULT 0,
+--  PRIMARY KEY (user_id),
+--  FOREIGN KEY (user_id)
+--    REFERENCES reddit_user (user_id),
+--  FOREIGN KEY (sum_post_karma)
+--    REFERENCES post (post_id),
+--  FOREIGN KEY (sum_comment_karma)
+--    REFERENCES postcomment (comment_id),
+--);
+
+CREATE TABLE user_karma (
+  user_id VARCHAR (50) NOT NULL,
+  sum_comment_karma int DEFAULT 0,
+  sum_post_karma int DEFAULT 0,
+  PRIMARY KEY (user_id),
+  FOREIGN KEY (user_id)
+    REFERENCES reddit_user (user_id)
+);
+
 CREATE TABLE user_subreddit (
   user_id VARCHAR (50) NOT NULL,
   subreddit_id VARCHAR (50) NOT NULL,
