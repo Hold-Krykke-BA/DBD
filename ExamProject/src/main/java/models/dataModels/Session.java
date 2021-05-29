@@ -4,18 +4,18 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Session {
-    private String sessionID, UserID;
-    private LocalDateTime Timestamp;
+    private String sessionID, userID;
+    private LocalDateTime timestamp;
 
     public Session(String sessionID, String userID, LocalDateTime timestamp) {
         this.sessionID = sessionID;
-        UserID = userID;
-        Timestamp = timestamp;
+        this.userID = userID;
+        this.timestamp = timestamp;
     }
 
     public Session(String userID, LocalDateTime timestamp) {
-        UserID = userID;
-        Timestamp = timestamp;
+        this.userID = userID;
+        this.timestamp = timestamp;
     }
 
     public String getSessionID() {
@@ -27,19 +27,19 @@ public class Session {
     }
 
     public String getUserID() {
-        return UserID;
+        return userID;
     }
 
     public void setUserID(String userID) {
-        UserID = userID;
+        this.userID = userID;
     }
 
     public LocalDateTime getTimestamp() {
-        return Timestamp;
+        return timestamp;
     }
 
     public void setTimestamp(LocalDateTime timestamp) {
-        Timestamp = timestamp;
+        this.timestamp = timestamp;
     }
 
     @Override
@@ -59,8 +59,8 @@ public class Session {
     public String toString() {
         return "Session{" +
                 "sessionID='" + sessionID + '\'' +
-                ", UserID='" + UserID + '\'' +
-                ", Timestamp=" + Timestamp +
+                ", UserID='" + userID + '\'' +
+                ", Timestamp=" + timestamp +
                 '}';
     }
 }
