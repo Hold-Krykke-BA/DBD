@@ -2,17 +2,7 @@ create or replace FUNCTION all_userIDs()
   returns TABLE (user_id varchar) 
 AS
 $func$
-  SELECT * 
-  FROM public.reddit_user;
-$func$ 
-LANGUAGE sql;
-
-
-create or replace FUNCTION all_userIDs()
-  returns TABLE (user_id varchar) 
-AS
-$func$
-  SELECT * 
+  SELECT user_id 
   FROM public.reddit_user;
 $func$ 
 LANGUAGE sql;
