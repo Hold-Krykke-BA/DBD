@@ -61,3 +61,43 @@ $func$
 LANGUAGE plpgsql;
 
 select * from get_Comments_Sorted('5104c346-25c3-421d-befb-3b9df51d7639');
+
+
+
+
+------------------------------I THINK IT WORKS!!!---------------------------------------------
+
+CREATE OR REPLACE FUNCTION get_Comments_Sorted(postid varchar)
+  RETURNS TABLE (comment_id varchar, 
+				parent_id varchar,
+				comment_timestamp TIMESTAMP,
+				comment_content varchar,
+				comment_karma int,
+				post_id varchar,
+				user_id varchar,
+				pppath int[],
+				pppath_sort bigint[]) AS
+$func$
+BEGIN
+   RETURN QUERY
+   
+		WITH RECURSIVE tree AS (
+		   SELECT pp.comment_id, pp.parent_id, pp.comment_timestamp, pp.comment_content, pp.comment_karma, pp.post_id, pp.user_id, ARRAY[pp.comment_karma] AS path, 
+		   		ARRAY[row_number() OVER (ORDER BY pp.comment_karma::int DESC, pp.comment_timestamp::timestamp ASC)] AS path_sort
+		   FROM   postcomment pp
+		   WHERE  pp.post_id = postid and pp.parent_id IS NULL
+		
+		   UNION ALL
+		   SELECT c.comment_id, c.parent_id, c.comment_timestamp, c.comment_content, c.comment_karma, c.post_id, c.user_id, t.path || c.comment_karma,
+		          t.path_sort || row_number() OVER (ORDER BY c.comment_karma::int DESC, c.comment_timestamp::timestamp ASC)
+		   FROM   tree t
+		   JOIN   postcomment c ON t.comment_id = c.parent_id
+		   --WHERE  NOT c.comment_karma = ANY(path)
+		   )
+		SELECT *
+		FROM   tree
+		ORDER  BY path_sort;
+   
+END
+$func$
+LANGUAGE plpgsql;
