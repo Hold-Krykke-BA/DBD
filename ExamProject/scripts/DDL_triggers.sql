@@ -1,5 +1,5 @@
 
-CREATE OR REPLACE FUNCTION update_karma_sum() RETURNS TRIGGER AS
+CREATE OR REPLACE FUNCTION update_karma_sum_post() RETURNS TRIGGER AS
 $BODY$
 BEGIN
     UPDATE reddit_user
@@ -13,7 +13,7 @@ language plpgsql;
 CREATE TRIGGER trigger_post_karma
      AFTER UPDATE OF post_karma ON post
      FOR EACH ROW
-     EXECUTE PROCEDURE update_karma_sum();
+     EXECUTE PROCEDURE update_karma_sum_post();
 	 
 	 
 CREATE OR REPLACE FUNCTION update_karma_sum_comment() RETURNS TRIGGER AS
