@@ -1,13 +1,5 @@
-//neo4j.cypher V1.0
+//neo4j.cypher V1.3
 //DDL & DML file for  initializing neo4j
-
-
-//STOP DATABASE
-//STOP DATABASE neo4j;
-//re-create database if exists
-//CREATE OR REPLACE DATABASE `neo4j`;
-//start database
-//START DATABASE neo4j;
 
 RETURN 'Clearing database';
 
@@ -36,18 +28,26 @@ CREATE
 RETURN al;
 
 RETURN 'Creating sessions';
-//CREATE (:Session {UserID: "", timeStamp: datetime()});
-CREATE (:Session {SessionID: '1', UserID: '1', timeStamp: datetime()});
+//CREATE (:Session {sessionID: "", userID: "", timestamp: localdatetime()});
+CREATE (ses:Session {sessionID: '1', userID: '1', timestamp: localdatetime()})
+WITH ses
+call apoc.ttl.expireIn(ses, 24, 'h') RETURN ses;
 
-CREATE (:Session {SessionID: '2', UserID: '2', timeStamp: datetime()});
+CREATE (ses:Session {sessionID: '2', userID: '2', timestamp: localdatetime()})
+WITH ses
+call apoc.ttl.expireIn(ses, 24, 'h') RETURN ses;
 
-CREATE (:Session {SessionID: '3', UserID: '3', timeStamp: datetime()});
+CREATE (ses:Session {sessionID: '3', userID: '3', timestamp: localdatetime()})
+WITH ses
+call apoc.ttl.expireIn(ses, 24, 'h') RETURN ses;
 
-CREATE (:Session {SessionID: '4', UserID: '1', timeStamp: datetime()});
+CREATE (ses:Session {sessionID: '4', userID: '1', timestamp: localdatetime()})
+WITH ses
+call apoc.ttl.expireIn(ses, 24, 'h') RETURN ses;
 
 RETURN 'Creating messages';
-
-CREATE (:Message {senderUserID: '', receiverUserID: '', Content: '', timeStamp: datetime()});
+//CREATE (:Message {senderUserID: '', receiverUserID: '', Content: '', timeStamp: localdatetime()});
+CREATE (:Message {senderUserID: '', receiverUserID: '', Content: '', timestamp: localdatetime()});
 
 RETURN '---Creating relationships---';
 
@@ -79,28 +79,28 @@ RETURN 'Creating session relationships';
 MATCH
   (rn:User),
   (ses:Session)
-  WHERE rn.userName = 'rvn' AND ses.SessionID = '1'
+  WHERE rn.userName = 'rvn' AND ses.sessionID = '1'
 CREATE (ses)-[r:BELONGS_TO]->(rn)
 RETURN r;
 
 MATCH
   (rn:User),
   (ses:Session)
-  WHERE rn.userName = 'rvn' AND ses.SessionID = '4'
+  WHERE rn.userName = 'rvn' AND ses.sessionID = '4'
 CREATE (ses)-[r:BELONGS_TO]->(rn)
 RETURN r;
 
 MATCH
   (cs:User),
   (ses:Session)
-  WHERE cs.userName = 'cvs' AND ses.SessionID = '2'
+  WHERE cs.userName = 'cvs' AND ses.sessionID = '2'
 CREATE (ses)-[r:BELONGS_TO]->(cs)
 RETURN r;
 
 MATCH
   (al:User),
   (ses:Session)
-  WHERE al.userName = 'alt' AND ses.SessionID = '3'
+  WHERE al.userName = 'alt' AND ses.sessionID = '3'
 CREATE (ses)-[r:BELONGS_TO]->(al)
 RETURN r;
 
@@ -115,10 +115,8 @@ ON (u:User)
 ASSERT u.userEmail IS UNIQUE;
 
 RETURN "---Creating custom indexes---";
-CREATE INDEX user_IDX IF NOT exists FOR (u:User) ON (u.userName);
-
-
-//return "---Verifying that database was cleared";
+CREATE INDEX user_IDX_userName IF NOT exists FOR (u:User) ON (u.userName);
+CREATE INDEX user_IDX_userID IF NOT exists FOR (u:User) ON (u.userID);
 
 //return "---Creating test data---";
 //if more is needed

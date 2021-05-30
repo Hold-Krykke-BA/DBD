@@ -1,6 +1,8 @@
 package util;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 // 2021-05-19 21:14:35
@@ -25,5 +27,9 @@ public class DateConverter {
 
     public static Timestamp LocalDateTimeToJavaTimestamp(LocalDateTime localdatetime){
         return Timestamp.valueOf(localdatetime);
+    }
+
+    public static LocalDateTime EpochToLocalDateTime(Long epoch) {
+        return Instant.ofEpochMilli(epoch).atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 }
