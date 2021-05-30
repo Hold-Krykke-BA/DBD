@@ -14,7 +14,8 @@ get_Comments(postid varchar),
 get_FollowedSubreddits(userid varchar),
 update_karma_sum_post(),
 update_karma_sum_comment(),
-get_Comments_Sorted(postid varchar)
+get_Comments_Sorted(postid varchar),
+get_user_with_karma(uid varchar)
 cascade;
 
 DROP INDEX IF exists 

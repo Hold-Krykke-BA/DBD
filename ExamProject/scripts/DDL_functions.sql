@@ -7,6 +7,29 @@ $func$
 $func$ 
 LANGUAGE sql;
 
+create or replace FUNCTION get_user_with_karma(uid varchar)
+  returns TABLE (user_id varchar,
+				sum_comment_karma int,
+				sum_post_karma int) AS
+$func$
+BEGIN
+   RETURN QUERY
+	SELECT * FROM public.reddit_user u
+		where u.user_id=uid;
+END
+$func$ 
+LANGUAGE plpgsql;
+
+create or replace FUNCTION get_user_with_karma()
+  returns TABLE (user_id varchar,
+				sum_comment_karma int,
+				sum_post_karma ) AS
+$func$
+  SELECT * 
+  FROM public.reddit_user;
+$func$ 
+LANGUAGE sql;
+
 
 CREATE OR REPLACE FUNCTION get_FPitem(subID varchar)
   RETURNS TABLE (post_title varchar, 
