@@ -2,11 +2,9 @@ package ressourceLayer;
 
 import javax.ws.rs.*;
 
-@Path("/hello-world")
-public class Resource implements IResource {
-
-    @Override
-    public String hello(String name) {
-        return null;
-    }
+@Path("/api")
+public interface Resource {
+    @GET
+    @Produces("text/plain")
+    String hello(@QueryParam("name") String name);
 }
