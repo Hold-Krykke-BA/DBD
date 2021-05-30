@@ -13,7 +13,8 @@ get_Post(subname varchar, p_url varchar),
 get_Comments(postid varchar),
 get_FollowedSubreddits(userid varchar),
 update_karma_sum_post(),
-update_karma_sum_comment()
+update_karma_sum_comment(),
+get_Comments_Sorted(postid varchar)
 cascade;
 
 DROP INDEX IF exists 
