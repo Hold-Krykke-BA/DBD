@@ -90,6 +90,25 @@ public class PostgresAccessor {
         return allIDs;
     }
 
+    public UserKarma getUserKarma(String userID) {
+        UserKarma userKarma = null;
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("select * from public.get_user_with_karma(?);");
+            stmt.setString(1, userID);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                userKarma = new UserKarma(rs.getString("user_id"),
+                        rs.getInt("sum_comment_karma"),
+                        rs.getInt("sum_post_karma"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return userKarma;
+    }
+
     public void insertPost(Post post, User user, SubReddit subreddit) {
         Connection conn = getConnection();
         PreparedStatement stmt;
@@ -296,6 +315,7 @@ public class PostgresAccessor {
         pgr.getFrontPageItemsBySubRedditID("609f1f9f-dba7-44c8-838b-c00bb5d3e7ac");
         System.out.println(pgr.getPost("funny", "1YjAR").toString());
         System.out.println(pgr.getComments("8772e835-c2fa-46de-bd52-816afa8ae9bb").toString());
+        System.out.println("USER KARMA" + pgr.getUserKarma("0cb981da-10b9-4dcb-8905-b70b69dbdf95"));
 //        System.out.println(pgr.getFollowedSubreddits("7"));
 //        pgr.unfollow_user_subreddit("7", "3");
 //        System.out.println(pgr.getFollowedSubreddits("7"));
