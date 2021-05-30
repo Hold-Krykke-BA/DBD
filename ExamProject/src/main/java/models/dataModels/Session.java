@@ -5,12 +5,19 @@ import java.util.Objects;
 
 public class Session {
     private String sessionID, userID;
-    private LocalDateTime timestamp;
+    private LocalDateTime timestamp, ttl;
 
     public Session(String sessionID, String userID, LocalDateTime timestamp) {
         this.sessionID = sessionID;
         this.userID = userID;
         this.timestamp = timestamp;
+    }
+
+    public Session(String sessionID, String userID, LocalDateTime timestamp, LocalDateTime ttl) {
+        this.sessionID = sessionID;
+        this.userID = userID;
+        this.timestamp = timestamp;
+        this.ttl = ttl;
     }
 
     public Session(String userID, LocalDateTime timestamp) {
@@ -42,6 +49,14 @@ public class Session {
         this.timestamp = timestamp;
     }
 
+    public LocalDateTime getTtl() {
+        return ttl;
+    }
+
+    public void setTtl(LocalDateTime ttl) {
+        this.ttl = ttl;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,8 +74,9 @@ public class Session {
     public String toString() {
         return "Session{" +
                 "sessionID='" + sessionID + '\'' +
-                ", UserID='" + userID + '\'' +
-                ", Timestamp=" + timestamp +
+                ", userID='" + userID + '\'' +
+                ", timestamp=" + timestamp +
+                ", ttl=" + ttl +
                 '}';
     }
 }
