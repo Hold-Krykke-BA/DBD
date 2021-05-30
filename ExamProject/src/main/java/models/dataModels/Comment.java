@@ -12,24 +12,14 @@ public class Comment {
     int commentKarmaCount;
     String postID;
     String userID;
-    List<String> childCommentsID;
 
-    public Comment(String commentID, LocalDateTime timestamp, int commentKarmaCount, String content) {
-        this.content = content;
-        this.commentID = commentID;
-        this.timestamp = timestamp;
-        this.commentKarmaCount = 0;
-        this.childCommentsID = new ArrayList<>();
-    }
-
-//    public Comment(String commentID, LocalDateTime timestamp, int commentKarmaCount, String content, String parentid) {
-//        this.parentID = parentid;
+//    public Comment(String commentID, LocalDateTime timestamp, String content) {
 //        this.content = content;
 //        this.commentID = commentID;
 //        this.timestamp = timestamp;
-//        this.commentKarmaCount = commentKarmaCount;
-//        this.childCommentsID = new ArrayList<>();
+//        this.commentKarmaCount = 0;
 //    }
+
 
     public Comment(String commentID, LocalDateTime timestamp, int commentKarmaCount, String content, String parentid, String postid, String userid) {
         this.parentID = parentid;
@@ -39,7 +29,6 @@ public class Comment {
         this.commentKarmaCount = commentKarmaCount;
         this.postID = postid;
         this.userID = userid;
-        this.childCommentsID = new ArrayList<>();
     }
 
     public String getCommentID() {
@@ -63,25 +52,6 @@ public class Comment {
         return parentID;
     }
 
-    public void addToCommentKarmaCount() {
-        commentKarmaCount ++;
-    }
-
-    public void detractFromCommentKarmaCount() {
-        commentKarmaCount --;
-    }
-
-    public List<String> getChildCommentsID() {
-        return childCommentsID;
-    }
-
-    public void addToChildCommentsID(Comment comment) {
-        childCommentsID.add(comment.commentID);
-    }
-
-    public void removeChildComment(Comment comment){
-        childCommentsID.remove(comment.commentID);
-    }
 
     @Override
     public String toString() {
@@ -93,7 +63,6 @@ public class Comment {
                 ", commentKarmaCount=" + commentKarmaCount +
                 ", postID='" + postID + '\'' +
                 ", userID='" + userID + '\'' +
-                ", childCommentsID=" + childCommentsID +
                 '}';
     }
 }
