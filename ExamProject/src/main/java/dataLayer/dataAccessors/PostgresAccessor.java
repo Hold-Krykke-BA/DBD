@@ -74,6 +74,54 @@ public class PostgresAccessor {
         }
     }
 
+    public void upvotePost(String postID) {
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("CALL public.increment_post_karma(?)");
+            stmt.setString(1, postID);
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void downvotePost(String postID) {
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("CALL public.decrement_post_karma(?)");
+            stmt.setString(1, postID);
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void upvoteComment(String commentID) {
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("CALL public.increment_comment_karma(?)");
+            stmt.setString(1, commentID);
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void downvoteComment(String commentID) {
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("CALL public.decrement_comment_karma(?)");
+            stmt.setString(1, commentID);
+            stmt.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public List<String> getAllUserID() {
         Connection conn = getConnection();
         PreparedStatement stmt;
@@ -315,7 +363,25 @@ public class PostgresAccessor {
         pgr.getFrontPageItemsBySubRedditID("609f1f9f-dba7-44c8-838b-c00bb5d3e7ac");
         System.out.println(pgr.getPost("funny", "1YjAR").toString());
         System.out.println(pgr.getComments("8772e835-c2fa-46de-bd52-816afa8ae9bb").toString());
-        System.out.println("USER KARMA" + pgr.getUserKarma("0cb981da-10b9-4dcb-8905-b70b69dbdf95"));
+        System.out.println("USER KARMA " + pgr.getUserKarma("0cb981da-10b9-4dcb-8905-b70b69dbdf95"));
+        pgr.upvotePost("9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f");
+        pgr.upvotePost("9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f");
+        pgr.upvotePost("9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f");
+        pgr.upvotePost("9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f");
+        pgr.upvotePost("9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f");
+        pgr.upvotePost("9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f");
+        pgr.downvotePost("c9fd943c-e1b8-4391-ade4-3c9f35561384");
+        pgr.upvoteComment("6a32021e-ccfe-4ab8-9284-4c4c90b1bd64");
+        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
+        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
+        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
+        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
+        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
+        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
+        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
+        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
+        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
+        System.out.println("USER KARMA " + pgr.getUserKarma("0cb981da-10b9-4dcb-8905-b70b69dbdf95"));
 //        System.out.println(pgr.getFollowedSubreddits("7"));
 //        pgr.unfollow_user_subreddit("7", "3");
 //        System.out.println(pgr.getFollowedSubreddits("7"));
