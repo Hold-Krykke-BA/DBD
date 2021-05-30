@@ -54,22 +54,22 @@ public class DataControllerImpl implements IDataController {
         return result;
     }
 
-    public static void main(String[] args) {
-        DataControllerImpl dc = new DataControllerImpl();
-        List<FPitem> fp = dc.getFrontPageItems("3ff"); //cache-owner user id, not post-owner
-        for(FPitem item : fp){
-            System.out.println(item.toString());
-        }
-        User user = new User("", "", "a643196f-6a35-496e-a206-774c4bdc1d7c");
-        SubReddit subReddit1 = new SubReddit("280c2631-bed6-4500-9fc0-abe386d2eea0", "photography");
-        SubReddit subReddit2 = new SubReddit("f1843571-aa55-418d-9a43-9bc2054452fa", "legaladvice");
-        System.out.println(dc.getSubRedditsByUser("a643196f-6a35-496e-a206-774c4bdc1d7c"));
-        dc.unfollowSubreddit("a643196f-6a35-496e-a206-774c4bdc1d7c", "f1843571-aa55-418d-9a43-9bc2054452fa");
-        System.out.println(dc.getSubRedditsByUser("a643196f-6a35-496e-a206-774c4bdc1d7c"));
-//        dc.followSubreddit(subReddit1, user);
-//        dc.followSubreddit(subReddit2, user);
-        System.out.println(dc.getSubRedditsByUser("a643196f-6a35-496e-a206-774c4bdc1d7c"));
-    }
+//    public static void main(String[] args) {
+//        DataControllerImpl dc = new DataControllerImpl();
+//        List<FPitem> fp = dc.getFrontPageItems("3ff"); //cache-owner user id, not post-owner
+//        for(FPitem item : fp){
+//            System.out.println(item.toString());
+//        }
+//        User user = new User("", "", "a643196f-6a35-496e-a206-774c4bdc1d7c");
+//        SubReddit subReddit1 = new SubReddit("280c2631-bed6-4500-9fc0-abe386d2eea0", "photography");
+//        SubReddit subReddit2 = new SubReddit("f1843571-aa55-418d-9a43-9bc2054452fa", "legaladvice");
+//        System.out.println(dc.getSubRedditsByUser("a643196f-6a35-496e-a206-774c4bdc1d7c"));
+//        dc.unfollowSubreddit("a643196f-6a35-496e-a206-774c4bdc1d7c", "f1843571-aa55-418d-9a43-9bc2054452fa");
+//        System.out.println(dc.getSubRedditsByUser("a643196f-6a35-496e-a206-774c4bdc1d7c"));
+////        dc.followSubreddit(subReddit1, user);
+////        dc.followSubreddit(subReddit2, user);
+//        System.out.println(dc.getSubRedditsByUser("a643196f-6a35-496e-a206-774c4bdc1d7c"));
+//    }
 
     @Override
     public List<SubReddit> getSubRedditsByUser(String userID) {

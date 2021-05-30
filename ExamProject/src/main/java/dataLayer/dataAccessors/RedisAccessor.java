@@ -101,60 +101,60 @@ public class RedisAccessor {
     }
 
     // all below is just testing and are to-be-deleted whenever we don't need the testing anymore
-    public static void main(String[] args) throws InterruptedException {
-        LocalDateTime date = LocalDateTime.now();
-        for (int i = 0; i < 10; i++) {
-            UUID cacheID = UUID.randomUUID();
-            System.out.println(cacheID);
-        }
-
-        User user = new User("arne", "s@g.dk", "172893");
-        User user3 = new User("arne", "s@g.dk", "1111111");
-        RedisAccessor rDBD = new RedisAccessor();
-        rDBD.createFrontpageCacheID(user.getUserID());
-
-        //System.out.println(rDBD.getCacheID(user.getUserID()));
-        //System.out.println(rDBD.getCacheID(user3.getUserID()) == null);
-
-        // String postID, String timestamp, String postTitle, String subredditID, String userID, int postKarmaCount
-        Post post1 = new Post("222222", StringManipulation.generateRandomString(5), date, "TestPost3", "363636", "172893", 0, "sdfsdf");
-        Post post2 = new Post("333333",StringManipulation.generateRandomString(5), date, "TestPost4", "363636", "172893", 0, "sfsdf" );
-        //Post post3 = new Post("987654321", "2017414795", "TestPost2", "363636", "1111111", 0 );
-
-        // String subRedditID, String subRedditName
-        SubReddit subreddit = new SubReddit("363636", "WSB");
-        List<FPitem> fplist = new ArrayList<>();
-//        fplist.add(new FPitem(post1, subreddit, user));
-//        fplist.add(new FPitem(post2, subreddit, user));
-
-//        rDBD.createMultiplePostCache(fplist);
-
-//        List<String> res = rDBD.getPostUUIDs(rDBD.getCacheID(user.getUserID()));
-//        for (Object item : res) {
+//    public static void main(String[] args) throws InterruptedException {
+//        LocalDateTime date = LocalDateTime.now();
+//        for (int i = 0; i < 10; i++) {
+//            UUID cacheID = UUID.randomUUID();
+//            System.out.println(cacheID);
+//        }
+//
+//        User user = new User("arne", "s@g.dk", "172893");
+//        User user3 = new User("arne", "s@g.dk", "1111111");
+//        RedisAccessor rDBD = new RedisAccessor();
+//        rDBD.createFrontpageCacheID(user.getUserID());
+//
+//        //System.out.println(rDBD.getCacheID(user.getUserID()));
+//        //System.out.println(rDBD.getCacheID(user3.getUserID()) == null);
+//
+//        // String postID, String timestamp, String postTitle, String subredditID, String userID, int postKarmaCount
+//        Post post1 = new Post("222222", StringManipulation.generateRandomString(5), date, "TestPost3", "363636", "172893", 0, "sdfsdf");
+//        Post post2 = new Post("333333",StringManipulation.generateRandomString(5), date, "TestPost4", "363636", "172893", 0, "sfsdf" );
+//        //Post post3 = new Post("987654321", "2017414795", "TestPost2", "363636", "1111111", 0 );
+//
+//        // String subRedditID, String subRedditName
+//        SubReddit subreddit = new SubReddit("363636", "WSB");
+//        List<FPitem> fplist = new ArrayList<>();
+////        fplist.add(new FPitem(post1, subreddit, user));
+////        fplist.add(new FPitem(post2, subreddit, user));
+//
+////        rDBD.createMultiplePostCache(fplist);
+//
+////        List<String> res = rDBD.getPostUUIDs(rDBD.getCacheID(user.getUserID()));
+////        for (Object item : res) {
+////            System.out.println(item);
+////        }
+//
+//        System.out.println("USER CACHE ID " + rDBD.getFrontpageCacheID("3ff"));
+//        System.out.println("USER POSTUUIDS " + rDBD.getPostUUIDs(rDBD.getFrontpageCacheID("3ff")));
+//
+//
+//        List<FPitem> fpitems = rDBD.getFPitems("3ff");
+//        System.out.println("FPITEMS " + fpitems.toString());
+//        System.out.println("************************************************");
+//        for (Object item : fpitems) {
+//            System.out.println("Am here");
 //            System.out.println(item);
 //        }
-
-        System.out.println("USER CACHE ID " + rDBD.getFrontpageCacheID("3ff"));
-        System.out.println("USER POSTUUIDS " + rDBD.getPostUUIDs(rDBD.getFrontpageCacheID("3ff")));
-
-
-        List<FPitem> fpitems = rDBD.getFPitems("3ff");
-        System.out.println("FPITEMS " + fpitems.toString());
-        System.out.println("************************************************");
-        for (Object item : fpitems) {
-            System.out.println("Am here");
-            System.out.println(item);
-        }
-
-//        System.out.println("CacheID : " + rDBD.getCacheID(user.getUserID()));
-        System.out.println("All keys:");
-        System.out.println(rDBD.jedis.keys("*"));
-//        Thread.sleep(15000);
-//        System.out.println("CacheID : " + rDBD.getCacheID(user.getUserID()));
-
+//
+////        System.out.println("CacheID : " + rDBD.getCacheID(user.getUserID()));
 //        System.out.println("All keys:");
 //        System.out.println(rDBD.jedis.keys("*"));
-    }
+////        Thread.sleep(15000);
+////        System.out.println("CacheID : " + rDBD.getCacheID(user.getUserID()));
+//
+////        System.out.println("All keys:");
+////        System.out.println(rDBD.jedis.keys("*"));
+//    }
 
 
 }

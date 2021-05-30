@@ -74,6 +74,52 @@ end
 $$;
 
 
+CREATE or replace PROCEDURE increment_post_karma(p_id varchar)
+LANGUAGE plpgsql
+security definer 
+AS $$
+begin
+	UPDATE public.post
+			set post_karma=post_karma + 1
+			WHERE post_id = p_id;
+end
+$$;
+
+CREATE or replace PROCEDURE decrement_post_karma(p_id varchar)
+LANGUAGE plpgsql
+security definer 
+AS $$
+begin
+	UPDATE public.post
+			set post_karma=post_karma - 1
+			WHERE post_id = p_id;
+end
+$$;
+
+
+CREATE or replace PROCEDURE increment_comment_karma(c_id varchar)
+LANGUAGE plpgsql
+security definer 
+AS $$
+begin
+	UPDATE public.postcomment
+			set comment_karma=comment_karma + 1
+			WHERE comment_id = c_id;
+end
+$$;
+
+CREATE or replace PROCEDURE decrement_comment_karma(c_id varchar)
+LANGUAGE plpgsql
+security definer 
+AS $$
+begin
+	UPDATE public.postcomment
+			set comment_karma=comment_karma - 1
+			WHERE comment_id = c_id;
+end
+$$;
+
+
 CREATE or replace PROCEDURE delete_post(p_id varchar)
 LANGUAGE plpgsql
 security definer 
