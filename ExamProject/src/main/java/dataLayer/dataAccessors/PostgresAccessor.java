@@ -216,6 +216,25 @@ public class PostgresAccessor {
         return comments;
     }
 
+    public List<Comment> getCommentsSorted(String postID){
+        List<Comment> comments = new ArrayList<>();
+        Connection conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement("select * from public.get_Comments_Sorted(?);");
+            stmt.setString(1, postID);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                comments.add(new Comment(rs.getString("comment_id"), DateConverter.getDateFromString(rs.getString("comment_timestamp")),
+                        rs.getInt("comment_karma"), rs.getString("comment_content"), rs.getString("parent_id"),
+                        rs.getString("post_id"), rs.getString("user_id")));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return comments;
+    }
+
     public void insertComment(Post post, User user, Comment comment) {
         Connection conn = getConnection();
         PreparedStatement stmt;
@@ -362,26 +381,23 @@ public class PostgresAccessor {
         System.out.println(pgr.getAllUserID());
         pgr.getFrontPageItemsBySubRedditID("609f1f9f-dba7-44c8-838b-c00bb5d3e7ac");
         System.out.println(pgr.getPost("funny", "1YjAR").toString());
-        System.out.println(pgr.getComments("8772e835-c2fa-46de-bd52-816afa8ae9bb").toString());
         System.out.println("USER KARMA " + pgr.getUserKarma("0cb981da-10b9-4dcb-8905-b70b69dbdf95"));
-        pgr.upvotePost("9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f");
-        pgr.upvotePost("9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f");
-        pgr.upvotePost("9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f");
-        pgr.upvotePost("9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f");
-        pgr.upvotePost("9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f");
         pgr.upvotePost("9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f");
         pgr.downvotePost("c9fd943c-e1b8-4391-ade4-3c9f35561384");
         pgr.upvoteComment("6a32021e-ccfe-4ab8-9284-4c4c90b1bd64");
         pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
-        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
-        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
-        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
-        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
-        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
-        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
-        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
-        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
         System.out.println("USER KARMA " + pgr.getUserKarma("0cb981da-10b9-4dcb-8905-b70b69dbdf95"));
+        System.out.println("\n\n" + pgr.getComments("5104c346-25c3-421d-befb-3b9df51d7639").toString() + "\n\n");
+
+        List<Comment> list = pgr.getComments("5104c346-25c3-421d-befb-3b9df51d7639");
+        for(Comment comment: list){
+            System.out.println(comment);
+        }
+        System.out.println("SORTING COMMENTS");
+        List<Comment> listsorted = pgr.getCommentsSorted("5104c346-25c3-421d-befb-3b9df51d7639");
+        for(Comment comment: listsorted){
+            System.out.println(comment);
+        }
 //        System.out.println(pgr.getFollowedSubreddits("7"));
 //        pgr.unfollow_user_subreddit("7", "3");
 //        System.out.println(pgr.getFollowedSubreddits("7"));
