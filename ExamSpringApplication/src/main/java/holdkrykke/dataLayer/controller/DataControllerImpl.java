@@ -6,11 +6,14 @@ import holdkrykke.dataLayer.dataAccessors.PostgresAccessor;
 import holdkrykke.dataLayer.dataAccessors.RedisAccessor;
 import holdkrykke.dataLayer.dataAccessors.Neo4jAccessor;
 import holdkrykke.models.dataModels.*;
+import holdkrykke.models.viewModels.CommentUpdater;
+import holdkrykke.models.viewModels.PostUpdater;
 import holdkrykke.models.viewModels.PostWithCommentsContainer;
 
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,41 +38,24 @@ public class DataControllerImpl implements IDataController {
     }
 
     @Override
-    public List<FPitem> getFrontPageItems(String userID) {
-        List<FPitem> result = redDBD.getFPitems(userID);
+    public List<FPitem> getFrontPageItems(String userID, String subredditID) {
+        List<FPitem> result = redDBD.getFPitems(userID, subredditID);
 
         if (result.size() < minFrontpageItems){
             List<FPitem> uncached = new ArrayList<>();
 
             // FOR RÚNI: call neo4j with post_user_id from postgres to get post_username
-            List<Map<String, Object>> FPmapList = pgrDBD.getFrontPageItemsBySubRedditID("609f1f9f-dba7-44c8-838b-c00bb5d3e7ac");
+            List<Map<String, Object>> FPmapList = pgrDBD.getFrontPageItemsBySubRedditID(subredditID);
             for(Map<String, Object> map : FPmapList){
                 uncached.add(new FPitem((String)map.get("post_title"), (String)map.get("post_url_identifier"),
                         (String)map.get("subreddit_name"), "post_username", (LocalDateTime) map.get("post_timestamp"),
                         (int) map.get("post_karma"), (int)map.get("comments"), (String)map.get("post_user_id")));
             }
-            redDBD.createFrontpageCacheID(userID);
-            redDBD.createMultiplePostCache(uncached, redDBD.getFrontpageCacheID(userID));
+            redDBD.createFrontpageCacheID(userID, subredditID);
+            redDBD.createMultiplePostCache(uncached, redDBD.getFrontpageCacheID(userID, subredditID));
             result = uncached;
         }
         return result;
-    }
-
-    public static void main(String[] args) {
-        DataControllerImpl dc = new DataControllerImpl();
-        List<FPitem> fp = dc.getFrontPageItems("3ff"); //cache-owner user id, not post-owner
-        for(FPitem item : fp){
-            System.out.println(item.toString());
-        }
-        User user = new User("", "", "a643196f-6a35-496e-a206-774c4bdc1d7c");
-        SubReddit subReddit1 = new SubReddit("280c2631-bed6-4500-9fc0-abe386d2eea0", "photography");
-        SubReddit subReddit2 = new SubReddit("f1843571-aa55-418d-9a43-9bc2054452fa", "legaladvice");
-        System.out.println(dc.getSubRedditsByUser("a643196f-6a35-496e-a206-774c4bdc1d7c"));
-        dc.unfollowSubreddit("a643196f-6a35-496e-a206-774c4bdc1d7c", "f1843571-aa55-418d-9a43-9bc2054452fa");
-        System.out.println(dc.getSubRedditsByUser("a643196f-6a35-496e-a206-774c4bdc1d7c"));
-//        dc.followSubreddit(subReddit1, user);
-//        dc.followSubreddit(subReddit2, user);
-        System.out.println(dc.getSubRedditsByUser("a643196f-6a35-496e-a206-774c4bdc1d7c"));
     }
 
     @Override
@@ -84,20 +70,13 @@ public class DataControllerImpl implements IDataController {
         return subreddits;
     }
 
-    /**
-     * Returns user + karmacount + ?
-     *
-     * NOTE: ADD TO INTERFACE
-     * @param userID
-     */
-    public void getFrontPageInfo(String userID) {
-
-    }
-
 
     @Override
-    public User getUserInfo(String userID) {
-        return null;
+    public UserContainer getUserInfo(String userID) {
+
+        // RÚNI fill in instead of new User --> neoDBD.getUser(userID)
+        return new UserContainer(new User("TEST", "TE@S.T", "0cb981da-10b9-4dcb-8905-b70b69dbdf95"),
+                pgrDBD.getUserKarma(userID), pgrDBD.getFollowedSubreddits(userID));
     }
 
     @Override
@@ -120,13 +99,33 @@ public class DataControllerImpl implements IDataController {
     }
 
     @Override
-    public void createComment(Post post, User user, Comment comment) {
-        pgrDBD.insertComment(post, user, comment);
+    public void createComment(Comment comment) {
+        pgrDBD.insertComment(comment);
     }
 
     @Override
-    public void createPost(Post post, User user, SubReddit subreddit) {
-        pgrDBD.insertPost(post, user,subreddit);
+    public void updateComment(CommentUpdater commentUpdater) {
+        pgrDBD.updateComment(commentUpdater.getCommentID(),commentUpdater.getContent());
+    }
+
+    @Override
+    public void deleteComment(String commentID) {
+        pgrDBD.deleteComment(commentID);
+    }
+
+    @Override
+    public void createPost(Post post) {
+        pgrDBD.insertPost(post);
+    }
+
+    @Override
+    public void updatePost(PostUpdater postupdater) {
+        pgrDBD.updatePost(postupdater.getPostID(), postupdater.getContent());
+    }
+
+    @Override
+    public void deletePost(String postID) {
+        pgrDBD.deletePost(postID);
     }
 
     @Override
@@ -135,9 +134,9 @@ public class DataControllerImpl implements IDataController {
     }
 
     @Override
-    public void followSubreddit(SubReddit subreddit, User user) {
-        pgrDBD.insert_User_Follow_Subreddit(subreddit, user);
-        redDBD.createUserSubredditCache(user.getUserID(), subreddit);
+    public void followSubreddit(SubReddit subreddit, String userID) {
+        pgrDBD.insert_User_Follow_Subreddit(subreddit, userID);
+        redDBD.createUserSubredditCache(userID, subreddit);
     }
 
     @Override
@@ -153,9 +152,36 @@ public class DataControllerImpl implements IDataController {
 
     @Override
     public PostWithCommentsContainer getPostWithComments(String urlIdentifier, String subredditName, String postID) {
-        PostWithCommentsContainer pwcContainer = new PostWithCommentsContainer(pgrDBD.getPost(subredditName, urlIdentifier), pgrDBD.getComments(postID));
-        // comments needs to be ordered/sorted by parentID and timestamp before returning
-        return null;
+        return new PostWithCommentsContainer(pgrDBD.getPost(subredditName, urlIdentifier), convertToTree(pgrDBD.getComments(postID)));
+    }
+
+    @Override
+    public PostWithCommentsContainer getPostWithCommentsSorted(String urlIdentifier, String subredditName, String postID) {
+        return new PostWithCommentsContainer(pgrDBD.getPost(subredditName, urlIdentifier), convertToTree(pgrDBD.getCommentsSorted(postID)));
+    }
+
+    private List<Comment> convertToTree(List<Comment> comments){
+    List<Comment> commentTree = new ArrayList<>();
+    List<String> parentIDs = new ArrayList<>();
+
+        Map<String, Comment> map = new HashMap<>();
+
+        for(Comment comment : comments){
+            if(map.get(comment.getCommentID()) == null){
+                map.put(comment.getCommentID(), comment);
+
+                if(comment.getCommentParentID() == null){
+                    parentIDs.add(comment.getCommentID());
+                }
+            }
+            if(comment.getCommentParentID() != null){
+                map.get(comment.getCommentParentID()).addComment(comment);
+            }
+        }
+        for(String parent : parentIDs){
+            commentTree.add(map.get(parent));
+        }
+        return commentTree;
     }
 
     @Override
@@ -164,4 +190,26 @@ public class DataControllerImpl implements IDataController {
         redDBD.removeUserSubredditCache(userID, subredditID);
 
     }
+
+    @Override
+    public void upvotePost(String postID) {
+        pgrDBD.upvotePost(postID);
+    }
+
+    @Override
+    public void downvotePost(String postID) {
+        pgrDBD.downvotePost(postID);
+    }
+
+    @Override
+    public void upvoteComment(String commentId) {
+        pgrDBD.upvoteComment(commentId);
+    }
+
+    @Override
+    public void downvoteComment(String commentID) {
+        pgrDBD.downvoteComment(commentID);
+    }
+
+
 }
