@@ -73,9 +73,7 @@ public class DataControllerImpl implements IDataController {
 
     @Override
     public UserContainer getUserInfo(String userID) {
-
-        // RÚNI fill in instead of new User --> neoDBD.getUser(userID)
-        return new UserContainer(new User("TEST", "TE@S.T", "0cb981da-10b9-4dcb-8905-b70b69dbdf95"),
+        return new UserContainer(neoDBD.getUserByUserID(userID),
                 pgrDBD.getUserKarma(userID), pgrDBD.getFollowedSubreddits(userID));
     }
 
