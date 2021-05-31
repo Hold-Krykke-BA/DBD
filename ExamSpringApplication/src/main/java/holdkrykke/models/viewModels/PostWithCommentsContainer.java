@@ -3,11 +3,12 @@ package holdkrykke.models.viewModels;
 import holdkrykke.models.dataModels.Comment;
 import holdkrykke.models.dataModels.Post;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostWithCommentsContainer {
     Post post;
-    List<Comment> comments;
+    List<Comment> comments = new ArrayList();
 
     public PostWithCommentsContainer(Post _post, List<Comment> _comments){
         this.post = _post;
