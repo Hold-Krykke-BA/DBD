@@ -1,5 +1,6 @@
 package dataLayer.dataAccessors;
 
+import models.dataModels.Message;
 import models.dataModels.User;
 import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
@@ -24,6 +25,8 @@ public class Neo4jAccessor implements AutoCloseable {
     private String _URI = "neo4j://localhost:7687";
     private String _user = "neo4j";
     private String _password = "softdbd";
+    private final int _expireIn = 24; //used for ttl on session
+    private final String _timeUnit = "h"; //used for ttl on session: ms, s, m, h, d
 
     public Neo4jAccessor() {
         System.out.println("Connecting to Neo4j at: " + _URI);
@@ -234,11 +237,6 @@ public class Neo4jAccessor implements AutoCloseable {
      * @return
      */
     private models.dataModels.Session createSession(String userID) {
-        final int expireIn = 24;
-        final String timeUnit = "h"; //ms, s, m, h, d
-
-        String unit = timeUnit;
-        int exp = expireIn;
         try (Session session = driver.session()) {
             models.dataModels.Session result = session.writeTransaction(new TransactionWork<models.dataModels.Session>() {
                 @Override
@@ -247,7 +245,7 @@ public class Neo4jAccessor implements AutoCloseable {
                             "       WITH u\n" +
                             "       CREATE (ses:Session {sessionID:$sessionID, userID:u.userID , timestamp: localdatetime()})-[:BELONGS_TO]->(u)\n" +
                             "       WITH ses\n" +
-                            "       call apoc.ttl.expireIn(ses, %s, '%s') RETURN ses;", expireIn, timeUnit);
+                            "       call apoc.ttl.expireIn(ses, %s, '%s') RETURN ses;", _expireIn, _timeUnit);
                     System.out.println(query);
                     try {
                         var result = tx.run(query, parameters(
@@ -270,6 +268,12 @@ public class Neo4jAccessor implements AutoCloseable {
         }
     }
 
+    /**
+     * Returns a list of sessions belonging to given userName
+     *
+     * @param userName userName in question
+     * @return
+     */
     private List<models.dataModels.Session> getUserSessions(String userName) {
         try (Session session = driver.session()) {
             List<models.dataModels.Session> result = session.readTransaction(new TransactionWork<>() {
@@ -287,7 +291,7 @@ public class Neo4jAccessor implements AutoCloseable {
                             String userID = node.get("userID").toString();
                             LocalDateTime timestamp = node.get("timestamp").asLocalDateTime();
                             LocalDateTime ttl = DateConverter.EpochToLocalDateTime(node.get("ttl").asLong());
-                            result.add(new models.dataModels.Session(sessionID,userID,timestamp,ttl));
+                            result.add(new models.dataModels.Session(sessionID, userID, timestamp, ttl));
                         }
                         return result;
                     } catch (NoSuchRecordException e) {
@@ -295,6 +299,70 @@ public class Neo4jAccessor implements AutoCloseable {
                         return null;
                     }
 
+                }
+            });
+            return result;
+        }
+    }
+
+    /**
+     * Updates a session's TTL based on the ID. Values follow globals expireIn, timeUnit.
+     *
+     * @param sessionID ID of the session to update
+     * @return new session if success; otherwise null
+     */
+    private models.dataModels.Session updateSession(String sessionID) {
+        //todo check for correct user before query
+        try (Session session = driver.session()) {
+            models.dataModels.Session result = session.writeTransaction(new TransactionWork<>() {
+                @Override
+                public models.dataModels.Session execute(Transaction tx) {
+                    String query = String.format(
+                            "MATCH (ses:Session {sessionID: $sessionID})\n" +
+                                    "WITH ses\n" +
+                                    "CALL apoc.ttl.expireIn(ses, %s, '%s')\n" +
+                                    "RETURN ses;", _expireIn, _timeUnit);
+                    try {
+                        var res = tx.run(query, parameters("sessionID", sessionID)).single().get("ses");
+                        String sessionID = res.get("sessionID").toString();
+                        String userID = res.get("userID").toString();
+                        LocalDateTime timestamp = res.get("timestamp").asLocalDateTime();
+                        LocalDateTime ttl = DateConverter.EpochToLocalDateTime(res.get("ttl").asLong());
+                        return new models.dataModels.Session(sessionID, userID, timestamp, ttl);
+                    } catch (NoSuchRecordException e) {
+                        System.out.println("updateUser error: " + e);
+                        return null;
+                    }
+                }
+            });
+            return result;
+        }
+    }
+
+    /**
+     * "Deletes" a message by settings it's content to a generic 'Message was deleted'
+     *
+     * @param messageID ID of message to "delete"
+     * @return message that was deleted
+     */
+    private Message deleteMessage(String messageID) {
+        try (Session session = driver.session()) {
+            var result = session.writeTransaction(tx -> {
+                String query = "" +
+                        "MATCH (msg:Message {messageID: $messageID})\n" +
+                        "SET msg.content = \"Message was deleted\" \n" +
+                        "RETURN msg;";
+                try {
+                    var res = tx.run(query, parameters("messageID", messageID)).single().get("msg");
+                    String resMessageID = res.get("messageID").toString();
+                    String senderUserID = res.get("senderUserID").toString();
+                    String receiverUserID = res.get("receiverUserID").toString();
+                    String content = res.get("content").toString();
+                    LocalDateTime timestamp = res.get("timestamp").asLocalDateTime();
+                    return new Message(resMessageID, senderUserID, receiverUserID, content, timestamp);
+                } catch (NoSuchRecordException e) {
+                    System.out.println("updateUser error: " + e);
+                    return null;
                 }
             });
             return result;
@@ -340,8 +408,12 @@ public class Neo4jAccessor implements AutoCloseable {
 
         //var ses = n4jA.createSession("1");
         //System.out.println(ses);
-        var res = n4jA.getUserSessions("cvs");
+        // res = n4jA.getUserSessions("cvs");
+        //System.out.println(res);
+
+        var res = n4jA.updateSession("235252");
         System.out.println(res);
+
         //test if updateUser: email changed into unique email
     }
 }

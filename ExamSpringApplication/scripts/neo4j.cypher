@@ -1,4 +1,4 @@
-//neo4j.cypher V1.4
+//neo4j.cypher V1.5
 //DDL & DML file for  initializing neo4j
 
 RETURN 'Clearing database';
@@ -55,7 +55,7 @@ MATCH
   (rn:User),
   (cs:User)
   WHERE rn.userName = 'rvn' AND cs.userName = 'cvs'
-CREATE (ch:Chat {chatID: 1, senderUserID: "1", receiverUserID: "2"})
+CREATE (ch:Chat {chatID: "1", timestamp: localdatetime()})
 CREATE (rn)-[r1:PARTICIPATES_IN]->(ch)
 CREATE (cs)-[r2:PARTICIPATES_IN]->(ch)
 RETURN r1, r2;
@@ -69,10 +69,16 @@ RETURN r1, r2;
 
 RETURN 'Creating messages';
 //CREATE (:Message {senderUserID: '', receiverUserID: '', content: '', timeStamp: localdatetime()});
-MATCH(ch:Chat{chatID: 1})
+MATCH(ch:Chat {chatID: "1"})
 WITH ch
 CREATE
-  (msg:Message {messageID: '1', senderUserID: '1', receiverUserID: '2', content: 'yoyoyo', timestamp: localdatetime()})-[:CHAT_PARENT]->(ch);
+  (msg:Message {messageID: '1', senderUserID: '1', content: 'yoyoyo', timestamp: localdatetime()})-[:CHAT_PARENT]->(ch);
+
+MATCH(ch:Chat {chatID: "1"})
+WITH ch
+CREATE
+  (msg:Message {messageID: '2', senderUserID: '2', content: 'Long time no see', timestamp: localdatetime()})
+    -[:CHAT_PARENT]->(ch);
 
 RETURN '---Creating relationships---';
 
