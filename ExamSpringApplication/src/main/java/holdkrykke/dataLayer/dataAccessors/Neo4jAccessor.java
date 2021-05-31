@@ -341,7 +341,7 @@ public class Neo4jAccessor implements AutoCloseable {
     }
 
     /**
-     * "Deletes" a message by settings it's content to a generic 'Message was deleted'
+     * "Deletes" a message by settings it's content to null
      *
      * @param messageID ID of message to "delete"
      * @return message that was deleted
@@ -349,10 +349,10 @@ public class Neo4jAccessor implements AutoCloseable {
     private Message deleteMessage(String messageID) {
         try (Session session = driver.session()) {
             var result = session.writeTransaction(tx -> {
-                String query = "" +
+                String query =
                         "MATCH (msg:Message {messageID: $messageID})\n" +
-                        "SET msg.content = \"Message was deleted\" \n" +
-                        "RETURN msg;";
+                                "SET msg.content = " + null + "\n" +
+                                "RETURN msg;";
                 try {
                     var res = tx.run(query, parameters("messageID", messageID)).single().get("msg");
                     String resMessageID = res.get("messageID").toString();
@@ -369,6 +369,9 @@ public class Neo4jAccessor implements AutoCloseable {
             return result;
         }
     }
+
+    //getMessage
+    //content may be null
 
 
 //    private Message createMessage(Message message) {
