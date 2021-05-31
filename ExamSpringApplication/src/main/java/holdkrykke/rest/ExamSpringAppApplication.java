@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import holdkrykke.dataLayer.IDataController;
 import holdkrykke.dataLayer.controller.DataControllerImpl;
+import holdkrykke.models.dataModels.SubReddit;
 import holdkrykke.models.viewModels.PostWithCommentsContainer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -76,6 +77,17 @@ public class ExamSpringAppApplication {
         datactr.downvoteComment(commentid);
     }
 
+    @GetMapping("/subscribe/{subredditid}/{subredditname}/{userid}")
+    @ResponseBody
+    public void followSubreddit(@PathVariable String subredditid, @PathVariable String subredditname, @PathVariable String userid) {
+        datactr.followSubreddit(new SubReddit(subredditid, subredditname), userid);
+    }
+
+    @GetMapping("/unsubscribe/{subredditid}/{userid}")
+    @ResponseBody
+    public void unFollowSubreddit(@PathVariable String subredditid, @PathVariable String userid) {
+        datactr.unfollowSubreddit(subredditid, userid);
+    }
 
 
 }

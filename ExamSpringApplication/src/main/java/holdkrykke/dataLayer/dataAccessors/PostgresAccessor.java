@@ -61,12 +61,12 @@ public class PostgresAccessor {
         }
     }
 
-    public void insert_User_Follow_Subreddit(SubReddit subreddit, User user) {
+    public void insert_User_Follow_Subreddit(SubReddit subreddit, String userID) {
         Connection conn = getConnection();
         PreparedStatement stmt;
         try {
             stmt = conn.prepareStatement("CALL public.insert_user_subreddit(?, ?)");
-            stmt.setString(1, user.getUserID());
+            stmt.setString(1, userID);
             stmt.setString(2, subreddit.getSubRedditID());
             stmt.execute();
         } catch (SQLException ex) {

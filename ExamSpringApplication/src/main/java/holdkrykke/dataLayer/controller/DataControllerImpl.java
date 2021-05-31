@@ -138,9 +138,9 @@ public class DataControllerImpl implements IDataController {
     }
 
     @Override
-    public void followSubreddit(SubReddit subreddit, User user) {
-        pgrDBD.insert_User_Follow_Subreddit(subreddit, user);
-        redDBD.createUserSubredditCache(user.getUserID(), subreddit);
+    public void followSubreddit(SubReddit subreddit, String userID) {
+        pgrDBD.insert_User_Follow_Subreddit(subreddit, userID);
+        redDBD.createUserSubredditCache(userID, subreddit);
     }
 
     @Override
