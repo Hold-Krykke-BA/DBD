@@ -6,6 +6,7 @@ import holdkrykke.dataLayer.dataAccessors.PostgresAccessor;
 import holdkrykke.dataLayer.dataAccessors.RedisAccessor;
 import holdkrykke.dataLayer.dataAccessors.Neo4jAccessor;
 import holdkrykke.models.dataModels.*;
+import holdkrykke.models.viewModels.CommentUpdater;
 import holdkrykke.models.viewModels.PostUpdater;
 import holdkrykke.models.viewModels.PostWithCommentsContainer;
 
@@ -57,23 +58,6 @@ public class DataControllerImpl implements IDataController {
         return result;
     }
 
-//    public static void main(String[] args) {
-//        DataControllerImpl dc = new DataControllerImpl();
-//        List<FPitem> fp = dc.getFrontPageItems("3ff"); //cache-owner user id, not post-owner
-//        for(FPitem item : fp){
-//            System.out.println(item.toString());
-//        }
-//        User user = new User("", "", "a643196f-6a35-496e-a206-774c4bdc1d7c");
-//        SubReddit subReddit1 = new SubReddit("280c2631-bed6-4500-9fc0-abe386d2eea0", "photography");
-//        SubReddit subReddit2 = new SubReddit("f1843571-aa55-418d-9a43-9bc2054452fa", "legaladvice");
-//        System.out.println(dc.getSubRedditsByUser("a643196f-6a35-496e-a206-774c4bdc1d7c"));
-//        dc.unfollowSubreddit("a643196f-6a35-496e-a206-774c4bdc1d7c", "f1843571-aa55-418d-9a43-9bc2054452fa");
-//        System.out.println(dc.getSubRedditsByUser("a643196f-6a35-496e-a206-774c4bdc1d7c"));
-////        dc.followSubreddit(subReddit1, user);
-////        dc.followSubreddit(subReddit2, user);
-//        System.out.println(dc.getSubRedditsByUser("a643196f-6a35-496e-a206-774c4bdc1d7c"));
-//    }
-
     @Override
     public List<SubReddit> getSubRedditsByUser(String userID) {
         List<SubReddit> subreddits = redDBD.getFollowedSubreddits(userID);
@@ -84,16 +68,6 @@ public class DataControllerImpl implements IDataController {
             }
         }
         return subreddits;
-    }
-
-    /**
-     * Returns user + karmacount + ?
-     *
-     * NOTE: ADD TO INTERFACE
-     * @param userID
-     */
-    public void getFrontPageInfo(String userID) {
-
     }
 
 
@@ -125,8 +99,18 @@ public class DataControllerImpl implements IDataController {
     }
 
     @Override
-    public void createComment(Post post, User user, Comment comment) {
-        pgrDBD.insertComment(post, user, comment);
+    public void createComment(Comment comment) {
+        pgrDBD.insertComment(comment);
+    }
+
+    @Override
+    public void updateComment(CommentUpdater commentUpdater) {
+        pgrDBD.updateComment(commentUpdater.getCommentID(),commentUpdater.getContent());
+    }
+
+    @Override
+    public void deleteComment(String commentID) {
+        pgrDBD.deleteComment(commentID);
     }
 
     @Override

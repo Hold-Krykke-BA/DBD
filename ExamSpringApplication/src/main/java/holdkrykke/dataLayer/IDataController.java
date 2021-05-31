@@ -1,6 +1,7 @@
 package holdkrykke.dataLayer;
 
 import holdkrykke.models.dataModels.*;
+import holdkrykke.models.viewModels.CommentUpdater;
 import holdkrykke.models.viewModels.PostUpdater;
 import holdkrykke.models.viewModels.PostWithCommentsContainer;
 
@@ -13,7 +14,9 @@ public interface IDataController {
     public void getUserMessages(String userID);
     public void createMessage(String userIDsender, String userIDreciever);
     public void authenticateUser(String userID);
-    public void createComment(Post post, User user, Comment comment);
+    public void createComment(Comment comment);
+    public void updateComment(CommentUpdater commentUpdater);
+    public void deleteComment(String commentID);
     public void createPost(Post post);
     public void updatePost(PostUpdater postupdater);
     public void deletePost(String postID);

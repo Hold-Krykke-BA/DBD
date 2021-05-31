@@ -4,15 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import holdkrykke.dataLayer.IDataController;
 import holdkrykke.dataLayer.controller.DataControllerImpl;
+import holdkrykke.models.dataModels.Comment;
+import holdkrykke.models.viewModels.CommentUpdater;
 import holdkrykke.models.dataModels.Post;
 import holdkrykke.models.dataModels.SubReddit;
 import holdkrykke.models.viewModels.PostUpdater;
-import holdkrykke.models.viewModels.PostWithCommentsContainer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @SpringBootApplication
 @RestController
@@ -108,4 +107,34 @@ public class ExamSpringAppApplication {
     public String FPItems(@PathVariable String userid,@PathVariable String subid) {
         return GSON.toJson(datactr.getFrontPageItems(userid,subid));
     }
+
+    @PostMapping(value ="/subreddit", consumes = "application/json")
+    @ResponseBody
+    public void createSubreddit(@RequestBody SubReddit subreddit) {
+        datactr.createSubreddit(subreddit);
+    }
+
+    @GetMapping("/subscribedto/{userid}")
+    @ResponseBody
+    public String SubscribedTo(@PathVariable String userid) {
+        return GSON.toJson(datactr.getSubRedditsByUser(userid));
+    }
+
+    @PostMapping(value ="/comment", consumes = "application/json")
+    @ResponseBody
+    public void createComment(@RequestBody Comment comment) {
+        datactr.createComment(comment);
+    }
+
+    @PutMapping (value ="/updatecomment", consumes = "application/json")
+    @ResponseBody
+    public void updateComment(@RequestBody CommentUpdater commentupdater) {
+        datactr.updateComment(commentupdater);
+    }
+
+    @DeleteMapping(value = "/deletecomment/{commentID}")
+    public void deleteComment(@PathVariable String commentID) {
+        datactr.deleteComment(commentID);
+    }
+
 }
