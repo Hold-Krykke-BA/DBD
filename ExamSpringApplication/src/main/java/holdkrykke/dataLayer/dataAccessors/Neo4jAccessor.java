@@ -1,5 +1,6 @@
 package holdkrykke.dataLayer.dataAccessors;
 
+import holdkrykke.models.dataModels.Message;
 import holdkrykke.models.dataModels.User;
 
 import org.neo4j.driver.*;
@@ -25,6 +26,8 @@ public class Neo4jAccessor implements AutoCloseable {
     private String _URI = "neo4j://localhost:7687";
     private String _user = "neo4j";
     private String _password = "softdbd";
+    private final int _expireIn = 24; //used for ttl on session
+    private final String _timeUnit = "h"; //used for ttl on session: ms, s, m, h, d
 
     public Neo4jAccessor() {
         System.out.println("Connecting to Neo4j at: " + _URI);
@@ -235,20 +238,15 @@ public class Neo4jAccessor implements AutoCloseable {
      * @return
      */
     private holdkrykke.models.dataModels.Session createSession(String userID) {
-        final int expireIn = 24;
-        final String timeUnit = "h"; //ms, s, m, h, d
-
-        String unit = timeUnit;
-        int exp = expireIn;
         try (Session session = driver.session()) {
-            holdkrykke.models.dataModels.Session result = session.writeTransaction(new TransactionWork<holdkrykke.models.dataModels.Session>() {
+            holdkrykke.models.dataModels.Session result = session.writeTransaction(new TransactionWork<>() {
                 @Override
                 public holdkrykke.models.dataModels.Session execute(Transaction tx) {
                     String query = String.format("MATCH (u:User {userID:$userID})\n" +
                             "       WITH u\n" +
                             "       CREATE (ses:Session {sessionID:$sessionID, userID:u.userID , timestamp: localdatetime()})-[:BELONGS_TO]->(u)\n" +
                             "       WITH ses\n" +
-                            "       call apoc.ttl.expireIn(ses, %s, '%s') RETURN ses;", expireIn, timeUnit);
+                            "       call apoc.ttl.expireIn(ses, %s, '%s') RETURN ses;", _expireIn, _timeUnit);
                     System.out.println(query);
                     try {
                         var result = tx.run(query, parameters(
@@ -271,6 +269,12 @@ public class Neo4jAccessor implements AutoCloseable {
         }
     }
 
+    /**
+     * Returns a list of sessions belonging to given userName
+     *
+     * @param userName userName in question
+     * @return
+     */
     private List<holdkrykke.models.dataModels.Session> getUserSessions(String userName) {
         try (Session session = driver.session()) {
             List<holdkrykke.models.dataModels.Session> result = session.readTransaction(new TransactionWork<>() {
@@ -288,7 +292,7 @@ public class Neo4jAccessor implements AutoCloseable {
                             String userID = node.get("userID").toString();
                             LocalDateTime timestamp = node.get("timestamp").asLocalDateTime();
                             LocalDateTime ttl = DateConverter.EpochToLocalDateTime(node.get("ttl").asLong());
-                            result.add(new holdkrykke.models.dataModels.Session(sessionID,userID,timestamp,ttl));
+                            result.add(new holdkrykke.models.dataModels.Session(sessionID, userID, timestamp, ttl));
                         }
                         return result;
                     } catch (NoSuchRecordException e) {
@@ -296,6 +300,70 @@ public class Neo4jAccessor implements AutoCloseable {
                         return null;
                     }
 
+                }
+            });
+            return result;
+        }
+    }
+
+    /**
+     * Updates a session's TTL based on the ID. Values follow globals expireIn, timeUnit.
+     *
+     * @param sessionID ID of the session to update
+     * @return new session if success; otherwise null
+     */
+    private holdkrykke.models.dataModels.Session updateSession(String sessionID) {
+        //todo check for correct user before query
+        try (Session session = driver.session()) {
+            holdkrykke.models.dataModels.Session result = session.writeTransaction(new TransactionWork<>() {
+                @Override
+                public holdkrykke.models.dataModels.Session execute(Transaction tx) {
+                    String query = String.format(
+                            "MATCH (ses:Session {sessionID: $sessionID})\n" +
+                                    "WITH ses\n" +
+                                    "CALL apoc.ttl.expireIn(ses, %s, '%s')\n" +
+                                    "RETURN ses;", _expireIn, _timeUnit);
+                    try {
+                        var res = tx.run(query, parameters("sessionID", sessionID)).single().get("ses");
+                        String sessionID = res.get("sessionID").toString();
+                        String userID = res.get("userID").toString();
+                        LocalDateTime timestamp = res.get("timestamp").asLocalDateTime();
+                        LocalDateTime ttl = DateConverter.EpochToLocalDateTime(res.get("ttl").asLong());
+                        return new holdkrykke.models.dataModels.Session(sessionID, userID, timestamp, ttl);
+                    } catch (NoSuchRecordException e) {
+                        System.out.println("updateUser error: " + e);
+                        return null;
+                    }
+                }
+            });
+            return result;
+        }
+    }
+
+    /**
+     * "Deletes" a message by settings it's content to a generic 'Message was deleted'
+     *
+     * @param messageID ID of message to "delete"
+     * @return message that was deleted
+     */
+    private Message deleteMessage(String messageID) {
+        try (Session session = driver.session()) {
+            var result = session.writeTransaction(tx -> {
+                String query = "" +
+                        "MATCH (msg:Message {messageID: $messageID})\n" +
+                        "SET msg.content = \"Message was deleted\" \n" +
+                        "RETURN msg;";
+                try {
+                    var res = tx.run(query, parameters("messageID", messageID)).single().get("msg");
+                    String resMessageID = res.get("messageID").toString();
+                    String senderUserID = res.get("senderUserID").toString();
+                    String receiverUserID = res.get("receiverUserID").toString();
+                    String content = res.get("content").toString();
+                    LocalDateTime timestamp = res.get("timestamp").asLocalDateTime();
+                    return new Message(resMessageID, senderUserID, receiverUserID, content, timestamp);
+                } catch (NoSuchRecordException e) {
+                    System.out.println("updateUser error: " + e);
+                    return null;
                 }
             });
             return result;
@@ -327,22 +395,26 @@ public class Neo4jAccessor implements AutoCloseable {
         return driver;
     }
 
-//    public static void main(String[] args) {
-//        Neo4jAccessor n4jA = new Neo4jAccessor();
-//        //var user = n4jA.getUserByUserName("rvn");
-//        //System.out.println(user);
-//        //var user = n4jA.updateUser(new User("rvn", "yet@hotmail.com", "yeet", null));
-//        //var user = n4jA.createUser(new User("rvn19", "yeeeeeeeeet@hotmail.com", "yeet", null));
-//        //System.out.println(user);
-//        //System.out.println("Created user" + user.getUserName());
-//        //var x = n4jA.deleteUserByUserName("yeeeeeeeeet@hotmail.com");
-//        //System.out.println(x);
-//        //System.out.println("Deleted user");
-//
-//        //var ses = n4jA.createSession("1");
-//        //System.out.println(ses);
-//        var res = n4jA.getUserSessions("cvs");
-//        System.out.println(res);
-//        //test if updateUser: email changed into unique email
-//    }
+    public static void main(String[] args) {
+        Neo4jAccessor n4jA = new Neo4jAccessor();
+        //var user = n4jA.getUserByUserName("rvn");
+        //System.out.println(user);
+        //var user = n4jA.updateUser(new User("rvn", "yet@hotmail.com", "yeet", null));
+        //var user = n4jA.createUser(new User("rvn19", "yeeeeeeeeet@hotmail.com", "yeet", null));
+        //System.out.println(user);
+        //System.out.println("Created user" + user.getUserName());
+        //var x = n4jA.deleteUserByUserName("yeeeeeeeeet@hotmail.com");
+        //System.out.println(x);
+        //System.out.println("Deleted user");
+
+        //var ses = n4jA.createSession("1");
+        //System.out.println(ses);
+        // res = n4jA.getUserSessions("cvs");
+        //System.out.println(res);
+
+        var res = n4jA.updateSession("235252");
+        System.out.println(res);
+
+        //test if updateUser: email changed into unique email
+    }
 }
