@@ -139,7 +139,7 @@ public class DataControllerImpl implements IDataController {
 
     @Override
     public void createUser(User user) {
-        // Insert in neo4j also
+        neoDBD.createUser(user);
         pgrDBD.insertUserId(user);
     }
 
