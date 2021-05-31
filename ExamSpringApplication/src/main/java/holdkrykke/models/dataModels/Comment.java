@@ -1,4 +1,4 @@
-package models.dataModels;
+package holdkrykke.models.dataModels;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

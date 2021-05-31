@@ -1,8 +1,8 @@
-package dataLayer.dataAccessors;
+package holdkrykke.dataLayer.dataAccessors;
 
-import models.dataModels.*;
-import util.DateConverter;
-import util.StringManipulation;
+import holdkrykke.models.dataModels.*;
+import holdkrykke.util.DateConverter;
+import holdkrykke.util.StringManipulation;
 
 import java.sql.*;
 import java.util.*;
@@ -364,42 +364,42 @@ public class PostgresAccessor {
     }
 
 
-//    public static void main(String[] args) throws SQLException {
-////        LocalDateTime date = LocalDateTime.now();
-//        SubReddit sub = new SubReddit("3", "wsbtester");
-//        User user = new User("dfv", "p@b.com", "7");
-////        Post post = new Post("eb69a0b7-74df-4162-9550-4e1961f5f644", StringManipulation.generateRandomString(10), date,"tyl","3","7",0,"hellohellohellohell");
-////        Comment comment = new Comment("2", date, 0, "the parent");
-////        Comment commentchild = new Comment("21", date, 0, "the child",comment.getCommentID());
-//        PostgresAccessor pgr = new PostgresAccessor();
-////        pgr.insertUserId(user);
-////        pgr.insertSubreddit(sub);
-////        pgr.insert_User_Follow_Subreddit(sub, user);
-////        pgr.insertPost(pgr.getConnection(), post, user, sub);
-////        pgr.insertComment(pgr.getConnection(), post, user, comment);
-////        pgr.insertComment(pgr.getConnection(), post, user, commentchild);
-//        System.out.println(pgr.getAllUserID());
-//        pgr.getFrontPageItemsBySubRedditID("609f1f9f-dba7-44c8-838b-c00bb5d3e7ac");
-//        System.out.println(pgr.getPost("funny", "1YjAR").toString());
-//        System.out.println("USER KARMA " + pgr.getUserKarma("0cb981da-10b9-4dcb-8905-b70b69dbdf95"));
-//        pgr.upvotePost("9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f");
-//        pgr.downvotePost("c9fd943c-e1b8-4391-ade4-3c9f35561384");
-//        pgr.upvoteComment("6a32021e-ccfe-4ab8-9284-4c4c90b1bd64");
-//        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
-//        System.out.println("USER KARMA " + pgr.getUserKarma("0cb981da-10b9-4dcb-8905-b70b69dbdf95"));
-//        System.out.println("\n\n" + pgr.getComments("5104c346-25c3-421d-befb-3b9df51d7639").toString() + "\n\n");
-//
-//        List<Comment> list = pgr.getComments("5104c346-25c3-421d-befb-3b9df51d7639");
-//        for(Comment comment: list){
-//            System.out.println(comment);
-//        }
-//        System.out.println("SORTING COMMENTS");
-//        List<Comment> listsorted = pgr.getCommentsSorted("5104c346-25c3-421d-befb-3b9df51d7639");
-//        for(Comment comment: listsorted){
-//            System.out.println(comment);
-//        }
-////        System.out.println(pgr.getFollowedSubreddits("7"));
-////        pgr.unfollow_user_subreddit("7", "3");
-////        System.out.println(pgr.getFollowedSubreddits("7"));
-//    }
+    public static void main(String[] args) throws SQLException {
+//        LocalDateTime date = LocalDateTime.now();
+        SubReddit sub = new SubReddit("3", "wsbtester");
+        User user = new User("dfv", "p@b.com", "7");
+//        Post post = new Post("eb69a0b7-74df-4162-9550-4e1961f5f644", StringManipulation.generateRandomString(10), date,"tyl","3","7",0,"hellohellohellohell");
+//        Comment comment = new Comment("2", date, 0, "the parent");
+//        Comment commentchild = new Comment("21", date, 0, "the child",comment.getCommentID());
+        PostgresAccessor pgr = new PostgresAccessor();
+//        pgr.insertUserId(user);
+//        pgr.insertSubreddit(sub);
+//        pgr.insert_User_Follow_Subreddit(sub, user);
+//        pgr.insertPost(pgr.getConnection(), post, user, sub);
+//        pgr.insertComment(pgr.getConnection(), post, user, comment);
+//        pgr.insertComment(pgr.getConnection(), post, user, commentchild);
+        System.out.println(pgr.getAllUserID());
+        pgr.getFrontPageItemsBySubRedditID("609f1f9f-dba7-44c8-838b-c00bb5d3e7ac");
+        System.out.println(pgr.getPost("funny", "1YjAR").toString());
+        System.out.println("USER KARMA " + pgr.getUserKarma("0cb981da-10b9-4dcb-8905-b70b69dbdf95"));
+        pgr.upvotePost("9ca5ac3f-8f9f-4ed7-a6fd-5b7037d1592f");
+        pgr.downvotePost("c9fd943c-e1b8-4391-ade4-3c9f35561384");
+        pgr.upvoteComment("6a32021e-ccfe-4ab8-9284-4c4c90b1bd64");
+        pgr.downvoteComment("6666c9d9-92d5-4d4c-8aeb-0047663efbb1");
+        System.out.println("USER KARMA " + pgr.getUserKarma("0cb981da-10b9-4dcb-8905-b70b69dbdf95"));
+        System.out.println("\n\n" + pgr.getComments("5104c346-25c3-421d-befb-3b9df51d7639").toString() + "\n\n");
+
+        List<Comment> list = pgr.getComments("5104c346-25c3-421d-befb-3b9df51d7639");
+        for(Comment comment: list){
+            System.out.println(comment);
+        }
+        System.out.println("SORTING COMMENTS");
+        List<Comment> listsorted = pgr.getCommentsSorted("5104c346-25c3-421d-befb-3b9df51d7639");
+        for(Comment comment: listsorted){
+            System.out.println(comment);
+        }
+//        System.out.println(pgr.getFollowedSubreddits("7"));
+//        pgr.unfollow_user_subreddit("7", "3");
+//        System.out.println(pgr.getFollowedSubreddits("7"));
+    }
 }

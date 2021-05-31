@@ -1,13 +1,10 @@
-package dataLayer.dataAccessors;
-import models.dataModels.FPitem;
-import models.dataModels.Post;
-import models.dataModels.SubReddit;
-import models.dataModels.User;
+package holdkrykke.dataLayer.dataAccessors;
+import holdkrykke.models.dataModels.FPitem;
+import holdkrykke.models.dataModels.SubReddit;
 import redis.clients.jedis.Jedis;
-import util.DateConverter;
-import util.StringManipulation;
+import holdkrykke.util.DateConverter;
 
-import java.time.LocalDateTime;
+
 import java.util.*;
 
 
