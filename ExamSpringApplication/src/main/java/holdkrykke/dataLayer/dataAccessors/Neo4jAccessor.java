@@ -54,7 +54,7 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param userName
      * @return User or null if no record
      */
-    private User getUserByUserName(String userName) {
+    public User getUserByUserName(String userName) {
         try (Session session = driver.session()) {
             User result = session.readTransaction(new TransactionWork<User>() {
                 @Override
@@ -82,7 +82,7 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param userID
      * @return User or null if no record
      */
-    private User getUserByUserID(String userID) {
+    public User getUserByUserID(String userID) {
         try (Session session = driver.session()) {
             User result = session.readTransaction(new TransactionWork<User>() {
                 @Override
@@ -113,7 +113,7 @@ public class Neo4jAccessor implements AutoCloseable {
      *
      * @param user User to update. Pass null for non-changed values
      */
-    private User updateUser(User user) {
+    public User updateUser(User user) {
         //todo check for correct user before query
         try (Session session = driver.session()) {
             User result = session.writeTransaction(new TransactionWork<User>() {
@@ -151,7 +151,7 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param userName users username
      * @return true if deleted, otherwise False.
      */
-    private Boolean deleteUserByUserName(String userName) {
+    public Boolean deleteUserByUserName(String userName) {
         //todo check for correct user before query
         try (Session session = driver.session()) {
             Boolean result = session.writeTransaction(new TransactionWork<Boolean>() {
@@ -177,7 +177,7 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param userID
      * @return
      */
-    private Boolean deleteUserByUserID(String userID) {
+    public Boolean deleteUserByUserID(String userID) {
         //todo check for correct user before query
         try (Session session = driver.session()) {
             Boolean result = session.writeTransaction(new TransactionWork<Boolean>() {
@@ -203,7 +203,7 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param user
      * @return
      */
-    private User createUser(User user) {
+    public User createUser(User user) {
         try (Session session = driver.session()) {
             User result = session.writeTransaction(new TransactionWork<User>() {
                 @Override
@@ -239,7 +239,7 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param userID ID of user to create session for.
      * @return
      */
-    private UserSession createSession(String userID) {
+    public UserSession createSession(String userID) {
         try (Session session = driver.session()) {
             UserSession result = session.writeTransaction(new TransactionWork<>() {
                 @Override
@@ -277,7 +277,7 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param userName userName in question
      * @return
      */
-    private List<UserSession> getUserSessions(String userName) {
+    public List<UserSession> getUserSessions(String userName) {
         try (Session session = driver.session()) {
             List<UserSession> result = session.readTransaction(new TransactionWork<>() {
                 @Override
@@ -314,7 +314,7 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param sessionID ID of the session to update
      * @return new session if success; otherwise null
      */
-    private UserSession updateSession(String sessionID) {
+    public UserSession updateSession(String sessionID) {
         //todo check for correct user before query
         try (Session session = driver.session()) {
             UserSession result = session.writeTransaction(new TransactionWork<>() {
@@ -354,7 +354,7 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param message Message to create
      * @return created message
      */
-    private Message createMessage(String chatID, Message message) {
+    public Message createMessage(String chatID, Message message) {
         try (Session session = driver.session()) {
             var result = session.writeTransaction(tx -> {
                 String query =
@@ -392,7 +392,7 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param chatID id of chat in question
      * @return
      */
-    private List<Message> getChatMessages(String chatID) {
+    public List<Message> getChatMessages(String chatID) {
         try (Session session = driver.session()) {
             List<Message> result = session.readTransaction(new TransactionWork<>() {
                 @Override
@@ -427,7 +427,7 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param messageID ID of message to "delete"
      * @return message that was deleted
      */
-    private Message deleteMessage(String messageID) {
+    public Message deleteMessage(String messageID) {
         try (Session session = driver.session()) {
             var result = session.writeTransaction(tx -> {
                 String query =
@@ -457,7 +457,7 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param userNameTwo second users name
      * @return retrieved or created Chat
      */
-    private Chat GetOrCreateChat(String userNameOne, String userNameTwo) {
+    public Chat GetOrCreateChat(String userNameOne, String userNameTwo) {
         try (Session session = driver.session()) {
             var result = session.writeTransaction(tx -> {
                 String query =
@@ -493,7 +493,7 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param userName users userName
      * @return list of chats belonging to $userName
      */
-    private List<Chat> getUserChats(String userName) {
+    public List<Chat> getUserChats(String userName) {
         try (Session session = driver.session()) {
             List<Chat> result = session.readTransaction(new TransactionWork<>() {
                 @Override
