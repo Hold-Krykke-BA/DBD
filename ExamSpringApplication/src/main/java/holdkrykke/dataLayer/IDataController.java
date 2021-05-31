@@ -7,7 +7,7 @@ import holdkrykke.models.viewModels.PostWithCommentsContainer;
 import java.util.List;
 
 public interface IDataController {
-    public List<FPitem> getFrontPageItems(String userID);
+    public List<FPitem> getFrontPageItems(String userID, String subredditID);
     public List<SubReddit> getSubRedditsByUser(String userID);
     public UserContainer getUserInfo(String userID);
     public void getUserMessages(String userID);
