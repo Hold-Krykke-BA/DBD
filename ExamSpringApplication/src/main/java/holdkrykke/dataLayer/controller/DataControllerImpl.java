@@ -6,6 +6,7 @@ import holdkrykke.dataLayer.dataAccessors.PostgresAccessor;
 import holdkrykke.dataLayer.dataAccessors.RedisAccessor;
 import holdkrykke.dataLayer.dataAccessors.Neo4jAccessor;
 import holdkrykke.models.dataModels.*;
+import holdkrykke.models.viewModels.PostUpdater;
 import holdkrykke.models.viewModels.PostWithCommentsContainer;
 
 
@@ -128,8 +129,18 @@ public class DataControllerImpl implements IDataController {
     }
 
     @Override
-    public void createPost(Post post, User user, SubReddit subreddit) {
-        pgrDBD.insertPost(post, user,subreddit);
+    public void createPost(Post post) {
+        pgrDBD.insertPost(post);
+    }
+
+    @Override
+    public void updatePost(PostUpdater postupdater) {
+        pgrDBD.updatePost(postupdater.getPostID(), postupdater.getContent());
+    }
+
+    @Override
+    public void deletePost(String postID) {
+        pgrDBD.deletePost(postID);
     }
 
     @Override

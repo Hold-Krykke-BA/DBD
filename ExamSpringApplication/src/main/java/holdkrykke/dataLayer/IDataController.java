@@ -1,6 +1,7 @@
 package holdkrykke.dataLayer;
 
 import holdkrykke.models.dataModels.*;
+import holdkrykke.models.viewModels.PostUpdater;
 import holdkrykke.models.viewModels.PostWithCommentsContainer;
 
 import java.util.List;
@@ -13,7 +14,9 @@ public interface IDataController {
     public void createMessage(String userIDsender, String userIDreciever);
     public void authenticateUser(String userID);
     public void createComment(Post post, User user, Comment comment);
-    public void createPost(Post post, User user, SubReddit subreddit);
+    public void createPost(Post post);
+    public void updatePost(PostUpdater postupdater);
+    public void deletePost(String postID);
     public void createSubreddit(SubReddit subreddit);
     public void followSubreddit(SubReddit subreddit, String userID);
     public void createUser(User user);

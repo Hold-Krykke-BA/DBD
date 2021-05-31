@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import holdkrykke.dataLayer.IDataController;
 import holdkrykke.dataLayer.controller.DataControllerImpl;
+import holdkrykke.models.dataModels.Post;
 import holdkrykke.models.dataModels.SubReddit;
+import holdkrykke.models.viewModels.PostUpdater;
 import holdkrykke.models.viewModels.PostWithCommentsContainer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,16 +26,11 @@ public class ExamSpringAppApplication {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     IDataController datactr = DataControllerImpl.getInstance();
 
-//    @GetMapping("/hello")
-//    public String sayHello(@RequestParam(value = "myName", defaultValue = "World") String name) {
-//        return GSON.toJson(datactr.getUserIDs());
-//    }
 
     @GetMapping("/alluserids")
     public String getAllUserIDs() {
         return GSON.toJson(datactr.getUserIDs());
     }
-//   VwuU3/legaladvice/5104c346-25c3-421d-befb-3b9df51d7639
 
     @GetMapping("/postwithcomments/{urlID}/{subName}/{postID}")
     @ResponseBody
@@ -87,6 +84,23 @@ public class ExamSpringAppApplication {
     @ResponseBody
     public void unFollowSubreddit(@PathVariable String subredditid, @PathVariable String userid) {
         datactr.unfollowSubreddit(subredditid, userid);
+    }
+
+    @PostMapping(value ="/post", consumes = "application/json")
+    @ResponseBody
+    public void createPost(@RequestBody Post post) {
+        datactr.createPost(post);
+    }
+
+    @PutMapping (value ="/updatepost", consumes = "application/json")
+    @ResponseBody
+    public void updatePost(@RequestBody PostUpdater postupdate) {
+        datactr.updatePost(postupdate);
+    }
+
+    @DeleteMapping(value = "/deletepost/{postID}")
+    public void deletePost(@PathVariable String postID) {
+        datactr.deletePost(postID);
     }
 
 

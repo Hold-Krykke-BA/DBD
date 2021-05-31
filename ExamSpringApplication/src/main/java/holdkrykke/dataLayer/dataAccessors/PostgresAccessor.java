@@ -157,7 +157,7 @@ public class PostgresAccessor {
         return userKarma;
     }
 
-    public void insertPost(Post post, User user, SubReddit subreddit) {
+    public void insertPost(Post post) {
         Connection conn = getConnection();
         PreparedStatement stmt;
         try {
@@ -168,8 +168,8 @@ public class PostgresAccessor {
             stmt.setTimestamp(4, DateConverter.LocalDateTimeToJavaTimestamp(post.getTimestamp()));
             stmt.setString(5, post.getPostContent());
             stmt.setInt(6, post.getPostKarmaCount());
-            stmt.setString(7,user.getUserID());
-            stmt.setString(8, subreddit.getSubRedditID());
+            stmt.setString(7, post.getUserID());
+            stmt.setString(8, post.getSubredditID());
             stmt.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -288,7 +288,7 @@ public class PostgresAccessor {
         Connection conn = getConnection();
         PreparedStatement stmt;
         try {
-            stmt = conn.prepareStatement("CALL public.update_postt(?, ?)");
+            stmt = conn.prepareStatement("CALL public.update_post(?, ?)");
             stmt.setString(1, postId);
             stmt.setString(2, updatedContent);
             stmt.execute();
