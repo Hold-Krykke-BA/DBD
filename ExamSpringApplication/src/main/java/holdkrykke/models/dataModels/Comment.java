@@ -12,13 +12,8 @@ public class Comment {
     int commentKarmaCount;
     String postID;
     String userID;
+    List<Comment> children;
 
-//    public Comment(String commentID, LocalDateTime timestamp, String content) {
-//        this.content = content;
-//        this.commentID = commentID;
-//        this.timestamp = timestamp;
-//        this.commentKarmaCount = 0;
-//    }
 
 
     public Comment(String commentID, LocalDateTime timestamp, int commentKarmaCount, String content, String parentid, String postid, String userid) {
@@ -29,12 +24,16 @@ public class Comment {
         this.commentKarmaCount = commentKarmaCount;
         this.postID = postid;
         this.userID = userid;
+        this.children = new ArrayList<>();
     }
 
     public String getCommentID() {
         return commentID;
     }
 
+    public void addComment(Comment comment){
+        children.add(comment);
+    }
 
     public LocalDateTime getTimestamp() {
         return timestamp;
@@ -52,7 +51,6 @@ public class Comment {
         return parentID;
     }
 
-
     @Override
     public String toString() {
         return "Comment{" +
@@ -65,4 +63,5 @@ public class Comment {
                 ", userID='" + userID + '\'' +
                 '}';
     }
+
 }

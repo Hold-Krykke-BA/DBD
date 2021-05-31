@@ -12,6 +12,7 @@ import holdkrykke.models.viewModels.PostWithCommentsContainer;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -167,12 +168,36 @@ public class DataControllerImpl implements IDataController {
 
     @Override
     public PostWithCommentsContainer getPostWithComments(String urlIdentifier, String subredditName, String postID) {
-        return new PostWithCommentsContainer(pgrDBD.getPost(subredditName, urlIdentifier), pgrDBD.getComments(postID));
+        return new PostWithCommentsContainer(pgrDBD.getPost(subredditName, urlIdentifier), convertToTree(pgrDBD.getComments(postID)));
     }
 
     @Override
     public PostWithCommentsContainer getPostWithCommentsSorted(String urlIdentifier, String subredditName, String postID) {
-        return new PostWithCommentsContainer(pgrDBD.getPost(subredditName, urlIdentifier), pgrDBD.getCommentsSorted(postID));
+        return new PostWithCommentsContainer(pgrDBD.getPost(subredditName, urlIdentifier), convertToTree(pgrDBD.getCommentsSorted(postID)));
+    }
+
+    private List<Comment> convertToTree(List<Comment> comments){
+    List<Comment> commentTree = new ArrayList<>();
+    List<String> parentIDs = new ArrayList<>();
+
+        Map<String, Comment> map = new HashMap<>();
+
+        for(Comment comment : comments){
+            if(map.get(comment.getCommentID()) == null){
+                map.put(comment.getCommentID(), comment);
+
+                if(comment.getCommentParentID() == null){
+                    parentIDs.add(comment.getCommentID());
+                }
+            }
+            if(comment.getCommentParentID() != null){
+                map.get(comment.getCommentParentID()).addComment(comment);
+            }
+        }
+        for(String parent : parentIDs){
+            commentTree.add(map.get(parent));
+        }
+        return commentTree;
     }
 
     @Override
@@ -201,4 +226,6 @@ public class DataControllerImpl implements IDataController {
     public void downvoteComment(String commentID) {
         pgrDBD.downvoteComment(commentID);
     }
+
+
 }
