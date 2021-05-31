@@ -1,5 +1,8 @@
 package holdkrykke.models.dataModels;
 
+import holdkrykke.util.CreateUUID;
+import holdkrykke.util.StringManipulation;
+
 import java.time.LocalDateTime;
 
 public class Post {
@@ -24,14 +27,37 @@ public class Post {
         this.content = postcontent;
     }
 
-    public Post(String postID, String postidentifier, LocalDateTime timestamp, String postTitle, String subredditID, String userID, String postcontent) {
-        this.postUrlIdentifier = postidentifier;
-        this.postID = postID;
-        this.timestamp = timestamp;
+    // for creation
+    public Post(String postTitle, String subredditID, String userID, String postcontent) {
+        this.postUrlIdentifier = StringManipulation.generateRandomString(5);
+        this.postID = CreateUUID.getID();
+        this.timestamp = LocalDateTime.now();
         this.postTitle = postTitle;
         this.subredditID = subredditID;
         this.userID = userID;
         this.content = postcontent;
+    }
+
+    public Post(){
+        this.postUrlIdentifier = StringManipulation.generateRandomString(5);
+        this.postID = CreateUUID.getID();
+        this.timestamp = LocalDateTime.now();
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setPostTitle(String postTitle) {
+        this.postTitle = postTitle;
+    }
+
+    public void setSubredditID(String subredditID) {
+        this.subredditID = subredditID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getPostID() {
@@ -66,13 +92,6 @@ public class Post {
         return postKarmaCount;
     }
 
-    public void addToPostKarmaCount() {
-        postKarmaCount ++;
-    }
-
-    public void detractFromPostKarmaCount() {
-        postKarmaCount --;
-    }
 
     @Override
     public String toString() {
