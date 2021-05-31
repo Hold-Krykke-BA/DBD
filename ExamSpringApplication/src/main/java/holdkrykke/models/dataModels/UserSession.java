@@ -3,24 +3,24 @@ package holdkrykke.models.dataModels;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Session {
+public class UserSession {
     private String sessionID, userID;
     private LocalDateTime timestamp, ttl;
 
-    public Session(String sessionID, String userID, LocalDateTime timestamp) {
+    public UserSession(String sessionID, String userID, LocalDateTime timestamp) {
         this.sessionID = sessionID;
         this.userID = userID;
         this.timestamp = timestamp;
     }
 
-    public Session(String sessionID, String userID, LocalDateTime timestamp, LocalDateTime ttl) {
+    public UserSession(String sessionID, String userID, LocalDateTime timestamp, LocalDateTime ttl) {
         this.sessionID = sessionID;
         this.userID = userID;
         this.timestamp = timestamp;
         this.ttl = ttl;
     }
 
-    public Session(String userID, LocalDateTime timestamp) {
+    public UserSession(String userID, LocalDateTime timestamp) {
         this.userID = userID;
         this.timestamp = timestamp;
     }
@@ -60,9 +60,9 @@ public class Session {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Session)) return false;
-        Session session = (Session) o;
-        return Objects.equals(getSessionID(), session.getSessionID()) && Objects.equals(getUserID(), session.getUserID()) && Objects.equals(getTimestamp(), session.getTimestamp());
+        if (!(o instanceof UserSession)) return false;
+        UserSession userSession = (UserSession) o;
+        return Objects.equals(getSessionID(), userSession.getSessionID()) && Objects.equals(getUserID(), userSession.getUserID()) && Objects.equals(getTimestamp(), userSession.getTimestamp());
     }
 
     @Override

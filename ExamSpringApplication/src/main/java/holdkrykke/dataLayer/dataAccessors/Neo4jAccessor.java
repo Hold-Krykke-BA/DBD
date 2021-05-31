@@ -3,6 +3,7 @@ package holdkrykke.dataLayer.dataAccessors;
 import holdkrykke.models.dataModels.Message;
 import holdkrykke.models.dataModels.User;
 
+import holdkrykke.models.dataModels.UserSession;
 import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
 import org.neo4j.driver.exceptions.NoSuchRecordException;
@@ -237,11 +238,11 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param userID ID of user to create session for.
      * @return
      */
-    private holdkrykke.models.dataModels.Session createSession(String userID) {
+    private UserSession createSession(String userID) {
         try (Session session = driver.session()) {
-            holdkrykke.models.dataModels.Session result = session.writeTransaction(new TransactionWork<>() {
+            UserSession result = session.writeTransaction(new TransactionWork<>() {
                 @Override
-                public holdkrykke.models.dataModels.Session execute(Transaction tx) {
+                public UserSession execute(Transaction tx) {
                     String query = String.format("MATCH (u:User {userID:$userID})\n" +
                             "       WITH u\n" +
                             "       CREATE (ses:Session {sessionID:$sessionID, userID:u.userID , timestamp: localdatetime()})-[:BELONGS_TO]->(u)\n" +
@@ -257,7 +258,7 @@ public class Neo4jAccessor implements AutoCloseable {
                         LocalDateTime ttl = DateConverter.EpochToLocalDateTime(result.get("ttl").asLong());
                         LocalDateTime timestamp = result.get("timestamp").asLocalDateTime();
                         String userID = result.get("userID").toString();
-                        return new holdkrykke.models.dataModels.Session(sessionID, userID, timestamp, ttl);
+                        return new UserSession(sessionID, userID, timestamp, ttl);
                     } catch (ClientException e) {//can either hit constraint or not be targeting leader
                         System.out.println("createSession error: " + e);
                         return null;
@@ -275,24 +276,24 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param userName userName in question
      * @return
      */
-    private List<holdkrykke.models.dataModels.Session> getUserSessions(String userName) {
+    private List<UserSession> getUserSessions(String userName) {
         try (Session session = driver.session()) {
-            List<holdkrykke.models.dataModels.Session> result = session.readTransaction(new TransactionWork<>() {
+            List<UserSession> result = session.readTransaction(new TransactionWork<>() {
                 @Override
-                public List<holdkrykke.models.dataModels.Session> execute(Transaction tx) {
+                public List<UserSession> execute(Transaction tx) {
                     String query = "MATCH (ses:Session)-[:BELONGS_TO]->(u:User)\n" +
                             "WHERE u.userName = $userName\n" +
                             "RETURN ses;";
                     try {
                         var queryResult = tx.run(query, parameters("userName", userName)).list();
-                        List<holdkrykke.models.dataModels.Session> result = new ArrayList();
+                        List<UserSession> result = new ArrayList();
                         for (var res : queryResult) {
                             var node = res.get("ses");
                             String sessionID = node.get("sessionID").toString();
                             String userID = node.get("userID").toString();
                             LocalDateTime timestamp = node.get("timestamp").asLocalDateTime();
                             LocalDateTime ttl = DateConverter.EpochToLocalDateTime(node.get("ttl").asLong());
-                            result.add(new holdkrykke.models.dataModels.Session(sessionID, userID, timestamp, ttl));
+                            result.add(new UserSession(sessionID, userID, timestamp, ttl));
                         }
                         return result;
                     } catch (NoSuchRecordException e) {
@@ -312,12 +313,12 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param sessionID ID of the session to update
      * @return new session if success; otherwise null
      */
-    private holdkrykke.models.dataModels.Session updateSession(String sessionID) {
+    private UserSession updateSession(String sessionID) {
         //todo check for correct user before query
         try (Session session = driver.session()) {
-            holdkrykke.models.dataModels.Session result = session.writeTransaction(new TransactionWork<>() {
+            UserSession result = session.writeTransaction(new TransactionWork<>() {
                 @Override
-                public holdkrykke.models.dataModels.Session execute(Transaction tx) {
+                public UserSession execute(Transaction tx) {
                     String query = String.format(
                             "MATCH (ses:Session {sessionID: $sessionID})\n" +
                                     "WITH ses\n" +
@@ -329,7 +330,7 @@ public class Neo4jAccessor implements AutoCloseable {
                         String userID = res.get("userID").toString();
                         LocalDateTime timestamp = res.get("timestamp").asLocalDateTime();
                         LocalDateTime ttl = DateConverter.EpochToLocalDateTime(res.get("ttl").asLong());
-                        return new holdkrykke.models.dataModels.Session(sessionID, userID, timestamp, ttl);
+                        return new UserSession(sessionID, userID, timestamp, ttl);
                     } catch (NoSuchRecordException e) {
                         System.out.println("updateUser error: " + e);
                         return null;

@@ -99,7 +99,7 @@ MATCH
 CREATE (rn)-[r:FOLLOWS]->(al)
 RETURN r;
 
-RETURN 'Creating session relationships';
+RETURN 'Creating userSession relationships';
 
 MATCH
   (rn:User),
