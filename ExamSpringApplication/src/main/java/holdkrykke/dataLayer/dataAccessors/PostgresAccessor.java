@@ -236,7 +236,7 @@ public class PostgresAccessor {
         return comments;
     }
 
-    public void insertComment(Post post, User user, Comment comment) {
+    public void insertComment(Comment comment) {
         Connection conn = getConnection();
         PreparedStatement stmt;
         try {
@@ -246,8 +246,8 @@ public class PostgresAccessor {
             stmt.setTimestamp(3, DateConverter.LocalDateTimeToJavaTimestamp(comment.getTimestamp()));
             stmt.setString(4, comment.getCommentContent());
             stmt.setInt(5, comment.getCommentKarmaCount());
-            stmt.setString(6, post.getPostID());
-            stmt.setString(7, user.getUserID());
+            stmt.setString(6, comment.getPostID());
+            stmt.setString(7, comment.getUserID());
             stmt.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
