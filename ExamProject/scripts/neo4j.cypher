@@ -31,23 +31,48 @@ RETURN 'Creating sessions';
 //CREATE (:Session {sessionID: "", userID: "", timestamp: localdatetime()});
 CREATE (ses:Session {sessionID: '1', userID: '1', timestamp: localdatetime()})
 WITH ses
-call apoc.ttl.expireIn(ses, 24, 'h') RETURN ses;
+CALL apoc.ttl.expireIn(ses, 24, 'h')
+RETURN ses;
 
 CREATE (ses:Session {sessionID: '2', userID: '2', timestamp: localdatetime()})
 WITH ses
-call apoc.ttl.expireIn(ses, 24, 'h') RETURN ses;
+CALL apoc.ttl.expireIn(ses, 24, 'h')
+RETURN ses;
 
 CREATE (ses:Session {sessionID: '3', userID: '3', timestamp: localdatetime()})
 WITH ses
-call apoc.ttl.expireIn(ses, 24, 'h') RETURN ses;
+CALL apoc.ttl.expireIn(ses, 24, 'h')
+RETURN ses;
 
 CREATE (ses:Session {sessionID: '4', userID: '1', timestamp: localdatetime()})
 WITH ses
-call apoc.ttl.expireIn(ses, 24, 'h') RETURN ses;
+CALL apoc.ttl.expireIn(ses, 24, 'h')
+RETURN ses;
+
+RETURN 'Creating chats';
+
+MATCH
+  (rn:User),
+  (cs:User)
+  WHERE rn.userName = 'rvn' AND cs.userName = 'cvs'
+CREATE (ch:Chat {chatID: 1, senderUserID: "1", receiverUserID: "2"})
+CREATE (rn)-[r1:PARTICIPATES_IN]->(ch)
+CREATE (cs)-[r2:PARTICIPATES_IN]->(ch)
+RETURN r1, r2;
+
+//MATCH
+//  (rn:User),
+//  (cs:User)
+//  WHERE rn.userName = 'rvn' AND cs.userName = 'cvs'
+//WITH rn, cs
+//MERGE https://neo4j.com/docs/cypher-manual/current/clauses/merge/
 
 RETURN 'Creating messages';
-//CREATE (:Message {senderUserID: '', receiverUserID: '', Content: '', timeStamp: localdatetime()});
-CREATE (:Message {senderUserID: '', receiverUserID: '', Content: '', timestamp: localdatetime()});
+//CREATE (:Message {senderUserID: '', receiverUserID: '', content: '', timeStamp: localdatetime()});
+MATCH(ch:Chat{chatID: 1})
+WITH ch
+CREATE
+  (msg:Message {messageID: '1', senderUserID: '1', receiverUserID: '2', content: 'yoyoyo', timestamp: localdatetime()})-[:CHAT_PARENT]->(ch);
 
 RETURN '---Creating relationships---';
 
