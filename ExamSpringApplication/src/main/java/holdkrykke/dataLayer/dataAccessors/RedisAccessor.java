@@ -1,6 +1,7 @@
 package holdkrykke.dataLayer.dataAccessors;
 import holdkrykke.models.dataModels.FPitem;
 import holdkrykke.models.dataModels.SubReddit;
+import holdkrykke.util.CreateUUID;
 import redis.clients.jedis.Jedis;
 import holdkrykke.util.DateConverter;
 
@@ -10,28 +11,28 @@ import java.util.*;
 
 public class RedisAccessor {
     Jedis jedis;
-    int cacheTimeout = 15000000;
+    int cacheTimeout = 60000;
 
     public RedisAccessor(){
         jedis = new Jedis("0.0.0.0", 6379);
     }
 
-    public void createFrontpageCacheID(String userID){
-        UUID cacheID = UUID.randomUUID();
-        jedis.set(userID, cacheID.toString());
-        jedis.pexpire(userID,cacheTimeout);
+    public void createFrontpageCacheID(String userID, String subredditID){
+        System.out.println("Creating new cacheID: " + userID+subredditID);
+        String cacheID = CreateUUID.getID();
+        jedis.set(userID+subredditID, cacheID);
+        jedis.pexpire(userID+subredditID,cacheTimeout);
     }
 
-    public String getFrontpageCacheID(String userID){
-        return jedis.get(userID);
+    public String getFrontpageCacheID(String userID, String subredditID){
+        return jedis.get(userID+subredditID);
     }
 
     public void createPostCache(FPitem fpItem , String cacheID){
-        UUID postUUID = UUID.randomUUID();
-        jedis.rpush(cacheID, postUUID.toString());
+        String postUUID = CreateUUID.getID();
+        jedis.rpush(cacheID, postUUID);
         jedis.pexpire(cacheID,cacheTimeout);
-
-        createFPitem(fpItem, postUUID.toString());
+        createFPitem(fpItem, postUUID);
     }
 
     public void createMultiplePostCache(List<FPitem> fpitems, String cacheID){
@@ -56,11 +57,11 @@ public class RedisAccessor {
         map.put("postidentifier",fpItem.getPostUrlIdentifier());
         jedis.hset(postuuid, map);
         jedis.pexpire(postuuid,cacheTimeout);
+        System.out.println("Creating new cache item: " + map);
     }
 
-
-    public List<FPitem> getFPitems(String userID){
-        List<String> postuuids = getPostUUIDs(getFrontpageCacheID(userID));
+    public List<FPitem> getFPitems(String userID, String subredditID){
+        List<String> postuuids = getPostUUIDs(getFrontpageCacheID(userID, subredditID));
         Map<String, String> map;
         List<FPitem> fpitems = new ArrayList<>();
 
@@ -70,6 +71,8 @@ public class RedisAccessor {
                     Integer.parseInt(map.get("karma")), Integer.parseInt(map.get("comments")), userID));
 
         }
+        System.out.println("Getting cache with key: " + userID+subredditID);
+        System.out.println("Cache is: " + fpitems);
         return fpitems;
     }
 

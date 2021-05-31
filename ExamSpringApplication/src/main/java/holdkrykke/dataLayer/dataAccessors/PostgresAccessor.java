@@ -255,6 +255,7 @@ public class PostgresAccessor {
     }
 
     public List<Map<String, Object>> getFrontPageItemsBySubRedditID(String subredditID){
+        System.out.println("Retrieving FPitems from Postgres");
         Connection conn = getConnection();
         List<Map<String, Object>> fpitems = new ArrayList<>();
         PreparedStatement stmt;

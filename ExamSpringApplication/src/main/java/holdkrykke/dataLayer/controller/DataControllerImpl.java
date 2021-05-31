@@ -36,21 +36,21 @@ public class DataControllerImpl implements IDataController {
     }
 
     @Override
-    public List<FPitem> getFrontPageItems(String userID) {
-        List<FPitem> result = redDBD.getFPitems(userID);
+    public List<FPitem> getFrontPageItems(String userID, String subredditID) {
+        List<FPitem> result = redDBD.getFPitems(userID, subredditID);
 
         if (result.size() < minFrontpageItems){
             List<FPitem> uncached = new ArrayList<>();
 
             // FOR RÚNI: call neo4j with post_user_id from postgres to get post_username
-            List<Map<String, Object>> FPmapList = pgrDBD.getFrontPageItemsBySubRedditID("609f1f9f-dba7-44c8-838b-c00bb5d3e7ac");
+            List<Map<String, Object>> FPmapList = pgrDBD.getFrontPageItemsBySubRedditID(subredditID);
             for(Map<String, Object> map : FPmapList){
                 uncached.add(new FPitem((String)map.get("post_title"), (String)map.get("post_url_identifier"),
                         (String)map.get("subreddit_name"), "post_username", (LocalDateTime) map.get("post_timestamp"),
                         (int) map.get("post_karma"), (int)map.get("comments"), (String)map.get("post_user_id")));
             }
-            redDBD.createFrontpageCacheID(userID);
-            redDBD.createMultiplePostCache(uncached, redDBD.getFrontpageCacheID(userID));
+            redDBD.createFrontpageCacheID(userID, subredditID);
+            redDBD.createMultiplePostCache(uncached, redDBD.getFrontpageCacheID(userID, subredditID));
             result = uncached;
         }
         return result;

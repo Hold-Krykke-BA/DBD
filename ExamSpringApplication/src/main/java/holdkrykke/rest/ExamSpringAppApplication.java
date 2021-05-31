@@ -103,5 +103,9 @@ public class ExamSpringAppApplication {
         datactr.deletePost(postID);
     }
 
-
+    @GetMapping("/fpitems/{userid}/{subid}")
+    @ResponseBody
+    public String FPItems(@PathVariable String userid,@PathVariable String subid) {
+        return GSON.toJson(datactr.getFrontPageItems(userid,subid));
+    }
 }
