@@ -46,10 +46,10 @@ public class ExamSpringAppApplication {
         return GSON.toJson(datactr.getPostWithCommentsSorted(urlID, subName, postID));
     }
 
-    @GetMapping("/userkarma/{userid}")
+    @GetMapping("/userinfo/{userid}")
     @ResponseBody
-    public String getUserKarma(@PathVariable String userid) {
-        return GSON.toJson(datactr.getUserKarma(userid));
+    public String getUserInfo(@PathVariable String userid) {
+        return GSON.toJson(datactr.getUserInfo(userid));
     }
 
     @GetMapping("/downvotepost/{postid}")

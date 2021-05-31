@@ -8,8 +8,7 @@ import java.util.List;
 public interface IDataController {
     public List<FPitem> getFrontPageItems(String userID);
     public List<SubReddit> getSubRedditsByUser(String userID);
-    public User getUserInfo(String userID);
-    public UserKarma getUserKarma(String userID);
+    public UserContainer getUserInfo(String userID);
     public void getUserMessages(String userID);
     public void createMessage(String userIDsender, String userIDreciever);
     public void authenticateUser(String userID);
