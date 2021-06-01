@@ -24,14 +24,14 @@ public class DataControllerImpl implements IDataController {
     private Neo4jAccessor neoDBD;
     private int minFrontpageItems = 25;
 
-    private DataControllerImpl(){
+    private DataControllerImpl() {
         this.redDBD = new RedisAccessor();
         this.pgrDBD = new PostgresAccessor();
         this.neoDBD = new Neo4jAccessor();
     }
 
-    public static DataControllerImpl getInstance(){
-        if (singleton == null){
+    public static DataControllerImpl getInstance() {
+        if (singleton == null) {
             singleton = new DataControllerImpl();
         }
         return singleton;
@@ -41,15 +41,15 @@ public class DataControllerImpl implements IDataController {
     public List<FPitem> getFrontPageItems(String userID, String subredditID) {
         List<FPitem> result = redDBD.getFPitems(userID, subredditID);
 
-        if (result.size() < minFrontpageItems){
+        if (result.size() < minFrontpageItems) {
             List<FPitem> uncached = new ArrayList<>();
 
             List<Map<String, Object>> FPmapList = pgrDBD.getFrontPageItemsBySubRedditID(subredditID);
-            for(Map<String, Object> map : FPmapList){
+            for (Map<String, Object> map : FPmapList) {
                 String userName = neoDBD.getUserByUserID(map.get("post_user_id").toString()).getUserName();
-                uncached.add(new FPitem((String)map.get("post_title"), (String)map.get("post_url_identifier"),
-                        (String)map.get("subreddit_name"), userName, (LocalDateTime) map.get("post_timestamp"),
-                        (int) map.get("post_karma"), (int)map.get("comments"), (String)map.get("post_user_id")));
+                uncached.add(new FPitem((String) map.get("post_title"), (String) map.get("post_url_identifier"),
+                        (String) map.get("subreddit_name"), userName, (LocalDateTime) map.get("post_timestamp"),
+                        (int) map.get("post_karma"), (int) map.get("comments"), (String) map.get("post_user_id")));
             }
             redDBD.createFrontpageCacheID(userID, subredditID);
             redDBD.createMultiplePostCache(uncached, redDBD.getFrontpageCacheID(userID, subredditID));
@@ -61,9 +61,9 @@ public class DataControllerImpl implements IDataController {
     @Override
     public List<SubReddit> getSubRedditsByUser(String userID) {
         List<SubReddit> subreddits = redDBD.getFollowedSubreddits(userID);
-        if(subreddits.isEmpty()){
+        if (subreddits.isEmpty()) {
             subreddits = pgrDBD.getFollowedSubreddits(userID);
-            for(SubReddit subreddit : subreddits){
+            for (SubReddit subreddit : subreddits) {
                 redDBD.createUserSubredditCache(userID, subreddit);
             }
         }
@@ -105,7 +105,7 @@ public class DataControllerImpl implements IDataController {
 
     @Override
     public void updateComment(CommentUpdater commentUpdater) {
-        pgrDBD.updateComment(commentUpdater.getCommentID(),commentUpdater.getContent());
+        pgrDBD.updateComment(commentUpdater.getCommentID(), commentUpdater.getContent());
     }
 
     @Override
@@ -160,25 +160,25 @@ public class DataControllerImpl implements IDataController {
         return new PostWithCommentsContainer(pgrDBD.getPost(subredditName, urlIdentifier), convertToTree(pgrDBD.getCommentsSorted(postID)));
     }
 
-    private List<Comment> convertToTree(List<Comment> comments){
-    List<Comment> commentTree = new ArrayList<>();
-    List<String> parentIDs = new ArrayList<>();
+    private List<Comment> convertToTree(List<Comment> comments) {
+        List<Comment> commentTree = new ArrayList<>();
+        List<String> parentIDs = new ArrayList<>();
 
         Map<String, Comment> map = new HashMap<>();
 
-        for(Comment comment : comments){
-            if(map.get(comment.getCommentID()) == null){
+        for (Comment comment : comments) {
+            if (map.get(comment.getCommentID()) == null) {
                 map.put(comment.getCommentID(), comment);
 
-                if(comment.getCommentParentID() == null){
+                if (comment.getCommentParentID() == null) {
                     parentIDs.add(comment.getCommentID());
                 }
             }
-            if(comment.getCommentParentID() != null){
+            if (comment.getCommentParentID() != null) {
                 map.get(comment.getCommentParentID()).addComment(comment);
             }
         }
-        for(String parent : parentIDs){
+        for (String parent : parentIDs) {
             commentTree.add(map.get(parent));
         }
         return commentTree;
