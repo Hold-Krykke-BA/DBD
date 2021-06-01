@@ -84,9 +84,9 @@ public class DataControllerImpl implements IDataController {
     }
 
     @Override
-    public Message createMessage(String userIDsender, String userIDreciever) {
-        throw new UnsupportedOperationException();
-
+    public Message createMessage(Message message, String userIDreciever) {
+        var chat = neoDBD.GetOrCreateChat(message.getSenderUserID(), userIDreciever);
+        return neoDBD.createMessage(chat.getChatID(), message);
     }
 
     @Override

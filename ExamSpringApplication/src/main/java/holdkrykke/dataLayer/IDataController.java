@@ -12,7 +12,7 @@ public interface IDataController {
     public List<SubReddit> getSubRedditsByUser(String userID);
     public UserContainer getUserInfo(String userID);
     public List<Message> getUserMessages(String userID);
-    public Message createMessage(String userIDsender, String userIDreciever);
+    public Message createMessage(Message message, String userIDreciever);
     public User authenticateUser(String userID);
     public void createComment(Comment comment);
     public void updateComment(CommentUpdater commentUpdater);
