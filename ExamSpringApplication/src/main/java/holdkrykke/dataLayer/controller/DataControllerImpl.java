@@ -90,12 +90,22 @@ public class DataControllerImpl implements IDataController {
     }
 
     @Override
-    public User authenticateUser(String userID) {
-        //if authenticated, check session
-        //1. get session on user
-        //2. if no session, make new
-        //3. if session, renew ttl and return
-        throw new UnsupportedOperationException();
+    public List<UserSession> authenticateUser(String userID) {
+        List<UserSession> sessions = neoDBD.getUserSessions(userID);
+
+        if (sessions == null) {
+            sessions = new ArrayList<UserSession>();
+        }
+        if (sessions.isEmpty()) {
+            sessions.add(neoDBD.createSession(userID));
+        } else {
+            for (int i = 0; i < sessions.size(); i++) {
+                UserSession ses = sessions.get(i);
+                UserSession newSes = neoDBD.updateSession(ses.getSessionID());
+                sessions.set(i, newSes);
+            }
+        }
+        return sessions;
     }
 
     @Override

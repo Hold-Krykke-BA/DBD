@@ -272,21 +272,21 @@ public class Neo4jAccessor implements AutoCloseable {
     }
 
     /**
-     * Returns a list of sessions belonging to given userName
+     * Returns a list of sessions belonging to given userID
      *
-     * @param userName userName in question
+     * @param userID userID in question
      * @return
      */
-    public List<UserSession> getUserSessions(String userName) {
+    public List<UserSession> getUserSessions(String userID) {
         try (Session session = driver.session()) {
             List<UserSession> result = session.readTransaction(new TransactionWork<>() {
                 @Override
                 public List<UserSession> execute(Transaction tx) {
                     String query = "MATCH (ses:Session)-[:BELONGS_TO]->(u:User)\n" +
-                            "WHERE u.userName = $userName\n" +
+                            "WHERE u.userID = $userID\n" +
                             "RETURN ses;";
                     try {
-                        var queryResult = tx.run(query, parameters("userName", userName)).list();
+                        var queryResult = tx.run(query, parameters("userID", userID)).list();
                         List<UserSession> result = new ArrayList();
                         for (var res : queryResult) {
                             var node = res.get("ses");

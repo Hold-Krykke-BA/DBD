@@ -13,7 +13,7 @@ public interface IDataController {
     public UserContainer getUserInfo(String userID);
     public List<Message> getUserMessages(String userID);
     public Message createMessage(Message message, String userIDreciever);
-    public User authenticateUser(String userID);
+    public List<UserSession> authenticateUser(String userID);
     public void createComment(Comment comment);
     public void updateComment(CommentUpdater commentUpdater);
     public void deleteComment(String commentID);
