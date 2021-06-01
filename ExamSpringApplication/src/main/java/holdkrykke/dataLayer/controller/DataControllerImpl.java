@@ -78,22 +78,24 @@ public class DataControllerImpl implements IDataController {
     }
 
     @Override
-    public void getUserMessages(String userID) {
+    public List<Message> getUserMessages(String userID) {
+        throw new UnsupportedOperationException();
 
     }
 
     @Override
-    public void createMessage(String userIDsender, String userIDreciever) {
+    public Message createMessage(String userIDsender, String userIDreciever) {
+        throw new UnsupportedOperationException();
 
     }
 
     @Override
-    public void authenticateUser(String userID) {
+    public User authenticateUser(String userID) {
         //if authenticated, check session
         //1. get session on user
         //2. if no session, make new
         //3. if session, renew ttl and return
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -138,9 +140,9 @@ public class DataControllerImpl implements IDataController {
     }
 
     @Override
-    public void createUser(User user) {
-        neoDBD.createUser(user);
+    public User createUser(User user) {
         pgrDBD.insertUserId(user);
+        return neoDBD.createUser(user);
     }
 
     @Override
@@ -208,6 +210,5 @@ public class DataControllerImpl implements IDataController {
     public void downvoteComment(String commentID) {
         pgrDBD.downvoteComment(commentID);
     }
-
 
 }
