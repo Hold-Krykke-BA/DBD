@@ -1,1 +1,0 @@
-docker run -p 5433:5432 -d -e POSTGRES_PASSWORD=softdbd -e POSTGRES_USER=softdbd -e POSTGRES_DB=soft2021 -v pgdata:/var/lib/postgresql/data postgres
