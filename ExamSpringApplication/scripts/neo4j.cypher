@@ -1,4 +1,4 @@
-//neo4j.cypher V1.5
+//neo4j.cypher V1.6
 //DDL & DML file for  initializing neo4j
 
 RETURN 'Clearing database';
@@ -16,35 +16,38 @@ RETURN '---Creating nodes---';
 RETURN 'Creating users';
 //CREATE (:User {userName:"",userPassHash: "", userEmail: ""});
 CREATE
-  (rn:User {userID: '1', userName: 'rvn', userPassHash: '1234', userEmail: 'cph-rn118@cphbusiness.dk'})
+  (rn:User {userID:    '30f18a0b-e052-44eb-8c24-23a032b97af3', userName: 'rvn', userPassHash: '1234',
+            userEmail: 'cph-rn118@cphbusiness.dk'})
 RETURN rn;
 
 CREATE
-  (cs:User {userID: '2', userName: 'cvs', userPassHash: '1234', userEmail: 'cph-cs340@cphbusiness.dk'})
+  (cs:User {userID:    'a643196f-6a35-496e-a206-774c4bdc1d7c', userName: 'cvs', userPassHash: '1234',
+            userEmail: 'cph-cs340@cphbusiness.dk'})
 RETURN cs;
 
 CREATE
-  (al:User {userID: '3', userName: 'alt', userPassHash: '1234', userEmail: 'cph-al217@cphbusiness.dk'})
+  (al:User {userID:    '62eabb1d-10e1-4e43-ae48-6889835a678d', userName: 'alt', userPassHash: '1234',
+            userEmail: 'cph-al217@cphbusiness.dk'})
 RETURN al;
 
 RETURN 'Creating sessions';
 //CREATE (:Session {sessionID: "", userID: "", timestamp: localdatetime()});
-CREATE (ses:Session {sessionID: '1', userID: '1', timestamp: localdatetime()})
+CREATE (ses:Session {sessionID: '1', userID: '30f18a0b-e052-44eb-8c24-23a032b97af3', timestamp: localdatetime()})
 WITH ses
 CALL apoc.ttl.expireIn(ses, 24, 'h')
 RETURN ses;
 
-CREATE (ses:Session {sessionID: '2', userID: '2', timestamp: localdatetime()})
+CREATE (ses:Session {sessionID: '2', userID: 'a643196f-6a35-496e-a206-774c4bdc1d7c', timestamp: localdatetime()})
 WITH ses
 CALL apoc.ttl.expireIn(ses, 24, 'h')
 RETURN ses;
 
-CREATE (ses:Session {sessionID: '3', userID: '3', timestamp: localdatetime()})
+CREATE (ses:Session {sessionID: '3', userID: '62eabb1d-10e1-4e43-ae48-6889835a678d', timestamp: localdatetime()})
 WITH ses
 CALL apoc.ttl.expireIn(ses, 24, 'h')
 RETURN ses;
 
-CREATE (ses:Session {sessionID: '4', userID: '1', timestamp: localdatetime()})
+CREATE (ses:Session {sessionID: '4', userID: '30f18a0b-e052-44eb-8c24-23a032b97af3', timestamp: localdatetime()})
 WITH ses
 CALL apoc.ttl.expireIn(ses, 24, 'h')
 RETURN ses;
@@ -55,29 +58,24 @@ MATCH
   (rn:User),
   (cs:User)
   WHERE rn.userName = 'rvn' AND cs.userName = 'cvs'
-CREATE (ch:Chat {chatID: "1", timestamp: localdatetime()})
+CREATE (ch:Chat {chatID: '1', timestamp: localdatetime()})
 CREATE (rn)-[r1:PARTICIPATES_IN]->(ch)
 CREATE (cs)-[r2:PARTICIPATES_IN]->(ch)
 RETURN r1, r2;
 
-//MATCH
-//  (rn:User),
-//  (cs:User)
-//  WHERE rn.userName = 'rvn' AND cs.userName = 'cvs'
-//WITH rn, cs
-//MERGE https://neo4j.com/docs/cypher-manual/current/clauses/merge/
-
 RETURN 'Creating messages';
 //CREATE (:Message {senderUserID: '', receiverUserID: '', content: '', timeStamp: localdatetime()});
-MATCH(ch:Chat {chatID: "1"})
+MATCH(ch:Chat {chatID: '1'})
 WITH ch
 CREATE
-  (msg:Message {messageID: '1', senderUserID: '1', content: 'yoyoyo', timestamp: localdatetime()})-[:CHAT_PARENT]->(ch);
+  (msg:Message {messageID: '1', senderUserID: '30f18a0b-e052-44eb-8c24-23a032b97af3', content: 'yoyoyo',
+                timestamp: localdatetime()})-[:CHAT_PARENT]->(ch);
 
-MATCH(ch:Chat {chatID: "1"})
+MATCH(ch:Chat {chatID: '1'})
 WITH ch
 CREATE
-  (msg:Message {messageID: '2', senderUserID: '2', content: 'Long time no see', timestamp: localdatetime()})
+  (msg:Message {messageID: '2', senderUserID: 'a643196f-6a35-496e-a206-774c4bdc1d7c', content: 'Long time no see',
+                timestamp: localdatetime()})
     -[:CHAT_PARENT]->(ch);
 
 RETURN '---Creating relationships---';
@@ -149,8 +147,8 @@ RETURN "---Creating custom indexes---";
 CREATE INDEX user_IDX_userName IF NOT exists FOR (u:User) ON (u.userName);
 CREATE INDEX user_IDX_userID IF NOT exists FOR (u:User) ON (u.userID);
 
-//return "---Creating test data---";
-//if more is needed
+RETURN "---Creating more test data---";
+
 
 //with ("Runi", "Benjamin", "Christian", "Dima", "Camilla", "Mads", "Andreas","Claus") as names
-//foreach (i in range(0, 10000) | create (:User {username:names[i%size(names)]+i}))
+//FOREACH (i IN range(0, 11) | CREATE (:User {username:names[i % size(names)] + i}))
