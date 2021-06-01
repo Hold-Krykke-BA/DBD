@@ -6,3 +6,4 @@
 - [Assignment 3 - EDMA](/Assignment3)
 - [Assignment 4 - Graph databases](/Assignment4)
 - [Assignment 5 - Key-Value stores (Redis)](/Assignment5)
+- [EXAM Project](https://github.com/Hold-Krykke-BA/DBD/tree/main/ExamSpringApplication)
