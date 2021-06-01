@@ -50,8 +50,11 @@ CREATE TABLE postcomment (
   FOREIGN KEY (post_id)
     REFERENCES post (post_id) ON DELETE CASCADE,
   FOREIGN KEY (user_id)
-    REFERENCES reddit_user (user_id)
+    REFERENCES reddit_user (user_id), 
+  FOREIGN KEY (parent_id)
+	REFERENCES postcomment (comment_id) ON DELETE CASCADE
 );
+
 
 
 
