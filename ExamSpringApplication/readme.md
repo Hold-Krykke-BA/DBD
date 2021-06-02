@@ -2,13 +2,13 @@
 
 
 **Authors**
-*Rúni Vedel Niclasen - cph-rn118
-Camilla Jenny Valerius Staunstrup - cph-cs340*  
+*Rúni Vedel Niclasen - cph-rn118  
+Camilla Jenny Valerius Staunstrup - cph-cs340*   
 
-**[Link to Source Code Repository](https://github.com/Hold-Krykke-BA/DBD/tree/main/ExamSpringApplication)**
+**[Link to Source Code Repository](https://github.com/Hold-Krykke-BA/DBD/tree/main/ExamSpringApplication)**  
   
-June 2nd 2021 - Software Development - Copenhagen Business Academy
-Characer count: 18173
+June 2nd 2021 - Software Development - Copenhagen Business Academy  
+Characer count: 18173  
 
 
 
