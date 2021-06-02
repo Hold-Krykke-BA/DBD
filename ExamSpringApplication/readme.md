@@ -53,7 +53,7 @@ Characer count: 18173
 
 
 ## Introduction
-For this project we wanted to create a user-driven online forum. As software developer students we spend a lot of time on forums like reddit [red], stackoverflow [stack] and hackernews [hack] and have wondered how they are built.
+For this project we wanted to create a user-driven online forum. As software developer students we spend a lot of time on forums like reddit [red](#References), stackoverflow [stack](#References) and hackernews [hack](#References) and have wondered how they are built.
 
 ### Databases
 We were assigned to use three databases, so in order to make a semi-realistic use case in combination with a user-driven forum, we had an overall idea of dividing the responsibility as follows:
@@ -67,7 +67,7 @@ We considered several databases for this project and settled on the following th
 - **Postgresql**
     - We have wanted to dive deeper in our understanding of relational databases in this project. The post and comments combined with the user interaction is a good way to explore more features, such as functions, procedures and triggers.
 - **Neo4J**
-    - Our initial plan with Neo4J was to use its advanced features such as fraud detection and general efficiency of the database with growing amounts of connected data between users in the form of chat messages and user relationships [neo]. 
+    - Our initial plan with Neo4J was to use its advanced features such as fraud detection and general efficiency of the database with growing amounts of connected data between users in the form of chat messages and user relationships [neo](#References). 
 
 
 Other considerations were HBase and MongoDB. We decided against MongoDB primarily because it hasn’t been included in our curriculum for this course. HBase was decided against since the use case in our project would have been the same as Postgres. Due to the size and time constraints of the project we decided that it would be more beneficial to dive deeper in the postgres functionalities rather than adding a third, new database. 
@@ -78,7 +78,7 @@ A full overview of our system can be seen in the following diagram. This has bee
 
 
 ![](https://i.imgur.com/SAk1E9h.png)
-*Full application diagram. A greater resolution image can be seen in our repository [diagrams].*
+*Full application diagram. A greater resolution image can be seen in our repository [diagrams](#References).*
 
 As part of the development of the system we wrote down our product requirements. These can be found in Appendix B.
 
@@ -90,13 +90,13 @@ We have strived to implement best practices for our solution, modifying where ne
 
 
 ### Postgresql
-The Postgres database was implemented as in the application diagram [diagrams]. The diagram represents the final version as can also be seen in the following ER diagram produced by the DBeaver client application. 
+The Postgres database was implemented as in the application diagram [diagrams](#References). The diagram represents the final version as can also be seen in the following ER diagram produced by the DBeaver client application. 
 
 ![](https://i.imgur.com/cbOD0Q1.png)
 
 *ER diagram showcasing all tables and relationships in Postgres.* 
 
-When designing our schema we aimed to avoid partial or transitive dependencies, as well as ensuring single valued columns and only storing columns with a common domain in the same table [norm].
+When designing our schema we aimed to avoid partial or transitive dependencies, as well as ensuring single valued columns and only storing columns with a common domain in the same table [norm](#References).
 
 #### Responsibility 
 For this project we decided to put as much responsibility on Postgres as we could. This was done in order to be able to dive deeper into some of the functionalities in a relational database that we would have otherwise let the Java backend handle. This has resulted in a `PostgresAccessor` class in Java that only calls functions and procedures. Below you will find an example of how we call the functions and procedures:
@@ -117,7 +117,7 @@ public void upvotePost(String postID) {
 ```
 *Example on a simple procedure call in PostgresAccessor.java. Functions are called by `SELECT * FROM functionName();`*
 
-In regards to the stored procedures we are purposefully using a `PreparedStatement` instead of a `CallableStatement`. This is done to avoid the workaround to be able to use `CallableStatement`, as this might be changed in the future [prodpsql] [prodgit].
+In regards to the stored procedures we are purposefully using a `PreparedStatement` instead of a `CallableStatement`. This is done to avoid the workaround to be able to use `CallableStatement`, as this might be changed in the future [prodpsql](#References) [prodgit](#References).
 
 
 
@@ -172,7 +172,7 @@ LANGUAGE plpgsql;
 ```
 
 #### Indexing and Queryplan
-We looked into query plans in order to get a better understanding of what we should create our indexes on, as well as looking at our stored functions and procedures, specifically the `WHERE` clauses, as these are the fields being queried the most [query]. 
+We looked into query plans in order to get a better understanding of what we should create our indexes on, as well as looking at our stored functions and procedures, specifically the `WHERE` clauses, as these are the fields being queried the most [query](#References). 
 We generated a plan before and after creating an index based on `WHERE` clauses and could see an improvement in the overall execution time. We planned on creating another set of query plans after the creation of large amounts of synthetic data, but time constraints haven’t made it possible for us to do that yet.
 
 #### Triggers
@@ -216,7 +216,7 @@ Comments can have a parent (if the comment is at the top level the parent is `NU
 ![](https://i.imgur.com/U3213Mm.png)
 *Example of reddit comment thread with multiple levels of comments.*
 
-In order to achieve this we have implemented a solution [sorting] by Erwin Brandstetter [erwin], modified to our needs.  
+In order to achieve this we have implemented a solution [sorting](#References) by Erwin Brandstetter [erwin](#References), modified to our needs.  
 
 We use the statement `WITH RECURSIVE` to create a flat tree structure from the comments. In the statement there are two `SELECT` statements separated by `UNION ALL`. The first `SELECT` picks out all the top level comments using the `WHERE` clause and sorts them with the help of  `row_number()` that assigns an integer value to the resultset based on the clause of `OVER` which in our case is `ORDER BY` “karma” descending and then “timestamp” ascending. 
 The next `SELECT` finds all lower level child comments in the same manner as described above. The `UNION ALL` combines both result sets into one.
@@ -282,15 +282,15 @@ The database was set up with three clusters and two replicas in *READ* mode.
 | readreplica2 | localhost:7691 | read_replica | READ         |
 _Generated using `:sysinfo` and `CALL dbms.routing.getRoutingTable({}, "neo4j") `_
 
-This setup follows Neo4j's *causal clustering* architecture, ensuring transactional safety, scalability and consistency [neo4jclustering].
-It is important to note that the roles and routing of the cores can change using the default setup of Neo4j, so even though *core2* is marked as **leader** in the above table, it may not always be [neo4jclusteringmedium].
+This setup follows Neo4j's *causal clustering* architecture, ensuring transactional safety, scalability and consistency [neo4jclustering](#References).
+It is important to note that the roles and routing of the cores can change using the default setup of Neo4j, so even though *core2* is marked as **leader** in the above table, it may not always be [neo4jclusteringmedium](#References).
 
-The database scheme was implemented as in the application diagram [diagrams]. There were some slight changes throughout the development period, most notably the inclusion of the Chat node.
+The database scheme was implemented as in the application diagram [diagrams](#References). There were some slight changes throughout the development period, most notably the inclusion of the Chat node.
 
 ![](https://i.imgur.com/RYUpUSC.png) 
 _Database visualization generated using `CALL db.schema.visualization()`_
 
-These nodes and their relationships are all generated by `CREATE` or `MERGE` statements, except the `TTL` node, which is part of the Neo4j APOC library [apoc]. More specifically, it's the *Time to Live* procedure [apocttl] tied to the `ttl` property on `Session`.
+These nodes and their relationships are all generated by `CREATE` or `MERGE` statements, except the `TTL` node, which is part of the Neo4j APOC library [apoc](#References). More specifically, it's the *Time to Live* procedure [apocttl](#References) tied to the `ttl` property on `Session`.
 
 Furthermore, we created indexes and constraints on the relevant properties:
 ```cypher=138
@@ -309,7 +309,7 @@ CREATE INDEX user_IDX_userID IF NOT EXISTS FOR (u:User) ON (u.userID);
 
 Timestamps were all implemented using Neo4js `localdatetime`.
 
-For accessing the database we used Java driver supplied by Neo4j [neo4jjava]. For a long time we used the `bolt://` URI scheme for connecting to the database we specified as leader, but due to the cluster changing leaders [neo4jclusteringmedium], we suddenly couldn't perform write transactions. This was solved by changing the URI scheme first to `bolt+routing://` and finally `neo4j://` which enabled server-side routing using Neo4js own routing tables [neo4jrouting1] [^neo4jrouting2].
+For accessing the database we used Java driver supplied by Neo4j [neo4jjava](#References). For a long time we used the `bolt://` URI scheme for connecting to the database we specified as leader, but due to the cluster changing leaders [neo4jclusteringmedium](#References), we suddenly couldn't perform write transactions. This was solved by changing the URI scheme first to `bolt+routing://` and finally `neo4j://` which enabled server-side routing using Neo4js own routing tables [neo4jrouting1](#References) [neo4jrouting2](#References).
 
 The driver was implemented in the `Neo4jAccessor` class, which then provides a method to start a `Session`, on which you run either a read or a write transaction:
 
@@ -338,7 +338,7 @@ try (Session session = driver.session()) {
   }
 }
 ```
-This method either gets an existing chat between two users or creates a new one, using the intricate workings of Neo4j's `MERGE` and it's `ON CREATE` clause. This ensures no duplicate records with precautions [neo4jmerge].
+This method either gets an existing chat between two users or creates a new one, using the intricate workings of Neo4j's `MERGE` and it's `ON CREATE` clause. This ensures no duplicate records with precautions [neo4jmerge](#References).
 
 Worth noting here, is that the driver does not support easy mapping between the returned value and the object we wish to represent. This is manually done in line 435 onward, omitted here for brevity.
 
@@ -376,7 +376,7 @@ We have completed a lot of the goals we had for this project, but there are stil
 
 
 #### Neo4j
-For Neo4j we wanted to make mapping between the database and Java as easy as possible, especially for making it maintainable. We experimented with a version of Neo4j that is embedded into the Java application [neo4jembedded], unfortunately it was not feasible to implement within the time constraint. The next idea was to implement the Neo4j Java driver, which is used in the final version of the project, but to complement it with the Object-graph mapping (OGM) tool from Neo4j [neo4jogm]. This tool, however, also proved troublesome, as one of its dependencies would not cooperate.
+For Neo4j we wanted to make mapping between the database and Java as easy as possible, especially for making it maintainable. We experimented with a version of Neo4j that is embedded into the Java application [neo4jembedded](#References), unfortunately it was not feasible to implement within the time constraint. The next idea was to implement the Neo4j Java driver, which is used in the final version of the project, but to complement it with the Object-graph mapping (OGM) tool from Neo4j [neo4jogm](#References). This tool, however, also proved troublesome, as one of its dependencies would not cooperate.
 
 
 #### Postgres
@@ -466,24 +466,24 @@ We sketched out the basic requirements at the project start and have since added
 
 
 # References
-[diagrams](https://raw.githubusercontent.com/Hold-Krykke-BA/DBD/main/ExamSpringApplication/images/project_diagram.png)
-[red](reddit.com)
-[stack](stackoverflow.com)
-[hack](https://news.ycombinator.com/)
-[neo](https://neo4j.com/use-cases/social-network/)
-[norma](https://docs.microsoft.com/en-us/office/troubleshoot/access/database-normalization-description)
-[neo4jclustering](https://neo4j.com/docs/operations-manual/current/clustering/introduction/)
-[neo4jclusteringmedium](https://medium.com/neo4j/querying-neo4j-clusters-7d6fde75b5b4)
-[prodpsql](https://www.postgresql.org/message-id/4285.1537201440%40sss.pgh.pa.us)
-[prodgit](https://github.com/pgjdbc/pgjdbc/issues/1413#issuecomment-464851906)
-[apoc](https://neo4j.com/developer/neo4j-apoc/)
-[apocttl](https://neo4j.com/labs/apoc/4.1/graph-updates/ttl/)
-[neo4jjava](https://neo4j.com/developer/java/)
-[query](https://github.com/Hold-Krykke-BA/DBD/blob/main/ExamSpringApplication/scripts/Queryplan.json)
-[sorting](https://dba.stackexchange.com/a/171248)
-[erwin](https://dba.stackexchange.com/users/3684/erwin-brandstetter)
-[neo4jmerge](https://neo4j.com/developer/kb/understanding-how-merge-works/#_a_merge_without_bound_variables_can_create_duplicate_elements)
-[neo4jembedded](https://neo4j.com/docs/java-reference/current/java-embedded/)
-[neo4jogm](https://neo4j.com/docs/ogm-manual/current/reference/#reference)
-[neo4jrouting1](https://neo4j.com/docs/operations-manual/current/clustering/internals/#causal-clustering-routing)
-[neo4jrouting2](https://neo4j.com/docs/driver-manual/current/client-applications/#driver-connection-uris)
+[diagrams - project_diagram.png](https://raw.githubusercontent.com/Hold-Krykke-BA/DBD/main/ExamSpringApplication/images/project_diagram.png)  
+[red - reddit.com](reddit.com)  
+[stack - stackoverflow.com](stackoverflow.com)  
+[hack - news.ycombinator.com](https://news.ycombinator.com/)  
+[neo - neo4j.com/use-cases/social-network](https://neo4j.com/use-cases/social-network/)  
+[norma - docs.microsoft.com/en-us/office/troubleshoot/access/database-normalization-description](https://docs.microsoft.com/en-us/office/troubleshoot/access/database-normalization-description)  
+[neo4jclustering - neo4j.com/docs/operations-manual/current/clustering/introduction](https://neo4j.com/docs/operations-manual/current/clustering/introduction/)  
+[neo4jclusteringmedium - medium.com/neo4j/querying-neo4j-clusters-7d6fde75b5b4](https://medium.com/neo4j/querying-neo4j-clusters-7d6fde75b5b4)  
+[prodpsql - postgresql.org/message-id/4285.1537201440%40sss.pgh.pa.us](https://www.postgresql.org/message-id/4285.1537201440%40sss.pgh.pa.us)  
+[prodgit - github.com/pgjdbc/pgjdbc/issues/1413#issuecomment-464851906](https://github.com/pgjdbc/pgjdbc/issues/1413#issuecomment-464851906)  
+[apoc - neo4j.com/developer/neo4j-apoc](https://neo4j.com/developer/neo4j-apoc/)  
+[apocttl - neo4j.com/labs/apoc/4.1/graph-updates/ttl](https://neo4j.com/labs/apoc/4.1/graph-updates/ttl/)  
+[neo4jjava - neo4j.com/developer/java](https://neo4j.com/developer/java/)  
+[query - Queryplan.json](https://github.com/Hold-Krykke-BA/DBD/blob/main/ExamSpringApplication/scripts/Queryplan.json)  
+[sorting - dba.stackexchange.com/a/171248](https://dba.stackexchange.com/a/171248)  
+[erwin - dba.stackexchange.com/users/3684/erwin-brandstetter](https://dba.stackexchange.com/users/3684/erwin-brandstetter)  
+[neo4jmerge - neo4j.com/developer/kb/understanding-how-merge-works/#_a_merge_without_bound_variables_can_create_duplicate_elements](https://neo4j.com/developer/kb/understanding-how-merge-works/#_a_merge_without_bound_variables_can_create_duplicate_elements)  
+[neo4jembedded - neo4j.com/docs/java-reference/current/java-embedded](https://neo4j.com/docs/java-reference/current/java-embedded/)  
+[neo4jogm - neo4j.com/docs/ogm-manual/current/reference/#reference](https://neo4j.com/docs/ogm-manual/current/reference/#reference)  
+[neo4jrouting1 - neo4j.com/docs/operations-manual/current/clustering/internals/#causal-clustering-routing](https://neo4j.com/docs/operations-manual/current/clustering/internals/#causal-clustering-routing)  
+[neo4jrouting2 - neo4j.com/docs/driver-manual/current/client-applications/#driver-connection-uris](https://neo4j.com/docs/driver-manual/current/client-applications/#driver-connection-uris)  
