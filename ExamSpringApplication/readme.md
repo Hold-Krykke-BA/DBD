@@ -1,7 +1,7 @@
 # Databases for Developers Exam Project
 
 
-**Authors**
+**Authors**  
 *Rúni Vedel Niclasen - cph-rn118  
 Camilla Jenny Valerius Staunstrup - cph-cs340*   
 
