@@ -13,8 +13,8 @@ Camilla Jenny Valerius Staunstrup - cph-cs340*
 
 **[Link to Source Code Repository](#)**
   
-##### June 2nd 2021 - Software Development - Copenhagen Business Academy  
-##### Characer count: 18173
+###### June 2nd 2021 - Software Development - Copenhagen Business Academy  
+###### Characer count: 18173
 
 
 
