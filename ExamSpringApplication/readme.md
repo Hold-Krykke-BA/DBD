@@ -213,7 +213,7 @@ CREATE TABLE postcomment (
 );
 ```
 Comments can have a parent (if the comment is at the top level the parent is `NULL`) and in order to achieve the functionality of sites like reddit we need to be able to sort through all children based on both “timestamp” and “karma”. Comments should be sorted based on “karma” and if any comments on the same level have equal “karma” they should be sorted by time.
-![](https://i.imgur.com/U3213Mm.png)
+![](https://i.imgur.com/U3213Mm.png)  
 *Example of reddit comment thread with multiple levels of comments.*
 
 In order to achieve this we have implemented a solution [sorting](#References) by Erwin Brandstetter [erwin](#References), modified to our needs.  
