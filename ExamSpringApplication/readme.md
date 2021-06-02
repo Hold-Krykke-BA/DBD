@@ -50,7 +50,7 @@ Characer count: 18173
   * [Appendix B: Product requirements](#appendix-b--product-requirements)
       - [Functional requirements](#functional-requirements)
       - [Non-functional requirements](#non-functional-requirements)
-
+  * [References](#references)
 
 ## Introduction
 For this project we wanted to create a user-driven online forum. As software developer students we spend a lot of time on forums like reddit [red](#References), stackoverflow [stack](#References) and hackernews [hack](#References) and have wondered how they are built.
@@ -465,7 +465,7 @@ We sketched out the basic requirements at the project start and have since added
 
 
 
-# References
+## References
 [diagrams - project_diagram.png](https://raw.githubusercontent.com/Hold-Krykke-BA/DBD/main/ExamSpringApplication/images/project_diagram.png)  
 [red - reddit.com](reddit.com)  
 [stack - stackoverflow.com](stackoverflow.com)  
