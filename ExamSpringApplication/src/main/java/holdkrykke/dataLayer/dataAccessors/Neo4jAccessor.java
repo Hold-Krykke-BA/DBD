@@ -40,15 +40,7 @@ public class Neo4jAccessor implements AutoCloseable {
 
     private void connectToDB(String URI, String user, String password) {
         driver = GraphDatabase.driver(URI, AuthTokens.basic(user, password));
-
-        //load config file
     }
-
-    //TODO:
-    //connect to DB
-    //https://neo4j.com/docs/cypher-manual/current/administration/constraints/
-    //create test data and put it in a file
-    //createUser
 
     /**
      * @param userName
@@ -98,8 +90,6 @@ public class Neo4jAccessor implements AutoCloseable {
         }
     }
 
-    //editUser
-
     /**
      * Updates user based on their userName with passed values
      *
@@ -113,8 +103,8 @@ public class Neo4jAccessor implements AutoCloseable {
                 if (user.getUserMail() != null && !user.getUserMail().isEmpty())
                     query = query.concat(String.format("SET u.userEmail = \"%s\" ", user.getUserMail()));
                 if (user.getPassword() != null && !user.getPassword().isEmpty())
-                    query = query.concat(String.format("SET u.userPassHash = \"%s\" ", PasswordUtil.hashpw(user.getPassword()))); //todo correct place to hash?
-                //change username? Must be passed seperately
+                    query = query.concat(String.format("SET u.userPassHash = \"%s\" ", PasswordUtil.hashpw(user.getPassword())));
+                //change username? Must be passed separately
                 query = query.concat("RETURN u;");
                 //System.out.println(query);
                 try {
@@ -165,12 +155,12 @@ public class Neo4jAccessor implements AutoCloseable {
         //todo check for correct user before query
         try (Session session = driver.session()) {
             return session.writeTransaction(tx -> {
-                String query = "MATCH (n:User {userID: $userID}) DELETE n RETURN COUNT(n)";
+                String query = "MATCH (n:User {userID: $userID}) DETACH DELETE n RETURN COUNT(n)";
                 try {
                     var result1 = tx.run(query, parameters("userID", userID)).single().get("COUNT(n)").asInt();
                     return result1 == 1; //delete count = 1 -> successfully deleted. Otherwise not.
                 } catch (NoSuchRecordException e) {
-                    System.out.println("deleteUserByEmail error: " + e);
+                    System.out.println("deleteUserByID error: " + e);
                     return false; //could be null
                 }
             });
@@ -356,7 +346,7 @@ public class Neo4jAccessor implements AutoCloseable {
     public List<Message> getChatMessages(String chatID) {
         try (Session session = driver.session()) {
             return session.readTransaction(tx -> {
-                String query = "MATCH (ch:Chat {chatID:$chatID})<-[:CHAT_PARENT]-(msg) RETURN msg ORDER BY msg.timestamp";
+                String query = "MATCH (ch:Chat {chatID: $chatID})<-[:CHAT_PARENT]-(msg) RETURN msg ORDER BY msg.timestamp";
                 try {
                     var queryResult = tx.run(query, parameters("chatID", chatID)).list();
                     List<Message> result1 = new ArrayList<>();
@@ -373,7 +363,6 @@ public class Neo4jAccessor implements AutoCloseable {
                     System.out.println("getChatMessages error: " + e);
                     return null;
                 }
-
             });
         }
     }
@@ -389,7 +378,7 @@ public class Neo4jAccessor implements AutoCloseable {
             return session.writeTransaction(tx -> {
                 String query =
                         "MATCH (msg:Message {messageID: $messageID})\n" +
-                                "SET msg.content = " + null + "\n" +
+                                "SET msg.content = \"Message was deleted\"\n" +
                                 "RETURN msg;";
                 try {
                     var res = tx.run(query, parameters("messageID", messageID)).single().get("msg");
@@ -515,7 +504,7 @@ public class Neo4jAccessor implements AutoCloseable {
         return driver;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Neo4jAccessor n4jA = new Neo4jAccessor();
         //var user = n4jA.getUserByUserName("rvn");
         //System.out.println(user);
@@ -549,5 +538,22 @@ public class Neo4jAccessor implements AutoCloseable {
 
         //var res = n4jA.getOrCreateUserFollowing("aben", "gikentur");
         //System.out.println(res);
+
+        var res = n4jA.deleteMessage("2");
+        System.out.println(res);
+
+        ArrayList<Chat> res2 =  (ArrayList) n4jA.getUserChats("rvn");
+        System.out.println(res2);
+
+        System.out.println("chat here " + res2.get(0));
+        System.out.println(res2.get(0).getChatID());
+        System.out.println(res2.get(0).getChatID().getClass());
+        String yeet = res2.get(0).getChatID();
+
+        var res3 = n4jA.getChatMessages("1");
+        for (int i = 0; i < res3.size(); i++) {
+            System.out.println(res3.get(i));
+            System.out.println(res3.get(i).getContent().length());
+        }
     }
 }
