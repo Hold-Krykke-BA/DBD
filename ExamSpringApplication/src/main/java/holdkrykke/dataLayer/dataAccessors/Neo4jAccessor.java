@@ -471,10 +471,40 @@ public class Neo4jAccessor implements AutoCloseable {
         }
     }
 
+    /**
+     * Utilizes MERGE to get or create a :FOLLOWS relationship between two users.
+     * <p>
+     * The relationship will be "directional" so it is important to pass properties properly.
+     *
+     * @param userID     The ID of the user who initiates the follow
+     * @param followerID The ID of the user to be followed
+     * @return returns true if relationship exists or was created. Returns null if userID does not exist. Returns false if exception.
+     */
+    public Boolean getOrCreateUserFollowing(String userID, String followerID) {
+        try (Session session = driver.session()) {
+            return session.writeTransaction(tx -> {
+                String query =
+                        "MATCH\n" +
+                                "  (u:User {userID: $userID }),\n" +
+                                "  (followee:User {userID: $followerID })\n" +
+                                "MERGE (u)-[r:FOLLOWS]->(followee)\n" +
+                                "RETURN EXISTS((u)-[:FOLLOWS]-(followee)) AS follows;";
+                try {
+                    return tx.run(query, parameters("userID", userID, "followerID", followerID)).single().get("follows").asBoolean();
+                } catch (NoSuchRecordException e) {
+                    System.out.println("getOrCreateFollowing error: " + e);
+                    return null;
+                } catch (Exception e) {
+                    System.out.println("getOrCreateFollowing general error: " + e);
+                    return false;
+                }
+            });
+        }
+    }
+
 
     /**
      * Method from AutoCloseable
-     *
      */
     @Override
     public void close() {
@@ -517,6 +547,7 @@ public class Neo4jAccessor implements AutoCloseable {
         //var res = n4jA.getUserChats("rvn");
         //System.out.println(res);
 
-        //test if updateUser: email changed into unique email
+        //var res = n4jA.getOrCreateUserFollowing("aben", "gikentur");
+        //System.out.println(res);
     }
 }
