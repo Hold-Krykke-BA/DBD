@@ -78,10 +78,20 @@ public class DataControllerImpl implements IDataController {
     }
 
     @Override
-    public List<Message> getUserMessages(String userID) {
-        throw new UnsupportedOperationException();
-
+    public Message deleteMessage(String messageID) {
+        return neoDBD.deleteMessage(messageID);
     }
+
+    @Override
+    public List<Chat> getUserChats(String userName) {
+        return neoDBD.getUserChats(userName);
+    }
+
+    @Override
+    public List<Message> getChatMessages(String chatID) {
+        return neoDBD.getChatMessages(chatID);
+    }
+
 
     @Override
     public Message createMessage(Message message, String userIDreciever) {
@@ -94,7 +104,7 @@ public class DataControllerImpl implements IDataController {
         List<UserSession> sessions = neoDBD.getUserSessions(userID);
 
         if (sessions == null) {
-            sessions = new ArrayList<UserSession>();
+            sessions = new ArrayList<>();
         }
         if (sessions.isEmpty()) {
             sessions.add(neoDBD.createSession(userID));
@@ -156,6 +166,21 @@ public class DataControllerImpl implements IDataController {
     }
 
     @Override
+    public User updateUser(User user) {
+        return neoDBD.updateUser(user);
+    }
+
+    @Override
+    public Boolean deleteUserByUserID(String userID) {
+        return neoDBD.deleteUserByUserID(userID);
+    }
+
+    @Override
+    public Boolean getOrCreateUserFollowing(String userID, String followerID) {
+        return neoDBD.getOrCreateUserFollowing(userID, followerID);
+    }
+
+    @Override
     public List<String> getUserIDs() {
         return pgrDBD.getAllUserID();
     }
@@ -198,7 +223,6 @@ public class DataControllerImpl implements IDataController {
     public void unfollowSubreddit(String userID, String subredditID) {
         pgrDBD.unfollow_user_subreddit(userID, subredditID);
         redDBD.removeUserSubredditCache(userID, subredditID);
-
     }
 
     @Override
