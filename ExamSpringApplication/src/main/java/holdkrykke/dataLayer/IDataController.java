@@ -11,7 +11,9 @@ public interface IDataController {
     public List<FPitem> getFrontPageItems(String userID, String subredditID);
     public List<SubReddit> getSubRedditsByUser(String userID);
     public UserContainer getUserInfo(String userID);
-    public List<Message> getUserMessages(String userID);
+    Message deleteMessage(String messageID);
+    List<Chat> getUserChats(String userName);
+    List<Message> getChatMessages(String chatID);
     public Message createMessage(Message message, String userIDreciever);
     public List<UserSession> authenticateUser(String userID);
     public void createComment(Comment comment);
@@ -23,6 +25,9 @@ public interface IDataController {
     public void createSubreddit(SubReddit subreddit);
     public void followSubreddit(SubReddit subreddit, String userID);
     public User createUser(User user);
+    User updateUser(User user);
+    Boolean deleteUserByUserID(String userID);
+    Boolean getOrCreateUserFollowing(String userID, String followerID);
     public List<String> getUserIDs();
     public PostWithCommentsContainer getPostWithComments(String urlIdentifier, String subredditName, String postID);
     public PostWithCommentsContainer getPostWithCommentsSorted(String urlIdentifier, String subredditName, String postID);
