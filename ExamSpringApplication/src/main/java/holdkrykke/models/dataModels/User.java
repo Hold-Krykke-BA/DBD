@@ -34,6 +34,8 @@ public class User {
         this.userMail = userMail;
     }
 
+    public User() {
+    }
 
 
     public String getUserName() {

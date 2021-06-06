@@ -95,7 +95,7 @@ public class DataControllerImpl implements IDataController {
 
     @Override
     public Message createMessage(Message message, String userIDreciever) {
-        var chat = neoDBD.GetOrCreateChat(message.getSenderUserID(), userIDreciever);
+        var chat = neoDBD.getOrCreateChat(message.getSenderUserID(), userIDreciever);
         return neoDBD.createMessage(chat.getChatID(), message);
     }
 

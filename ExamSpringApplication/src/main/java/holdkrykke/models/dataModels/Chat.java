@@ -12,6 +12,9 @@ public class Chat {
         this.timestamp = timestamp;
     }
 
+    public Chat() {
+    }
+
     public String getChatID() {
         return chatID;
     }
