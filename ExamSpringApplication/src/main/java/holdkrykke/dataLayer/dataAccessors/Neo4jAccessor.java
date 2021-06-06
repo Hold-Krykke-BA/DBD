@@ -601,11 +601,9 @@ public class Neo4jAccessor implements AutoCloseable {
         //username unique?
 //        var res = n4jA.createUser(new User("alt", "uselessmail"));
 //        System.out.println(res);
-//        System.out.println("test");
 
 //        //email unique?
 //        var res = n4jA.createUser(new User("uselessname", "cph-rn118@cphbusiness.dk"));
 //        System.out.println(res);
-//        System.out.println("test");
     }
 }
