@@ -161,8 +161,10 @@ public class DataControllerImpl implements IDataController {
 
     @Override
     public User createUser(User user) {
-        pgrDBD.insertUserId(user);
-        return neoDBD.createUser(user);
+        var newUser = neoDBD.createUser(user);
+        //grab ID from newUser (as the passed user would not have ID yet)
+        pgrDBD.insertUserId(newUser);
+        return newUser;
     }
 
     @Override
