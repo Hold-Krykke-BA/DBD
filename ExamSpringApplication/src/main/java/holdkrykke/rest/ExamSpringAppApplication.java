@@ -1,15 +1,21 @@
 package holdkrykke.rest;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import holdkrykke.dataLayer.IDataController;
 import holdkrykke.dataLayer.controller.DataControllerImpl;
 import holdkrykke.models.dataModels.*;
 import holdkrykke.models.viewModels.CommentUpdater;
 import holdkrykke.models.viewModels.PostUpdater;
+import holdkrykke.util.LocalDateTimeAdapter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
+
+import java.lang.reflect.Type;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @SpringBootApplication
 @RestController
@@ -20,7 +26,10 @@ public class ExamSpringAppApplication {
         SpringApplication.run(ExamSpringAppApplication.class, args);
     }
 
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson GSON = new GsonBuilder().
+            registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).
+            setPrettyPrinting().
+            create();
     IDataController datactr = DataControllerImpl.getInstance();
 
 
@@ -155,14 +164,14 @@ public class ExamSpringAppApplication {
 
     /**
      * Timestamp is set by DB
-     *
+     * <p>
      * {
      * "senderUserID": "30f18a0b-e052-44eb-8c24-23a032b97af3",
      * "content": "message from the API",
      * "userIDReceiver": "62eabb1d-10e1-4e43-ae48-6889835a678d"
      * }
      *
-     * @param message message to include (use MessageDTO to include the userID of the receiver
+     * @param message message to include (use MessageDTO to include the userID of the receiver)
      * @return
      */
     @PostMapping(value = "/message", consumes = "application/json", produces = "application/json")
@@ -197,10 +206,11 @@ public class ExamSpringAppApplication {
     /**
      * userName and ID cannot be changed. It matches on username, so make sure to pass it:
      * {
-     *     "userName": "API test",
-     *     "userMail": "UPDATEDEMAIL",
-     *     "password": "UPDATEDPASSWORD"
+     * "userName": "rvn",
+     * "userMail": "UPDATEDEMAIL",
+     * "password": "UPDATEDPASSWORD"
      * }
+     *
      * @param user
      * @return
      */
@@ -212,14 +222,14 @@ public class ExamSpringAppApplication {
 
     @DeleteMapping(value = "/deleteuser/{userID}", produces = "application/json")
     @ResponseBody
-    public Boolean deleteUser(@PathVariable String userID) {
-        return datactr.deleteUserByUserID(userID);
+    public String deleteUser(@PathVariable String userID) {
+        return GSON.toJson(datactr.deleteUserByUserID(userID));
     }
 
     @GetMapping(value = "/follow/{userID}/{followerID}", produces = "application/json")
     @ResponseBody
-    public Boolean getOrCreateUserFollowing(@PathVariable String userID, @PathVariable String followerID) {
-        return datactr.getOrCreateUserFollowing(userID, followerID);
+    public String getOrCreateUserFollowing(@PathVariable String userID, @PathVariable String followerID) {
+        return GSON.toJson(datactr.getOrCreateUserFollowing(userID, followerID));
     }
 
 }
