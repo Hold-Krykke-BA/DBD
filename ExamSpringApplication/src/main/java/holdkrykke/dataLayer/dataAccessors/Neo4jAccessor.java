@@ -52,10 +52,10 @@ public class Neo4jAccessor implements AutoCloseable {
                 String query = "MATCH (u:User {userName:$userName}) RETURN u;";
                 try {
                     var result1 = tx.run(query, parameters("userName", userName)).single().get("u");
-                    String userEmail = result1.get("userEmail").toString();
-                    String userName1 = result1.get("userName").toString();
-                    //String password = result.get("userPassHash").toString();
-                    String userID = result1.get("userID").toString();
+                    String userEmail = result1.get("userEmail").asString();
+                    String userName1 = result1.get("userName").asString();
+                    //String password = result.get("userPassHash").asString();
+                    String userID = result1.get("userID").asString();
                     return new User(userName1, userEmail, userID);
                 } catch (NoSuchRecordException e) {
                     System.out.println("getUser error: " + e);
@@ -79,10 +79,10 @@ public class Neo4jAccessor implements AutoCloseable {
                 String query = "MATCH (u:User {userID:$userID}) RETURN u;";
                 try {
                     var result1 = tx.run(query, parameters("userID", userID)).single().get("u");
-                    String userEmail = result1.get("userID").toString();
-                    String userName = result1.get("userID").toString();
-                    //String password = result.get("userPassHash").toString();
-                    String userID1 = result1.get("userID").toString();
+                    String userEmail = result1.get("userID").asString();
+                    String userName = result1.get("userID").asString();
+                    //String password = result.get("userPassHash").asString();
+                    String userID1 = result1.get("userID").asString();
                     return new User(userName, userEmail, userID1);
                 } catch (NoSuchRecordException e) {
                     System.out.println("getUser error: " + e);
@@ -114,10 +114,10 @@ public class Neo4jAccessor implements AutoCloseable {
                 //System.out.println(query);
                 try {
                     var result1 = tx.run(query).single().get("u");
-                    String userEmail = result1.get("userEmail").toString();
-                    String userName = result1.get("userName").toString();
-                    //String password = result.get("userPassHash").toString();
-                    String userID = result1.get("userID").toString();
+                    String userEmail = result1.get("userEmail").asString();
+                    String userName = result1.get("userName").asString();
+                    //String password = result.get("userPassHash").asString();
+                    String userID = result1.get("userID").asString();
                     return new User(userName, userEmail, userID);
                 } catch (NoSuchRecordException e) {
                     System.out.println("updateUser error: " + e);
@@ -138,7 +138,6 @@ public class Neo4jAccessor implements AutoCloseable {
      * @return true if deleted, otherwise False.
      */
     public Boolean deleteUserByUserName(String userName) {
-        //todo check for correct user before query
         try (Session session = driver.session()) {
             return session.writeTransaction(tx -> {
                 String query = "MATCH (n:User {userName: $userName}) DELETE n RETURN COUNT(n)";
@@ -163,7 +162,6 @@ public class Neo4jAccessor implements AutoCloseable {
      * @return
      */
     public Boolean deleteUserByUserID(String userID) {
-        //todo check for correct user before query
         try (Session session = driver.session()) {
             return session.writeTransaction(tx -> {
                 String query = "MATCH (n:User {userID: $userID}) DETACH DELETE n RETURN COUNT(n)";
@@ -195,13 +193,13 @@ public class Neo4jAccessor implements AutoCloseable {
                     var result1 = tx.run(query, parameters(
                             "userID", CreateUUID.getID(),
                             "userName", user.getUserName(),
-                            "userPassHash", PasswordUtil.hashpw(user.getPassword()), //todo correct place to hash?
+                            "userPassHash", PasswordUtil.hashpw(user.getPassword()),
                             "userEmail", user.getUserMail()
                     )).single().get("u");
-                    String userEmail = result1.get("userEmail").toString();
-                    String userName = result1.get("userName").toString();
-                    //String password = result.get("userPassHash").toString();
-                    String userID = result1.get("userID").toString();
+                    String userEmail = result1.get("userEmail").asString();
+                    String userName = result1.get("userName").asString();
+                    //String password = result.get("userPassHash").asString();
+                    String userID = result1.get("userID").asString();
                     return new User(userName, userEmail, userID);
                 } catch (ClientException e) {
                     System.out.println("createUser error: " + e);
@@ -234,12 +232,12 @@ public class Neo4jAccessor implements AutoCloseable {
                             "userID", userID,
                             "sessionID", CreateUUID.getID()
                     )).single().get("ses");
-                    String sessionID = result1.get("sessionID").toString();
+                    String sessionID = result1.get("sessionID").asString();
                     LocalDateTime ttl = DateConverter.EpochToLocalDateTime(result1.get("ttl").asLong());
                     LocalDateTime timestamp = result1.get("timestamp").asLocalDateTime();
-                    String userID1 = result1.get("userID").toString();
+                    String userID1 = result1.get("userID").asString();
                     return new UserSession(sessionID, userID1, timestamp, ttl);
-                } catch (ClientException e) {//can either hit constraint or not be targeting leader
+                } catch (ClientException e) {
                     System.out.println("createSession error: " + e);
                     return null;
                 }
@@ -267,8 +265,8 @@ public class Neo4jAccessor implements AutoCloseable {
                     List<UserSession> result1 = new ArrayList<>();
                     for (var res : queryResult) {
                         var node = res.get("ses");
-                        String sessionID = node.get("sessionID").toString();
-                        String userID1 = node.get("userID").toString();
+                        String sessionID = node.get("sessionID").asString();
+                        String userID1 = node.get("userID").asString();
                         LocalDateTime timestamp = node.get("timestamp").asLocalDateTime();
                         LocalDateTime ttl = DateConverter.EpochToLocalDateTime(node.get("ttl").asLong());
                         result1.add(new UserSession(sessionID, userID1, timestamp, ttl));
@@ -302,8 +300,8 @@ public class Neo4jAccessor implements AutoCloseable {
                                 "RETURN ses;", _expireIn, _timeUnit);
                 try {
                     var res = tx.run(query, parameters("sessionID", sessionID)).single().get("ses");
-                    String sessionID1 = res.get("sessionID").toString();
-                    String userID = res.get("userID").toString();
+                    String sessionID1 = res.get("sessionID").asString();
+                    String userID = res.get("userID").asString();
                     LocalDateTime timestamp = res.get("timestamp").asLocalDateTime();
                     LocalDateTime ttl = DateConverter.EpochToLocalDateTime(res.get("ttl").asLong());
                     return new UserSession(sessionID1, userID, timestamp, ttl);
@@ -348,9 +346,9 @@ public class Neo4jAccessor implements AutoCloseable {
                             "senderUserID", message.getSenderUserID(),
                             "content", message.getContent()))
                             .single().get("msg");
-                    String resMessageID = res.get("messageID").toString();
-                    String senderUserID = res.get("senderUserID").toString();
-                    String content = res.get("content").toString();
+                    String resMessageID = res.get("messageID").asString();
+                    String senderUserID = res.get("senderUserID").asString();
+                    String content = res.get("content").asString();
                     LocalDateTime timestamp = res.get("timestamp").asLocalDateTime();
                     return new Message(resMessageID, senderUserID, content, timestamp);
                 } catch (NoSuchRecordException e) {
@@ -379,9 +377,9 @@ public class Neo4jAccessor implements AutoCloseable {
                     List<Message> result1 = new ArrayList<>();
                     for (var res : queryResult) {
                         var node = res.get("msg");
-                        String resMessageID = node.get("messageID").toString();
-                        String senderUserID = node.get("senderUserID").toString();
-                        String content = node.get("content").toString();
+                        String resMessageID = node.get("messageID").asString();
+                        String senderUserID = node.get("senderUserID").asString();
+                        String content = node.get("content").asString();
                         LocalDateTime timestamp = node.get("timestamp").asLocalDateTime();
                         result1.add(new Message(resMessageID, senderUserID, content, timestamp));
                     }
@@ -412,9 +410,9 @@ public class Neo4jAccessor implements AutoCloseable {
                                 "RETURN msg;";
                 try {
                     var res = tx.run(query, parameters("messageID", messageID)).single().get("msg");
-                    String resMessageID = res.get("messageID").toString();
-                    String senderUserID = res.get("senderUserID").toString();
-                    String content = res.get("content").toString();
+                    String resMessageID = res.get("messageID").asString();
+                    String senderUserID = res.get("senderUserID").asString();
+                    String content = res.get("content").asString();
                     LocalDateTime timestamp = res.get("timestamp").asLocalDateTime();
                     return new Message(resMessageID, senderUserID, content, timestamp);
                 } catch (NoSuchRecordException e) {
@@ -482,7 +480,7 @@ public class Neo4jAccessor implements AutoCloseable {
                     List<Chat> result1 = new ArrayList<>();
                     for (var res : queryResult) {
                         var node = res.get("ch");
-                        String chatID = node.get("chatID").toString();
+                        String chatID = node.get("chatID").asString();
                         LocalDateTime timestamp = node.get("timestamp").asLocalDateTime();
                         result1.add(new Chat(chatID, timestamp));
                     }
