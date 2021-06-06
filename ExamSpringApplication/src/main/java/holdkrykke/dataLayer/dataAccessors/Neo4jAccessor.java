@@ -431,18 +431,18 @@ public class Neo4jAccessor implements AutoCloseable {
     /**
      * Attempts to retrieve a chat between two users. If not found, one will be created.
      *
-     * @param userNameOne first users name
-     * @param userNameTwo second users name
+     * @param userID first users ID
+     * @param userIDTwo second users name
      * @return retrieved or created Chat
      */
-    public Chat GetOrCreateChat(String userNameOne, String userNameTwo) {
+    public Chat getOrCreateChat(String userID, String userIDTwo) {
         try (Session session = driver.session()) {
             return session.writeTransaction(tx -> {
                 String query =
                         "MATCH\n" +
                                 "(u1:User),\n" +
                                 "(u2:User)\n" +
-                                "WHERE u1.userName = $userNameOne AND u2.userName = $userNameTwo \n" +
+                                "WHERE u1.userID = $userID AND u2.userID = $userIDTwo \n" +
                                 "MERGE (u1)-[:PARTICIPATES_IN]->(ch:Chat)<-[:PARTICIPATES_IN]-(u2) \n" +
                                 "ON CREATE\n" +
                                 "SET ch.timestamp = localdatetime(),\n" +
@@ -450,10 +450,10 @@ public class Neo4jAccessor implements AutoCloseable {
                                 "RETURN ch;";
                 try {
                     var res = tx.run(query, parameters(
-                            "userNameOne", userNameOne,
-                            "userNameTwo", userNameTwo,
+                            "userID", userID,
+                            "userIDTwo", userIDTwo,
                             "chatID", CreateUUID.getID())).single().get("ch");
-                    String chatID = res.get("chatID").toString();
+                    String chatID = res.get("chatID").asString();
                     LocalDateTime timestamp = res.get("timestamp").asLocalDateTime();
                     return new Chat(chatID, timestamp);
                 } catch (NoSuchRecordException e) {
