@@ -4,10 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import holdkrykke.dataLayer.IDataController;
 import holdkrykke.dataLayer.controller.DataControllerImpl;
-import holdkrykke.models.dataModels.Comment;
+import holdkrykke.models.dataModels.*;
 import holdkrykke.models.viewModels.CommentUpdater;
-import holdkrykke.models.dataModels.Post;
-import holdkrykke.models.dataModels.SubReddit;
 import holdkrykke.models.viewModels.PostUpdater;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -85,13 +83,13 @@ public class ExamSpringAppApplication {
         datactr.unfollowSubreddit(subredditid, userid);
     }
 
-    @PostMapping(value ="/post", consumes = "application/json")
+    @PostMapping(value = "/post", consumes = "application/json")
     @ResponseBody
     public void createPost(@RequestBody Post post) {
         datactr.createPost(post);
     }
 
-    @PutMapping (value ="/updatepost", consumes = "application/json")
+    @PutMapping(value = "/updatepost", consumes = "application/json")
     @ResponseBody
     public void updatePost(@RequestBody PostUpdater postupdate) {
         datactr.updatePost(postupdate);
@@ -104,11 +102,11 @@ public class ExamSpringAppApplication {
 
     @GetMapping("/fpitems/{userid}/{subid}")
     @ResponseBody
-    public String FPItems(@PathVariable String userid,@PathVariable String subid) {
-        return GSON.toJson(datactr.getFrontPageItems(userid,subid));
+    public String FPItems(@PathVariable String userid, @PathVariable String subid) {
+        return GSON.toJson(datactr.getFrontPageItems(userid, subid));
     }
 
-    @PostMapping(value ="/subreddit", consumes = "application/json")
+    @PostMapping(value = "/subreddit", consumes = "application/json")
     @ResponseBody
     public void createSubreddit(@RequestBody SubReddit subreddit) {
         datactr.createSubreddit(subreddit);
@@ -120,13 +118,13 @@ public class ExamSpringAppApplication {
         return GSON.toJson(datactr.getSubRedditsByUser(userid));
     }
 
-    @PostMapping(value ="/comment", consumes = "application/json")
+    @PostMapping(value = "/comment", consumes = "application/json")
     @ResponseBody
     public void createComment(@RequestBody Comment comment) {
         datactr.createComment(comment);
     }
 
-    @PutMapping (value ="/updatecomment", consumes = "application/json")
+    @PutMapping(value = "/updatecomment", consumes = "application/json")
     @ResponseBody
     public void updateComment(@RequestBody CommentUpdater commentupdater) {
         datactr.updateComment(commentupdater);
@@ -135,6 +133,93 @@ public class ExamSpringAppApplication {
     @DeleteMapping(value = "/deletecomment/{commentID}")
     public void deleteComment(@PathVariable String commentID) {
         datactr.deleteComment(commentID);
+    }
+
+    @DeleteMapping(value = "/deletemessage/{messageID}", produces = "application/json")
+    @ResponseBody
+    public String deleteMessage(@PathVariable String messageID) {
+        return GSON.toJson(datactr.deleteMessage(messageID));
+    }
+
+    @GetMapping(value = "/chats/{userName}", produces = "application/json")
+    @ResponseBody
+    public String getUserChats(@PathVariable String userName) {
+        return GSON.toJson(datactr.getUserChats(userName));
+    }
+
+    @GetMapping(value = "/messages/{chatID}", produces = "application/json")
+    @ResponseBody
+    public String getChatMessages(@PathVariable String chatID) {
+        return GSON.toJson(datactr.getChatMessages(chatID));
+    }
+
+    /**
+     * Timestamp is set by DB
+     *
+     * {
+     * "senderUserID": "30f18a0b-e052-44eb-8c24-23a032b97af3",
+     * "content": "message from the API",
+     * "userIDReceiver": "62eabb1d-10e1-4e43-ae48-6889835a678d"
+     * }
+     *
+     * @param message message to include (use MessageDTO to include the userID of the receiver
+     * @return
+     */
+    @PostMapping(value = "/message", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public String createMessage(@RequestBody MessageDTO message) {
+        return GSON.toJson(datactr.createMessage(message, message.getUserIDReceiver()));
+    }
+
+    @GetMapping(value = "/authenticate/{userID}", produces = "application/json")
+    @ResponseBody
+    public String authenticateUser(@PathVariable String userID) {
+        return GSON.toJson(datactr.authenticateUser(userID));
+    }
+
+
+    /**
+     * {
+     * "userName": "API test",
+     * "userMail": "apitest@api.com",
+     * "password": "MyPasswordUnhashed"
+     * }
+     *
+     * @param user user details. ID will be set by database
+     * @return
+     */
+    @PostMapping(value = "/user", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public String createUser(@RequestBody User user) {
+        return GSON.toJson(datactr.createUser(user));
+    }
+
+    /**
+     * userName and ID cannot be changed. It matches on username, so make sure to pass it:
+     * {
+     *     "userName": "API test",
+     *     "userMail": "UPDATEDEMAIL",
+     *     "password": "UPDATEDPASSWORD"
+     * }
+     * @param user
+     * @return
+     */
+    @PutMapping(value = "/updateuser", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public String updateUser(@RequestBody User user) {
+        return GSON.toJson(datactr.updateUser(user));
+    }
+
+    @DeleteMapping(value = "/deleteuser/{userID}", produces = "application/json")
+    @ResponseBody
+    public Boolean deleteUser(@PathVariable String userID) {
+        return datactr.deleteUserByUserID(userID);
+    }
+
+    @GetMapping(value = "/follow/{userID}/{followerID}", produces = "application/json")
+    @ResponseBody
+    public Boolean getOrCreateUserFollowing(@PathVariable String userID, @PathVariable String followerID) {
+        return datactr.getOrCreateUserFollowing(userID, followerID);
     }
 
 }
