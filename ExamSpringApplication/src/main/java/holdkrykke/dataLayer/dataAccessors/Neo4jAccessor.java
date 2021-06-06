@@ -63,6 +63,9 @@ public class Neo4jAccessor implements AutoCloseable {
                 }
 
             });
+        } catch (ClientException e) {
+            System.out.println("Driver session error: " + e);
+            return null;
         }
     }
 
@@ -87,6 +90,9 @@ public class Neo4jAccessor implements AutoCloseable {
                 }
 
             });
+        } catch (ClientException e) {
+            System.out.println("Driver session error: " + e);
+            return null;
         }
     }
 
@@ -96,7 +102,6 @@ public class Neo4jAccessor implements AutoCloseable {
      * @param user User to update. Pass null for non-changed values
      */
     public User updateUser(User user) {
-        //todo check for correct user before query
         try (Session session = driver.session()) {
             return session.writeTransaction(tx -> {
                 String query = String.format("MATCH (u:User {userName: \"%s\"}) ", user.getUserName());
@@ -119,6 +124,9 @@ public class Neo4jAccessor implements AutoCloseable {
                     return null;
                 }
             });
+        } catch (ClientException e) {
+            System.out.println("Driver session error: " + e);
+            return null;
         }
     }
 
@@ -142,6 +150,9 @@ public class Neo4jAccessor implements AutoCloseable {
                     return false; //could be null. if changed, update javadoc
                 }
             });
+        } catch (ClientException e) {
+            System.out.println("Driver session error: " + e);
+            return null;
         }
     }
 
@@ -164,6 +175,9 @@ public class Neo4jAccessor implements AutoCloseable {
                     return false; //could be null
                 }
             });
+        } catch (ClientException e) {
+            System.out.println("Driver session error: " + e);
+            return null;
         }
     }
 
@@ -177,7 +191,6 @@ public class Neo4jAccessor implements AutoCloseable {
         try (Session session = driver.session()) {
             return session.writeTransaction(tx -> {
                 String query = "CREATE (u:User {userID: $userID, userName: $userName, userPassHash: $userPassHash, userEmail: $userEmail}) RETURN u;";
-                System.out.println(query);
                 try {
                     var result1 = tx.run(query, parameters(
                             "userID", CreateUUID.getID(),
@@ -190,11 +203,14 @@ public class Neo4jAccessor implements AutoCloseable {
                     //String password = result.get("userPassHash").toString();
                     String userID = result1.get("userID").toString();
                     return new User(userName, userEmail, userID);
-                } catch (ClientException e) {//can either hit constraint or not be targeting leader
+                } catch (ClientException e) {
                     System.out.println("createUser error: " + e);
                     return null;
                 }
             });
+        } catch (ClientException e) {
+            System.out.println("Driver session error: " + e);
+            return null;
         }
     }
 
@@ -228,6 +244,9 @@ public class Neo4jAccessor implements AutoCloseable {
                     return null;
                 }
             });
+        } catch (ClientException e) {
+            System.out.println("Driver session error: " + e);
+            return null;
         }
     }
 
@@ -261,6 +280,9 @@ public class Neo4jAccessor implements AutoCloseable {
                 }
 
             });
+        } catch (ClientException e) {
+            System.out.println("Driver session error: " + e);
+            return null;
         }
     }
 
@@ -271,7 +293,6 @@ public class Neo4jAccessor implements AutoCloseable {
      * @return new session if success; otherwise null
      */
     public UserSession updateSession(String sessionID) {
-        //todo check for correct user before query
         try (Session session = driver.session()) {
             return session.writeTransaction(tx -> {
                 String query = String.format(
@@ -291,6 +312,9 @@ public class Neo4jAccessor implements AutoCloseable {
                     return null;
                 }
             });
+        } catch (ClientException e) {
+            System.out.println("Driver session error: " + e);
+            return null;
         }
     }
 
@@ -334,6 +358,9 @@ public class Neo4jAccessor implements AutoCloseable {
                     return null;
                 }
             });
+        } catch (ClientException e) {
+            System.out.println("Driver session error: " + e);
+            return null;
         }
     }
 
@@ -364,6 +391,9 @@ public class Neo4jAccessor implements AutoCloseable {
                     return null;
                 }
             });
+        } catch (ClientException e) {
+            System.out.println("Driver session error: " + e);
+            return null;
         }
     }
 
@@ -392,6 +422,9 @@ public class Neo4jAccessor implements AutoCloseable {
                     return null;
                 }
             });
+        } catch (ClientException e) {
+            System.out.println("Driver session error: " + e);
+            return null;
         }
     }
 
@@ -428,6 +461,9 @@ public class Neo4jAccessor implements AutoCloseable {
                     return null;
                 }
             });
+        } catch (ClientException e) {
+            System.out.println("Driver session error: " + e);
+            return null;
         }
     }
 
@@ -457,6 +493,9 @@ public class Neo4jAccessor implements AutoCloseable {
                 }
 
             });
+        } catch (ClientException e) {
+            System.out.println("Driver session error: " + e);
+            return null;
         }
     }
 
@@ -488,6 +527,9 @@ public class Neo4jAccessor implements AutoCloseable {
                     return false;
                 }
             });
+        } catch (ClientException e) {
+            System.out.println("Driver session error: " + e);
+            return null;
         }
     }
 
@@ -504,7 +546,7 @@ public class Neo4jAccessor implements AutoCloseable {
         return driver;
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         Neo4jAccessor n4jA = new Neo4jAccessor();
         //var user = n4jA.getUserByUserName("rvn");
         //System.out.println(user);
@@ -539,21 +581,31 @@ public class Neo4jAccessor implements AutoCloseable {
         //var res = n4jA.getOrCreateUserFollowing("aben", "gikentur");
         //System.out.println(res);
 
-        var res = n4jA.deleteMessage("2");
-        System.out.println(res);
+//        var res = n4jA.deleteMessage("2");
+//        System.out.println(res);
+//
+//        ArrayList<Chat> res2 =  (ArrayList) n4jA.getUserChats("rvn");
+//        System.out.println(res2);
+//
+//        System.out.println("chat here " + res2.get(0));
+//        System.out.println(res2.get(0).getChatID());
+//        System.out.println(res2.get(0).getChatID().getClass());
+//        String yeet = res2.get(0).getChatID();
+//
+//        var res3 = n4jA.getChatMessages("1");
+//        for (int i = 0; i < res3.size(); i++) {
+//            System.out.println(res3.get(i));
+//            System.out.println(res3.get(i).getContent().length());
+//        }
 
-        ArrayList<Chat> res2 =  (ArrayList) n4jA.getUserChats("rvn");
-        System.out.println(res2);
+        //username unique?
+//        var res = n4jA.createUser(new User("alt", "uselessmail"));
+//        System.out.println(res);
+//        System.out.println("test");
 
-        System.out.println("chat here " + res2.get(0));
-        System.out.println(res2.get(0).getChatID());
-        System.out.println(res2.get(0).getChatID().getClass());
-        String yeet = res2.get(0).getChatID();
-
-        var res3 = n4jA.getChatMessages("1");
-        for (int i = 0; i < res3.size(); i++) {
-            System.out.println(res3.get(i));
-            System.out.println(res3.get(i).getContent().length());
-        }
+//        //email unique?
+//        var res = n4jA.createUser(new User("uselessname", "cph-rn118@cphbusiness.dk"));
+//        System.out.println(res);
+//        System.out.println("test");
     }
 }
