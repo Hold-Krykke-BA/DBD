@@ -1,6 +1,7 @@
 //neo4j.cypher V1.7
 //DDL & DML file for  initializing neo4j
 
+
 RETURN 'Clearing database';
 
 MATCH (n)
@@ -15,11 +16,11 @@ RETURN '---Creating nodes---';
 
 //RETURN 'Creating users';
 CREATE
-  (rn:User {userID:    '30f18a0b-e052-44eb-8c24-23a032b97af3', userName: 'rvn', userPassHash: '1234',
+  (rn:User {userID:    '5104c346-25c3-421d-befb-3b9df51d7639', userName: 'rvn', userPassHash: '1234',
             userEmail: 'cph-rn118@cphbusiness.dk'})
 
 CREATE
-  (cs:User {userID:    'a643196f-6a35-496e-a206-774c4bdc1d7c', userName: 'cvs', userPassHash: '1234',
+  (cs:User {userID:    '0cb981da-10b9-4dcb-8905-b70b69dbdf9', userName: 'cvs', userPassHash: '1234',
             userEmail: 'cph-cs340@cphbusiness.dk'})
 
 CREATE
@@ -27,13 +28,13 @@ CREATE
             userEmail: 'cph-al217@cphbusiness.dk'})
 
 //RETURN 'Creating sessions';
-CREATE (ses1:Session {sessionID: '1', userID: '30f18a0b-e052-44eb-8c24-23a032b97af3', timestamp: localdatetime()})
+CREATE (ses1:Session {sessionID: '1', userID: '5104c346-25c3-421d-befb-3b9df51d7639', timestamp: localdatetime()})
 WITH ses1
 CALL apoc.ttl.expireIn(ses1, 24, 'h')
 RETURN ses1;
 
 
-CREATE (ses2:Session {sessionID: '2', userID: 'a643196f-6a35-496e-a206-774c4bdc1d7c', timestamp: localdatetime()})
+CREATE (ses2:Session {sessionID: '2', userID: '0cb981da-10b9-4dcb-8905-b70b69dbdf9', timestamp: localdatetime()})
 WITH ses2
 CALL apoc.ttl.expireIn(ses2, 24, 'h')
 RETURN ses2;
@@ -45,7 +46,7 @@ CALL apoc.ttl.expireIn(ses3, 24, 'h')
 RETURN ses3;
 
 
-CREATE (ses4:Session {sessionID: '4', userID: '30f18a0b-e052-44eb-8c24-23a032b97af3', timestamp: localdatetime()})
+CREATE (ses4:Session {sessionID: '4', userID: '5104c346-25c3-421d-befb-3b9df51d7639', timestamp: localdatetime()})
 WITH ses4
 CALL apoc.ttl.expireIn(ses4, 24, 'h')
 RETURN ses4;
@@ -66,13 +67,13 @@ RETURN r1, r2;
 MATCH(ch:Chat {chatID: '1'})
 WITH ch
 CREATE
-  (msg:Message {messageID: '1', senderUserID: '30f18a0b-e052-44eb-8c24-23a032b97af3', content: 'yoyoyo',
+  (msg:Message {messageID: '1', senderUserID: '5104c346-25c3-421d-befb-3b9df51d7639', content: 'yoyoyo',
                 timestamp: localdatetime()})-[:CHAT_PARENT]->(ch);
 
 MATCH(ch:Chat {chatID: '1'})
 WITH ch
 CREATE
-  (msg:Message {messageID: '2', senderUserID: 'a643196f-6a35-496e-a206-774c4bdc1d7c', content: 'Long time no see',
+  (msg:Message {messageID: '2', senderUserID: '0cb981da-10b9-4dcb-8905-b70b69dbdf9', content: 'Long time no see',
                 timestamp: localdatetime()})-[:CHAT_PARENT]->(ch);
 
 //RETURN '---Creating relationships---';
@@ -145,4 +146,3 @@ ASSERT u.userEmail IS UNIQUE;
 CREATE INDEX user_IDX_userName IF NOT exists FOR (u:User) ON (u.userName);
 CREATE INDEX user_IDX_userID IF NOT exists FOR (u:User) ON (u.userID);
 
-RETURN "---Creating more test data---";
