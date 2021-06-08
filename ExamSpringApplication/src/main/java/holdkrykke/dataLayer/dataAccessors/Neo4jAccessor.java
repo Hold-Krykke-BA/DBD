@@ -79,8 +79,8 @@ public class Neo4jAccessor implements AutoCloseable {
                 String query = "MATCH (u:User {userID:$userID}) RETURN u;";
                 try {
                     var result1 = tx.run(query, parameters("userID", userID)).single().get("u");
-                    String userEmail = result1.get("userID").asString();
-                    String userName = result1.get("userID").asString();
+                    String userEmail = result1.get("userEmail").asString();
+                    String userName = result1.get("userName").asString();
                     //String password = result.get("userPassHash").asString();
                     String userID1 = result1.get("userID").asString();
                     return new User(userName, userEmail, userID1);
