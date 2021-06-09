@@ -74,7 +74,7 @@ public class DataControllerImpl implements IDataController {
     @Override
     public UserContainer getUserInfo(String userID) {
         return new UserContainer(neoDBD.getUserByUserID(userID),
-                pgrDBD.getUserKarma(userID), pgrDBD.getFollowedSubreddits(userID));
+                pgrDBD.getUserKarma(userID), getSubRedditsByUser(userID));
     }
 
     @Override
