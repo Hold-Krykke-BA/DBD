@@ -2,17 +2,17 @@
 //DDL & DML file for  initializing neo4j
 
 
-RETURN 'Clearing database';
+//RETURN 'Clearing database';
 
 MATCH (n)
 DETACH DELETE n;
 
-RETURN 'Clearing indexes and constraints';
+//RETURN 'Clearing indexes and constraints';
 
 CALL apoc.schema.assert({}, {}, true) YIELD label, key
 RETURN *;
 
-RETURN '---Creating nodes---';
+//RETURN '---Creating nodes---';
 
 //RETURN 'Creating users';
 CREATE

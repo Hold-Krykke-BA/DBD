@@ -332,23 +332,13 @@ CREATE (u0:User {userID:'28808a45-e3c9-461f-9d10-89927d04a74e', userName: "Miles
             -[:FOLLOWS]->(u78),
 (u166:User {userID:'62c40767-2d4f-4a7e-8578-8dcf6c3c7413', userName: "Larissa", userPassHash: '1234', userEmail: 'Kaela@arnulfo.ca'})
             -[:FOLLOWS]->(u145),
-(u167:User {userID:'19d74eb1-1331-405e-921d-65c67e8c28f3', userName: "Zachariah", userPassHash: '1234', userEmail: 'Reid_Anderson@brook.us'})
-            -[:FOLLOWS]->(u108),
-(u168:User {userID:'4afc28c8-a7eb-4019-8e86-d3ae9ab39c9a', userName: "Effie.Torp", userPassHash: '1234', userEmail: 'Dale@casey.name'})
-            -[:FOLLOWS]->(u43),
-(u169:User {userID:'ccabb445-e091-42e9-a2fb-2c5216cb1c34', userName: "Vernie", userPassHash: '1234', userEmail: 'Osbaldo@therese.name'})
-            -[:FOLLOWS]->(u74),
-(u170:User {userID:'3abad8f9-9ff2-40d5-ac59-e841495ff3b3', userName: "Natasha_Sporer", userPassHash: '1234', userEmail: 'Verlie_Yundt@opal.info'})
-            -[:FOLLOWS]->(u20),
-(u171:User {userID:'f9b2d5db-54ce-4569-a726-9715152bb641', userName: "Ethan.Turcotte", userPassHash: '1234', userEmail: 'Aaron.Gleason@ludwig.me'})
-            -[:FOLLOWS]->(u28),
-(u172:User {userID:'d8609a13-73aa-4e6e-ba87-634fbf9666bf', userName: "Oran", userPassHash: '1234', userEmail: 'Abner@savanna.biz'})
-            -[:FOLLOWS]->(u56),
-(u173:User {userID:'b3a062b8-51fe-4f0f-a182-9414374087f9', userName: "Faustino_Harªann", userPassHash: '1234', userEmail: 'Michaela@kayla.net'})
-            -[:FOLLOWS]->(u151),
-(u174:User {userID:'e5776ff2-1c10-4f9a-abde-4facef4a2370', userName: "Magdalen", userPassHash: '1234', userEmail: 'Cicero@annabel.co.uk'})
-            -[:FOLLOWS]->(u68),
-(u175:User {userID:'29d124d0-1091-4007-b86b-b45f57b237a0', userName: "Hermina", userPassHash: '1234', userEmail: 'Skylar.Erdman@antonia.net'})
-            -[:FOLLOWS]->(u123),
-(u176:User {userID:'aa815f37-7ebd-4e46-b299-2dde077369ad', userName: "Lauriane_Harªann", userPassHash: '1234', userEmail: 'Antonietta@rahul.name'})
-            -[:FOLLOWS]->(u1);
+(u167:User {userID:'19d74eb1-1331-405e-921d-65c67e8c28f3', userName: "Zachariah1", userPassHash: '1234', userEmail: 'Reid_Anderson@brook.us'}),
+(u168:User {userID:'4afc28c8-a7eb-4019-8e86-d3ae9ab39c9a', userName: "Effie.Torp1", userPassHash: '1234', userEmail: 'Dale@casey.name'}),
+(u169:User {userID:'ccabb445-e091-42e9-a2fb-2c5216cb1c34', userName: "Vernie1", userPassHash: '1234', userEmail: 'Osbaldo123@therese.name'}),
+(u170:User {userID:'3abad8f9-9ff2-40d5-ac59-e841495ff3b3', userName: "Natasha_Sporer1", userPassHash: '1234', userEmail: 'Verlie_Yundtah@opal.info'}),
+(u171:User {userID:'f9b2d5db-54ce-4569-a726-9715152bb641', userName: "Ethan.Turcotte1", userPassHash: '1234', userEmail: 'Aaron.Gleason2@ludwig.me'}),
+(u172:User {userID:'d8609a13-73aa-4e6e-ba87-634fbf9666bf', userName: "Oran1", userPassHash: '1234', userEmail: 'Abner2@savanna.biz'}),
+(u173:User {userID:'b3a062b8-51fe-4f0f-a182-9414374087f9', userName: "Faustino_Harann1", userPassHash: '1234', userEmail: 'Michaelak@kayla.net'}),
+(u174:User {userID:'e5776ff2-1c10-4f9a-abde-4facef4a2370', userName: "Magdalena1", userPassHash: '1234', userEmail: 'Cicero2@annabel.co.uk'}),
+(u175:User {userID:'29d124d0-1091-4007-b86b-b45f57b237a0', userName: "Hermina1", userPassHash: '1234', userEmail: 'Skylar.Erdman2@antonia.net'}),
+(u176:User {userID:'aa815f37-7ebd-4e46-b299-2dde077369ad', userName: "Lauriane_Harann1", userPassHash: '1234', userEmail: 'Antonietta@rahul.name'});
