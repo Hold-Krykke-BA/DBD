@@ -146,3 +146,9 @@ ASSERT u.userEmail IS UNIQUE;
 CREATE INDEX user_IDX_userName IF NOT exists FOR (u:User) ON (u.userName);
 CREATE INDEX user_IDX_userID IF NOT exists FOR (u:User) ON (u.userID);
 
+CREATE INDEX chat_IDX_chatID IF NOT exists FOR (ch:Chat) ON (ch.chatID);
+
+CREATE INDEX session_IDX_sessionID IF NOT exists FOR (ses:Session) ON (ses.sessionID);
+
+
+//others are requested by relationships rather than properties
