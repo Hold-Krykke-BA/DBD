@@ -34,7 +34,7 @@ CALL apoc.ttl.expireIn(ses1, 24, 'h')
 RETURN ses1;
 
 
-CREATE (ses2:Session {sessionID: '2', userID: '0cb981da-10b9-4dcb-8905-b70b69dbdf9', timestamp: localdatetime()})
+CREATE (ses2:Session {sessionID: '2', userID: '0cb981da-10b9-4dcb-8905-b70b69dbdf95', timestamp: localdatetime()})
 WITH ses2
 CALL apoc.ttl.expireIn(ses2, 24, 'h')
 RETURN ses2;
@@ -73,7 +73,7 @@ CREATE
 MATCH(ch:Chat {chatID: '1'})
 WITH ch
 CREATE
-  (msg:Message {messageID: '2', senderUserID: '0cb981da-10b9-4dcb-8905-b70b69dbdf9', content: 'Long time no see',
+  (msg:Message {messageID: '2', senderUserID: '0cb981da-10b9-4dcb-8905-b70b69dbdf95', content: 'Long time no see',
                 timestamp: localdatetime()})-[:CHAT_PARENT]->(ch);
 
 //RETURN '---Creating relationships---';
