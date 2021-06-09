@@ -20,7 +20,7 @@ CREATE
             userEmail: 'cph-rn118@cphbusiness.dk'})
 
 CREATE
-  (cs:User {userID:    '0cb981da-10b9-4dcb-8905-b70b69dbdf9', userName: 'cvs', userPassHash: '1234',
+  (cs:User {userID:    '0cb981da-10b9-4dcb-8905-b70b69dbdf95', userName: 'cvs', userPassHash: '1234',
             userEmail: 'cph-cs340@cphbusiness.dk'})
 
 CREATE
